@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('investment_stocks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('icon_id')->nullable();
             $table->decimal('price',10,2);
             $table->decimal('eps',10,2);
             $table->decimal('pe',10,2);

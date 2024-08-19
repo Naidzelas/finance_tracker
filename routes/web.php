@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Budget\BudgetIcon;
 use Illuminate\Support\Facades\Route;
 use inertia\Inertia;
 

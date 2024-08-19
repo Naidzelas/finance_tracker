@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('debt_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('icon_id')->nullable();
             $table->timestamps();
         });
     }

@@ -6,7 +6,7 @@
             <div class="col-span-2 text-4xl">current expenses</div>
             <div class="text-4xl">personal Information</div>
             <ExpenseList></ExpenseList>
-            <ExpenseList></ExpenseList>
+            <ExpenseList :primary="true"></ExpenseList>
             <div>
                 <div class="text-left text-2xl mb-6">basic info</div>
                 <BasicInfo></BasicInfo>

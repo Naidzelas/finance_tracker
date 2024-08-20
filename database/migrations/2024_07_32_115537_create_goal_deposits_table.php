@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('goal_deposits', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('goal_id');
             $table->decimal('deposit',10,2);
             $table->timestamps();
-            $table->foreign('id')
+            $table->foreign('goal_id')
                 ->references('goal_deposit_id')
                 ->on('goals')
                 ->onDelete('cascade')

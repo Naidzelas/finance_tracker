@@ -1,7 +1,5 @@
 <template class="relative">
-    <!-- TODO turn to modal -->
     <ImportFileModal></ImportFileModal>
-    <!--  -->
     <div class="flex flex-col">
         <div class="relative">
             <button @click="navToggle(true)">

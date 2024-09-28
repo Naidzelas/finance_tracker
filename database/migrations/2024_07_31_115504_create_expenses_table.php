@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->integer('type_id');
             $table->decimal('amount',10,2);
+            $table->string('currency', 3);
+            $table->string('debit_credit', 1);
             $table->date('date');
             $table->timestamps();
         });

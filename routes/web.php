@@ -3,9 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Home');
-});
+// Expenses
+require __DIR__ . "/web/expenses/expenses.php";
+// Route::get('/', function () {
+//     return Inertia::render('Home');
+// });
 Route::get('/debt', function () {
     return Inertia::render('Debt');
 });
@@ -16,5 +18,6 @@ Route::get('/investment', function () {
 Route::get('/item', function () {
     return Inertia::render('Item');
 });
+
 // Goals
 include __DIR__ . "/web/goals/goals.php";

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="modal_state">
+    <form @submit.prevent="form.post('/')" v-if="modal_state">
         <div
             class="fixed top-0 left-0 blur-sm opacity-80 w-full h-full bg-[#4D4D4D]"
         ></div>
@@ -10,7 +10,7 @@
             <div
                 class="bg-white border-2 border-dashed border-black p-5 h-24 flex items-center justify-center w-[90%]"
             >
-                <button @click="$refs.file.click()" class="flex">
+                <button @click="triggerFileInput" class="flex">
                     <div>Drag and</div>
                     <Icon
                         icon="material-symbols-light:water-drop"
@@ -20,7 +20,7 @@
             </div>
             <input
                 type="file"
-                ref="file"
+                ref="fileInput"
                 class="file:bg-white file:border-0 invisible"
                 @input="form.avatar = $event.target.files[0]"
             />
@@ -33,18 +33,29 @@
 
             <button
                 type="submit"
+                :disabled="form.processing"
                 class="bg-[#006692] w-[90%] pb-px text-center text-white text-xl mt-2 mb-4"
             >
                 CONFIRM
             </button>
         </div>
-    </div>
+    </form>
 </template>
 
 <script setup>
-import { inject } from "vue";
+import { inject, ref } from "vue";
+import { useForm } from "@inertiajs/vue3";
 let modal_state = inject("modal_state");
+const fileInput = ref(null);
 function modalToggle(toggle) {
     modal_state.value = toggle;
+}
+const form = useForm({
+    'avatar': null,
+});
+
+function triggerFileInput(event) {
+    event.preventDefault();
+    fileInput.value.click();
 }
 </script>

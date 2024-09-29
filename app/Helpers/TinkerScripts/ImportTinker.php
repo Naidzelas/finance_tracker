@@ -9,17 +9,18 @@ function run()
             $dataArray[] = $data;
         }
         fclose($handle);
-        // var_dump($dataArray);
-        // unset($dataArray[0],$dataArray[1]);
-        // foreach ($dataArray as $arrayItem){
-        //     $array[] = [
-        //         'document_date' => $arrayItem[1],
-        //         'amount' => $arrayItem[3],
-        //         'debit_credit' => $arrayItem[14],
-        //         'currency' => $arrayItem[2],
-        //         'transaction_name' => $arrayItem[4],
-        //     ];
-        // }
-        return $dataArray[1];
+        
+        unset($dataArray[0]);
+        array_splice($dataArray, count($dataArray) - 3, 3);
+        foreach ($dataArray as $arrayItem){
+            $array[] = [
+                'transaction_date' => $arrayItem[2],
+                'amount' => $arrayItem[5],
+                'debit_credit' => $arrayItem[7],
+                'currency' => $arrayItem[6],
+                'transaction_name' => $arrayItem[3] ?: $arrayItem[4],
+            ];
+        }
+        return $array;
     }
 }

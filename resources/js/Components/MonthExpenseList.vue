@@ -1,8 +1,11 @@
 <template>
     <div class="text-center border h-lvh">
         <div class="flex">
-            <div class="rounded border-6 bg-[white] w-52 h-8 text-lg mb-2">
-                2024-05
+            <div v-if="state.primary" class="rounded border-6 bg-[white] w-52 h-8 text-lg mb-2">
+                {{ today.substring(0,7) }}
+            </div>
+            <div v-else class="rounded border-6 bg-[white] w-52 h-8 text-lg mb-2">
+                {{ previousDate.substring(0,7) }}
             </div>
             <div class="flex-auto"></div>
             <div
@@ -30,11 +33,23 @@
             <div class="text-[white] font-bold pt-1">Amount (Eur)</div>
             <div class="text-[white] font-bold pt-1">Date</div>
         </div>
-        <ExpenseListItem></ExpenseListItem>
+        <ExpenseListItem v-for="expense in expenses" :data="expense" :tableDates="tableDates"></ExpenseListItem>
     </div>
 </template>
 <script setup>
 import ExpenseListItem from "../Components/ExpenseListItem.vue";
+import { inject } from "vue";
+
+let expenses = inject('expenses');
 let state = defineProps({ primary: Boolean });
 let headerColor = state.primary ? "bg-[#9E8167]" : "bg-[#7B7B7B]";
+let segmentDate = new Date();
+let today = segmentDate.toLocaleDateString('lt-LT');
+let previousDate = new Date(segmentDate.setMonth(segmentDate.getMonth() - 1)).toLocaleDateString('lt-LT');
+
+let tableDates = {
+    primaryDate: today,
+    secondaryDate: previousDate,
+    state: state.primary
+};
 </script>

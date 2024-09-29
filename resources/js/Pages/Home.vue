@@ -21,6 +21,9 @@
     </section>
 </template>
 <script setup>
+import { provide } from "vue";
+let pageVariables = defineProps({ expenses: Object });
+provide('expenses', pageVariables.expenses);
 import ExpenseList from "../Components/MonthExpenseList.vue";
 import BasicInfo from "../Components/BasicInfoDisplay.vue";
 import BudgetInfo from "../Components/BudgetDisplay.vue";

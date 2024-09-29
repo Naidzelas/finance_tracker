@@ -3,36 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\features\SEBImportExpensesController;
+use App\Http\Controllers\features\SWEDImportExpensesController;
 use App\Models\Expenses\Expense;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Route;
 
 class ExpenseController extends Controller
 {
     public function index(Expense $expense)
     {
         return Inertia::render('Home',[
-            'expenses' => $expense->all()->map(function ($expense){
-                return [
-                    'id' => $expense->id,
-                    'type_id' => $expense->type_id,
-                    'amount' => $expense->amount,
-                    'currency' => $expense->currency,
-                    'debit_credit' => $expense->debit_credit,
-                    'date' => $expense->date
-                ];
-            })
+            'expenses' => $expense->all()->toArray()
         ]);
     }
 
     public function store(Request $request, Expense $expense)
     {
-        // dd($request->avatar->path());
-        switch('seb'){
+        switch($request->bank){
             case 'seb':
                 $seb = new SEBImportExpensesController;
                 $data = $seb($request->avatar->path());
+                break;
+            case 'swed':
+                $swed = new SWEDImportExpensesController;
+                $data = $swed($request->avatar->path());
                 break;
             default: 
         }
@@ -40,6 +34,7 @@ class ExpenseController extends Controller
         foreach($data as $item){
             $expense->create([
                 'type_id' => 1,
+                'transaction_name' => $item['transaction_name'],
                 'amount' => (float) $item['amount'],
                 'date' => $item['transaction_date'],
                 'debit_credit' => $item['debit_credit'],
@@ -47,7 +42,7 @@ class ExpenseController extends Controller
             ]); 
         }
 
-        return to_route('/');
+        // return to_route('Home');
     }
 
 }

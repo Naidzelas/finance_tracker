@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\features;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class SWEDImportExpensesController extends Controller
 {
@@ -18,12 +17,12 @@ class SWEDImportExpensesController extends Controller
     {
         $row = 1;
         if (($handle = fopen($filename, "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
                 $row++;
                 $dataArray[] = $data;
             }
             fclose($handle);
-            
+
             unset($dataArray[0]);
             array_splice($dataArray, count($dataArray) - 3, 3);
             foreach ($dataArray as $arrayItem){

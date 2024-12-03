@@ -4,12 +4,12 @@ function run()
 {
     $row = 1;
     if (($handle = fopen("C:\\Users\\Naidzelas\\Desktop\\statement.csv", "r")) !== FALSE) {
-        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
             $row++;
             $dataArray[] = $data;
         }
         fclose($handle);
-        
+
         unset($dataArray[0]);
         array_splice($dataArray, count($dataArray) - 3, 3);
         foreach ($dataArray as $arrayItem){

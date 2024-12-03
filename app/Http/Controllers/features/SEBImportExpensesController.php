@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\features;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class SEBImportExpensesController extends Controller
 {
@@ -22,7 +21,7 @@ class SEBImportExpensesController extends Controller
                 $dataArray[] = $data;
             }
             fclose($handle);
-            
+
             unset($dataArray[0],$dataArray[1]);
             foreach ($dataArray as $arrayItem){
                 $array[] = [

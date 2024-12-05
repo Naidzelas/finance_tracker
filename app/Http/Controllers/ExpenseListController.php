@@ -9,7 +9,7 @@ class ExpenseListController extends Controller
 {
     public function index(Expense $expense)
     {
-        $data = $expense::all()->sortByDesc('date',);
+        $data = $expense::all()->sortByDesc('date');
         foreach($data as $item){
             $expenses[substr($item['date'],0,7)][] = $item->toArray();
         }

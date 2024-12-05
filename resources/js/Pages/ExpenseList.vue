@@ -29,13 +29,15 @@
                     ></Icon>
                 </div>
             </div>
-            <!-- TODO foreach data -->
             <div v-for="item in expense" :key="item.id">
                 <div class="rounded-md bg-[#F4F4F4] flex p-3">
-                    <div class="flex flex-1 pl-10">
+                    <div class="flex pr-10 pl-10">
                         <div><Icon icon="lucide:house" class="size-12"></Icon></div>
                     </div>
-                    <div class="flex flex-col flex-1">
+                    <div class="flex pr-36">
+                        <div>{{ item.type_id + ' type name' }}</div>
+                    </div>
+                    <div class="flex flex-col pr-6 flex-1">
                         <div class="font-bold">Name</div>
                         <div>{{ item.transaction_name }}</div>
                     </div>
@@ -48,31 +50,7 @@
                         <div>{{ item.date }}</div>
                     </div>
                 </div>
-                <button @click="detailToggle(true)" class="w-full mb-4">
-                    <div
-                        v-if="state.expand"
-                        class="rounded-md mb-0.5 bg-[#F4F4F4] mt-1 flex justify-center"
-                    >
-                        <Icon icon="tabler:dots" class="h-5 w-5"></Icon>
-                    </div>
-                </button>
-                <div
-                    v-if="state.visible"
-                    class="rounded-md bg-[#F4F4F4] mt-[-1.5em] mb-5 w-full pb-6 relative"
-                >
-                    <div class="pt-2 pl-10 pr-6">
-                        <div class="text-2xl mt-2 mr text-start">
-                            towards savings
-                        </div>
-                        <div class="flex absolute top-3 right-6 space-x-2">
-                            <Icon icon="fa-regular:edit" class="size-8"></Icon>
-                            <button @click="detailToggle(false)">
-                                <Icon icon="icon-park:close" class="size-8"></Icon>
-                            </button>
-                        </div>
-                        <div class="w-full mt-1 bg-gray-400 h-px"></div>
-                    </div>
-                </div>
+                <DetailsDisplay></DetailsDisplay>
             </div>
         </div>
     </section>
@@ -80,12 +58,7 @@
 
 <script setup>
 import { reactive } from "vue";
+import DetailsDisplay from "../Components/DetailsDisplay.vue";
 
 defineProps({ expenses: Object });
-
-let state = reactive({ details: true, expand: true });
-function detailToggle(toggle) {
-    state.visible = toggle;
-    toggle ? (state.expand = false) : (state.expand = true);
-}
 </script>

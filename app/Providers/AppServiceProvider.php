@@ -13,6 +13,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         Inertia::setRootView('app');
+        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+        $loader->alias('Debugbar', \Barryvdh\Debugbar\Facades\Debugbar::class);
     }
 
     /**

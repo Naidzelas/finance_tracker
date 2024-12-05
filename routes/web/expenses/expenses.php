@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ExpenseController;
 use Illuminate\Support\Facades\Route;
+use inertia\Inertia;
 
 // Route::group(["prefix"=> "/goal"], function () {
 //     Route::get("/item", [GoalController::class,

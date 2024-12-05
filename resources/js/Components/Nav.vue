@@ -33,8 +33,10 @@
                 ><Icon icon="basil:add-solid" class="size-6 mt-4"></Icon
             ></Link>
         </div>
-        <div class="self-center">
-            <Icon icon="material-symbols:list-alt" class="size-6 mt-4"></Icon>
+        <div v-if="pageVariables.routeName === '/'" class="self-center">
+            <Link href="/expense_list">
+                <Icon icon="material-symbols:list-alt" class="size-6 mt-4"></Icon>
+            </Link>
         </div>
     </div>
     <div class="flex mr-10 text-4xl">finance</div>

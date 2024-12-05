@@ -5,6 +5,8 @@ use inertia\Inertia;
 
 // Expenses
 require __DIR__ . "/web/expenses/expenses.php";
+require __DIR__ . "/web/expenses/expenseList.php";
+
 // Route::get('/', function () {
 //     return Inertia::render('Home');
 // });

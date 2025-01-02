@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('budget_item_types', function (Blueprint $table) {
+        Schema::create('budget_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->decimal('amount',10,2);
             $table->string('icon_id')->nullable();
+            $table->string('filter_keys')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('budget_item_types');
+        Schema::dropIfExists('budget_types');
     }
 };

@@ -4,16 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\features\SEBImportExpensesController;
 use App\Http\Controllers\features\SWEDImportExpensesController;
+use App\Models\Budget\BudgetTypes;
 use App\Models\Expenses\Expense;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ExpenseController extends Controller
 {
+    private const UNCATEGORIZED = 1;
+
     public function index(Expense $expense)
     {
         return Inertia::render('Home',[
-            'expenses' => $expense->all()->toArray()
+            'expenses' => $expense->all()->toArray(),
+            'budget_types' => BudgetTypes::query()->with('icon')->get()->toArray(),
         ]);
     }
 
@@ -30,19 +34,24 @@ class ExpenseController extends Controller
                 break;
             default: 
         }
-
+        $budgetTypes = BudgetTypes::all()->keyBy('id')->toArray();
+     
         foreach($data as $item){
             $expense->create([
-                'type_id' => 1,
-                'transaction_name' => $item['transaction_name'],
-                'amount' => (float) $item['amount'],
-                'date' => $item['transaction_date'],
-                'debit_credit' => $item['debit_credit'],
-                'currency' => $item['currency'],
-            ]); 
+                    'type_id' => key(array_filter($budgetTypes, function($type) use($item){
+                        if(strpos($item['transaction_name'], $type['filter_keys'])
+                            || $item['transaction_name'] == $type['filter_keys']){
+                            return true;
+                        }
+                    })) ?? self::UNCATEGORIZED,
+                    'transaction_name' => $item['transaction_name'],
+                    'amount' => (float) $item['amount'],
+                    'date' => $item['transaction_date'],
+                    'debit_credit' => $item['debit_credit'],
+                    'currency' => $item['currency'],
+                ]); 
         }
-
-        // return to_route('Home');
+        return to_route('index');
     }
 
 }

@@ -4,9 +4,6 @@ namespace Database\Factories\Budget;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Budget\Budget>
- */
 class BudgetFactory extends Factory
 {
     /**

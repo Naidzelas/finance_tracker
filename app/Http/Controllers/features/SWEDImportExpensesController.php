@@ -6,18 +6,18 @@ use App\Http\Controllers\Controller;
 
 class SWEDImportExpensesController extends Controller
 {
-    const TRANSACTION_DATE = 2;
-    const AMOUNT = 5;
-    const DEBIT_CREDIT = 7;
-    const CURRENCY = 6;
-    const TRANSACTION_NAME = 3;
-    const TRANSACTION_NAME_NOT_FOUND = 4;
+    private const TRANSACTION_DATE = 2;
+    private const AMOUNT = 5;
+    private const DEBIT_CREDIT = 7;
+    private const CURRENCY = 6;
+    private const TRANSACTION_NAME = 3;
+    private const TRANSACTION_NAME_NOT_FOUND = 4;
 
     public function __invoke(String $filename): array
     {
         $row = 1;
         if (($handle = fopen($filename, "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
                 $row++;
                 $dataArray[] = $data;
             }

@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="form.post('/')" v-if="modal_state">
+    <form @submit.prevent="handleSubmit" v-if="modal_state">
         <div
             class="fixed top-0 left-0 blur-sm opacity-80 w-full h-full bg-[#4D4D4D]"
         ></div>
@@ -68,8 +68,6 @@
 
             <button
                 type="submit"
-                @click="modalToggle(false)"
-                :disabled="form.processing"
                 class="bg-[#006692] w-[90%] pb-px text-center text-white text-xl mt-2 mb-4"
             >
                 CONFIRM
@@ -83,16 +81,21 @@ import { inject, ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 let modal_state = inject("modal_state");
 const fileInput = ref(null);
-function modalToggle(toggle) {
-    modal_state.value = toggle;
-}
 const form = useForm({
     avatar: null,
-    bank: 'seb',
+    bank: "seb",
 });
 
 function triggerFileInput(event) {
     event.preventDefault();
     fileInput.value.click();
+}
+
+function modalToggle(toggle) {
+    modal_state.value = toggle;
+}
+
+function handleSubmit() {
+    form.post("/", { onFinish: () => modalToggle(false) });
 }
 </script>

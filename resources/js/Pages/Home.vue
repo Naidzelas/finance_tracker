@@ -10,8 +10,25 @@
             <div>
                 <div class="text-left text-2xl mb-6">basic info</div>
                 <BasicInfo></BasicInfo>
+
                 <div class="text-left text-2xl mb-6 mt-6">budget remaining</div>
-                <BudgetInfo></BudgetInfo>
+                <div class="flex justify-end mt-[-2em] mb-2">
+                    <Link
+                        href="/budget/create"
+                        method="get"
+                        as="button"
+                        type="button"
+                        class="text-md uppercase flex bg-[#3B3B3B] text-white p-2 rounded"
+                    >
+                        <Icon
+                            icon="carbon:add-filled"
+                            class="size-6 mr-1"
+                        ></Icon>
+                        Add new
+                    </Link>
+                </div>
+
+                <BudgetDisplay></BudgetDisplay>
                 <div class="text-left text-2xl mb-6 mt-6">upcoming news</div>
                 <NewsInfo></NewsInfo>
                 <div class="text-left text-2xl mb-6 mt-6">goals</div>
@@ -22,11 +39,13 @@
 </template>
 <script setup>
 import { provide } from "vue";
-let pageVariables = defineProps({ expenses: Object });
-provide('expenses', pageVariables.expenses);
+let pageVariables = defineProps({ expenses: Object, budget_types: Object });
+provide("expenses", pageVariables.expenses);
+provide("budget_types", pageVariables.budget_types);
 import ExpenseList from "../Components/MonthExpenseList.vue";
 import BasicInfo from "../Components/BasicInfoDisplay.vue";
-import BudgetInfo from "../Components/BudgetDisplay.vue";
+import BudgetDisplay from "../Components/BudgetDisplay.vue";
 import NewsInfo from "../Components/NewsDisplay.vue";
 import GoalInfo from "../Components/GoalDisplay.vue";
+import { Link } from "@inertiajs/vue3";
 </script>

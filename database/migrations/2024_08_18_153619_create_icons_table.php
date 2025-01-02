@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('budget_items', function (Blueprint $table) {
+        Schema::create('icons', function (Blueprint $table) {
             $table->id();
-            $table->integer('budget_item_type_id');
-            $table->decimal('amount',10,2);
+            $table->string('iconify_name');
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('budget_items');
+        Schema::dropIfExists('icons');
     }
 };

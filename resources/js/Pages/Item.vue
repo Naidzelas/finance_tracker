@@ -21,32 +21,17 @@
                     :form="form"
                 ></ListItem>
             </div>
-            <div
-                class="bg-white border-2 border-dashed border-black p-5 w-64 h-24 flex items-center justify-center"
-            >
-                <button @click="$refs.file.click()" class="flex">
-                    <div>Drag and</div>
-                    <Icon
-                        icon="material-symbols-light:water-drop"
-                        class="text-[#006692] size-6 ml-1"
-                    ></Icon>
-                </button>
-            </div>
-            <input
-                type="file"
-                ref="file"
-                class="file:bg-white file:border-0 invisible"
-                @input="form.avatar = $event.target.files[0]"
-            />
-
+            <!-- Don't forget to undo HIDDEN -->
+            <DragAndDrop></DragAndDrop>
             <!-- input block end -->
             <div class="w-full mt-1 bg-gray-400 h-px"></div>
             <div class="flex justify-end space-x-2">
-                <button
+                <Link
+                    href="/"
                     class="bg-[#525252] w-40 pb-px text-center text-white text-xl mt-2"
                 >
                     CANCEL
-                </button>
+                </Link>
 
                 <button
                     type="submit"
@@ -60,12 +45,15 @@
 </template>
 
 <script setup>
-import { useForm, usePage } from "@inertiajs/vue3";
+import { useForm, usePage, Link } from "@inertiajs/vue3";
+import { provide } from "vue";
 import ListItem from "../Components/ListItem.vue";
-defineProps({ registerRoute: String, list: Object });
+import DragAndDrop from "../Components/DragAndDrop.vue";
+defineProps({ registerRoute: String, list: Object, icons: Object });
 const page = usePage();
 const formObject = {};
 const listObject = {};
+provide('icons', page.props.icons)
 Object.entries(page.props.list).forEach(
     (el) => (
         (listObject[el[0]] = { dataType: el[1], value: null, name: el[0] }),

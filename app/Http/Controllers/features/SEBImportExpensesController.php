@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 
 class SEBImportExpensesController extends Controller
 {
-    const TRANSCATION_DATE = 1;
-    const AMOUNT = 3;
-    const DEBIT_CREDIT = 14;
-    const CURRENCY = 2;
-    const TRANSACTION_NAME = 4;
+    private const TRANSCATION_DATE = 1;
+    private const AMOUNT = 3;
+    private const DEBIT_CREDIT = 14;
+    private const CURRENCY = 2;
+    private const TRANSACTION_NAME = 4;
 
     public function __invoke(String $filename): array
     {

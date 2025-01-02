@@ -7,6 +7,9 @@ use inertia\Inertia;
 require __DIR__ . "/web/expenses/expenses.php";
 require __DIR__ . "/web/expenses/expenseList.php";
 
+// Budget
+require __DIR__ . "/web/budget/budgetTypes.php";
+
 // Route::get('/', function () {
 //     return Inertia::render('Home');
 // });

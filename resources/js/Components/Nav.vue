@@ -62,6 +62,7 @@ function modalToggle(toggle) {
 }
 provide("modal_state", modal_visible);
 
+// TODO this needs to be obliterated and needs a new solution. Very janky...
 router.on("start", (event) => {
     pageVariables.routeName = event.detail.visit.url.pathname;
 });

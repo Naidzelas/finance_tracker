@@ -2,18 +2,18 @@
     <section class="mr-40 ml-40">
         <div class="flex flex-col">
             <div class="text-5xl mb-2">
-                add new {{ page.props.registerRoute }}
+                add new {{ registerRoute }}
             </div>
             <div class="text-gray-500 text-lg mb-8 flex">
                 <div>current goals</div>
                 <div class="self-center">
                     <Icon icon="mdi:dot" class="size-8"></Icon>
                 </div>
-                <div>add new {{ page.props.registerRoute }}</div>
+                <div>add new {{ registerRoute }}</div>
             </div>
         </div>
         <!-- input block -->
-        <form @submit.prevent="form.post('/' + page.props.registerRoute)">
+        <form @submit.prevent="handleForm(method)">
             <div class="flex flex-wrap ml-[-1em]">
                 <ListItem
                     v-for="listItem in listObject"
@@ -49,16 +49,31 @@ import { useForm, usePage, Link } from "@inertiajs/vue3";
 import { provide } from "vue";
 import ListItem from "../Components/ListItem.vue";
 import DragAndDrop from "../Components/DragAndDrop.vue";
-defineProps({ registerRoute: String, list: Object, icons: Object });
+defineProps({
+    registerRoute: String,
+    list: Object,
+    icons: Object,
+    method: String,
+});
 const page = usePage();
 const formObject = {};
 const listObject = {};
-provide('icons', page.props.icons)
+provide("icons", page.props.icons);
+provide("data", page.props.data);
+
 Object.entries(page.props.list).forEach(
     (el) => (
-        (listObject[el[0]] = { dataType: el[1], value: null, name: el[0] }),
+        (listObject[el[0]] = {
+            dataType: el[1][0],
+            value: el[1][1],
+            name: el[0],
+        }),
         (formObject[el[0]] = null)
     )
 );
 const form = useForm(formObject);
+
+function handleForm(method){
+    form.submit(method, '/' + page.props.registerRoute, form)
+}
 </script>

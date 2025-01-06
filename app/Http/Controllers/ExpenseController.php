@@ -54,4 +54,9 @@ class ExpenseController extends Controller
         return to_route('index');
     }
 
+    public function update(Request $request)
+    {
+
+    }
+
 }

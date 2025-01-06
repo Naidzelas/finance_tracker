@@ -19,6 +19,8 @@
         "@vitejs/plugin-vue": "^5.1.1",
         "@vuepic/vue-datepicker": "^9.0.2",
         "unplugin-icons": "^0.19.2",
-        "vue": "^3.4.35"
+        "vue": "^3.4.35",
+        "ziggy": "^2.4.0",
+        "ziggy-js": "^2.4.1"
     }
 }

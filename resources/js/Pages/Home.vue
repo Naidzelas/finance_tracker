@@ -38,14 +38,15 @@
     </section>
 </template>
 <script setup>
-import { provide } from "vue";
-let pageVariables = defineProps({ expenses: Object, budget_types: Object });
-provide("expenses", pageVariables.expenses);
-provide("budget_types", pageVariables.budget_types);
+import { provide, ref } from "vue";
+import { Link } from "@inertiajs/vue3";
 import ExpenseList from "../Components/MonthExpenseList.vue";
 import BasicInfo from "../Components/BasicInfoDisplay.vue";
 import BudgetDisplay from "../Components/BudgetDisplay.vue";
 import NewsInfo from "../Components/NewsDisplay.vue";
 import GoalInfo from "../Components/GoalDisplay.vue";
-import { Link } from "@inertiajs/vue3";
+
+let pageVariables = defineProps({ expenses: Object, budget_types: Object });
+provide("expenses", pageVariables.expenses);
+provide("budget_types", ref(pageVariables.budget_types));
 </script>

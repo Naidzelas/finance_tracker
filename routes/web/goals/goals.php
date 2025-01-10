@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\GoalController;
+use App\Http\Controllers\Goals\GoalController;
 use Illuminate\Support\Facades\Route;
 
 // Route::group(["prefix"=> "/goal"], function () {

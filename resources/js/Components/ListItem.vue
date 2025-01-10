@@ -45,6 +45,25 @@
         </div>
     </div>
 
+    <!-- Boolean value input -->
+    <div
+        v-if="list.dataType == 'Boolean'"
+        class="p-5 relative mt-8 flex items-center"
+    >
+        <input
+            :id="list.item"
+            name="form_item"
+            v-model="form[list.name]"
+            type="checkbox"
+            class="relative appearance-none mr-3 size-7 bg-white rounded-none border-1 border-[##006692] checked:bg-[#006692] checked:border-0 cursor-pointer peer shrink-0"
+        />
+        <label for="form_item" class="text-xl font-thin">{{ list.name }}</label>
+        <Icon
+            icon="material-symbols:check-rounded"
+            class="absolute size-7 hidden peer-checked:block text-white pointer-events-none"
+        ></Icon>
+    </div>
+
     <!-- Date value input -->
     <!-- <div v-if="pageVariables.list.dataType == 'Date'" class="p-5 relative">
         <label for="form_item" class="text-xl font-thin"></label>
@@ -68,7 +87,7 @@
 </template>
 
 <script setup>
-import { ref, inject, onMounted} from "vue";
+import { ref, inject, onMounted } from "vue";
 import Datepicker from "@vuepic/vue-datepicker";
 import "../../css/custom-vue-datepicker.css";
 let pageVariables = defineProps({ list: Object, form: Object });

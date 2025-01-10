@@ -1,24 +1,35 @@
 <?php
 
-use App\Models\Budget\BudgetTypes;
-use App\Models\Expenses\Expense;
+use App\Models\Goals\Goal;
 
-function run(){
-    $budgetTypes = BudgetTypes::all()->keyBy('filter_keys');
-    dump($budgetTypes->toArray());
-    // array_filter($budgetTypes, function($test){
-    //     if(strpos($test['filter_keys'],'SEB bankas') || $test['filter_keys'] == 'SEB bankas'){
-    //         dump($test);
-    //     }
-    //     // dump($test['filter_keys']);
-    // });
-    // $budgetTypes = BudgetTypes::query()->where('id',operator: 23)->first();
-    // Expense::query()->first()->each(function ($item) use ($budgetTypes) {
-    //     if(strpos($item->transaction_name, $budgetTypes->filter_keys) 
-    //         || $item->transaction_name == $budgetTypes->filter_keys){
-    //         dump($item);
-    //         $item->type_id = $budgetTypes->id;
-    //         $item->save();
-    //     }
-    // });
+function run()
+{
+    $table = [
+        'thead' => [
+            'Id',
+            'Date',
+            'Paid',
+            'Progress'
+        ],
+        'tbody' => []
+    ];
+
+    $goals = Goal::query()->with(['goal_deposit' => fn($query) =>
+        $query->selectRaw('goal_id, SUM(deposit) as deposit, concat(year(updated_at), "/",  month(updated_at)) as date')
+            ->groupByRaw('goal_id, concat(year(updated_at), "/",  month(updated_at))')])->select('deposit')->get()->toArray();
+
+    $i = 1;
+    foreach ($goals as $goal) {
+        foreach($goal['goal_deposit'] as $deposit){
+            $table[$goal['id']]['tbody'][] = [
+                'Nr' => $i++,
+                'Date' => $deposit['date'],
+                'Paid' => $deposit['deposit'] . ' / ' . $goal['contribution'],
+                'Progress' => 'Nothing'
+            ];
+        }
+    }
+
+    dump($table);
+    // return $goals;
 }

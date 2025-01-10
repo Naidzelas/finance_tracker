@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div v-for="item in expense" :key="item.id">
-                <div class="rounded-md bg-[#F4F4F4] flex p-3">
+                <div class="rounded-md bg-[#F4F4F4] flex p-3 mb-[-1em]">
                     <div class="flex pr-10 pl-10">
                         <div><Icon icon="lucide:house" class="size-12"></Icon></div>
                     </div>

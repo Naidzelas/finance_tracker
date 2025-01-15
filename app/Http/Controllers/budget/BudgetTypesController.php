@@ -27,7 +27,7 @@ class BudgetTypesController extends Controller
     }
     public function store(Request $request, BudgetTypes $budgetTypes)
     {
-        // TODO make filter_keys array
+        // TODO make filter_keys array 
         $budgetTypes->fill($request->all());
         $budgetTypes->save();
         $newBudgetItem = $budgetTypes::query()->latest()->limit(1)->first();

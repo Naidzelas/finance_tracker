@@ -22,6 +22,7 @@
                 <DetailTableDisplay
                     v-if="type == 'table'"
                     :name="type"
+                    :tableHead="detailsType['thead']"
                     :tableData="detailsType[id]"
                 ></DetailTableDisplay>
                 <DetailDocumentDisplay

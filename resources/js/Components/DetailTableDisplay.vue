@@ -4,7 +4,7 @@
     <table v-if="tableData" class="table-fixed w-full text-left">
         <thead>
             <tr>
-                <th v-for="item in tableData.thead">{{ item }}</th>
+                <th v-for="item in tableHead">{{ item }}</th>
             </tr>
         </thead>
         <tbody>
@@ -22,7 +22,8 @@
 <script setup>
 defineProps({
     name: String,
-    tableData: Object
+    tableData: Object,
+    tableHead: Object
 })
 
 // let data = inject('data');

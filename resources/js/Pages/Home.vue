@@ -47,7 +47,7 @@
                         Add new
                     </Link>
                 </div>
-                <GoalInfo></GoalInfo>
+                <GoalInfo :goal_data="goals"></GoalInfo>
             </div>
         </div>
     </section>
@@ -61,7 +61,11 @@ import BudgetDisplay from "../Components/BudgetDisplay.vue";
 import NewsInfo from "../Components/NewsDisplay.vue";
 import GoalInfo from "../Components/GoalDisplay.vue";
 
-let pageVariables = defineProps({ expenses: Object, budget_types: Object });
+let pageVariables = defineProps({
+    expenses: Object,
+    budget_types: Object,
+    goals: Object,
+});
 provide("expenses", pageVariables.expenses);
 provide("budget_types", ref(pageVariables.budget_types));
 </script>

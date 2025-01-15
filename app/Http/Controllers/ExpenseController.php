@@ -6,6 +6,7 @@ use App\Http\Controllers\features\SEBImportExpensesController;
 use App\Http\Controllers\features\SWEDImportExpensesController;
 use App\Models\Budget\BudgetTypes;
 use App\Models\Expenses\Expense;
+use App\Models\Goals\Goal;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,6 +18,7 @@ class ExpenseController extends Controller
     {
         return Inertia::render('Home',[
             'expenses' => $expense->all()->toArray(),
+            'goals' => Goal::query()->with('icon')->get(),
             'budget_types' => BudgetTypes::query()->with('icon')->get()->toArray(),
         ]);
     }

@@ -54,6 +54,42 @@ class GoalController extends Controller
         return to_route('goal.index');
     }
 
+    public function edit($goalId)
+    {
+        $goal = Goal::query()->where('id', $goalId)
+            ->first();
+
+        return Inertia::render('Item',[
+            'registerRoute' => 'goal/' . $goalId,
+            'method' => 'put',
+            'list' => [
+                'name' => ['String', $goal->name],
+                'goal_deposit_id' =>  ['Number', $goal->goal_deposit_id],
+                'end_goal' => ['Number', $goal->end_goal],
+                'contribution' => ['Number', $goal->contribution],
+                'icon_id' => ['Select', $goal->icon_id],
+                'is_main_priority' => ['Boolean', $goal->is_main_priority],
+                'is_active' => ['Boolean', $goal->is_active],
+        ],
+            'icons' => Icons::query()->get()->toArray(),
+        ]);
+    }
+
+    public function update(Request $request, $budgetId)
+    {
+        $budgetType = Goal::find($budgetId);
+        $budgetType->fill($request->all());
+        $budgetType->save();
+        
+        return to_route('index');
+    }
+
+
+    public function destroy($goalId): void
+    {
+        Goal::find($goalId)->delete();
+    }
+    
     private function buildDetailTable(): Collection
     {
         $table = [

@@ -15,10 +15,9 @@ class GoalController extends Controller
     {
         return Inertia::render('Goal', [
             'goals' => Goal::query()->with([
-                    'goal_deposit' => fn($query) => $query->selectRaw('goal_id, SUM(deposit) as deposit')
-                        ->groupBy('goal_id')->get(),
                     'icon'
                 ])
+                ->withSum('goal_deposit as deposit','deposit')
                 ->get(),
             'detailsTab' => [
                 'table' => self::buildDetailTable(),

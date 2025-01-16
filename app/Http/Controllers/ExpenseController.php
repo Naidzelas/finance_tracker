@@ -18,7 +18,7 @@ class ExpenseController extends Controller
     {
         return Inertia::render('Home',[
             'expenses' => $expense->all()->toArray(),
-            'goals' => Goal::query()->with('icon')->get(),
+            'goals' => Goal::query()->with('icon')->withSum('goal_deposit as deposit','deposit')->get(),
             'budget_types' => BudgetTypes::query()->with('icon')->get()->toArray(),
         ]);
     }

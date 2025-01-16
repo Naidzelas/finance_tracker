@@ -17,9 +17,8 @@
                 <Icon icon="fa6-solid:trash" class="size-4"></Icon>
             </button>
         </div>
-
         <div class="rounded-full mb-0.5 bg-[white]">
-            <div class="bg-black w-[25%] h-1"></div>
+            <div class="bg-black w-[25%] h-1" :class="percent(goal)"></div>
         </div>
         <div
             class="flex p-4 place-items-center rounded border-6 bg-[white] text-center"
@@ -35,6 +34,8 @@
 
 <script setup>
 import { Link, router } from '@inertiajs/vue3';
+import { computed } from 'vue';
+
 defineProps({ goal_data: Object });
 
 const deleteItem = async (id) => {
@@ -47,4 +48,15 @@ const deleteItem = async (id) => {
         },
     });
 };
+
+// TODO make this a component
+let percent = computed(() =>{
+    return (goal) => {
+        return 'w-['+getPercent(goal.end_goal, goal.deposit)+'%]';
+    }
+})
+
+function getPercent(fullSum = 0, sum = 0){
+    return (sum / fullSum * 100) > 100 ? 100 : (sum / fullSum * 100).toFixed();
+}
 </script>

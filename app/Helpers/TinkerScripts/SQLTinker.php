@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Goals\Goal;
+use App\Models\Goals\GoalDeposit;
 
 function run()
 {
@@ -14,22 +15,8 @@ function run()
         'tbody' => []
     ];
 
-    $goals = Goal::query()->with(['goal_deposit' => fn($query) =>
-        $query->selectRaw('goal_id, SUM(deposit) as deposit, concat(year(updated_at), "/",  month(updated_at)) as date')
-            ->groupByRaw('goal_id, concat(year(updated_at), "/",  month(updated_at))')])->select('deposit')->get()->toArray();
+    $goals = Goal::query()->withSum('goal_deposit as deposit','deposit')->get()->toArray();
 
-    $i = 1;
-    foreach ($goals as $goal) {
-        foreach($goal['goal_deposit'] as $deposit){
-            $table[$goal['id']]['tbody'][] = [
-                'Nr' => $i++,
-                'Date' => $deposit['date'],
-                'Paid' => $deposit['deposit'] . ' / ' . $goal['contribution'],
-                'Progress' => 'Nothing'
-            ];
-        }
-    }
-
-    dump($table);
-    // return $goals;
+    dump($goals);
+    // return $goals;F
 }

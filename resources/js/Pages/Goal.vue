@@ -4,7 +4,8 @@
         <div v-for="goal in goals" class="flex-col">
             <div class="rounded-full mb-0.5 bg-[white]">
                 <div
-                    class="rounded-full bg-gradient-to-r from-black to-[#606060] w-[28%] h-2 mb-1"
+                    class="rounded-full bg-gradient-to-r from-black to-[#606060] h-2 mb-1 w-0 transform transition-all duration-700"
+                    :class="percent(goal)"
                 ></div>
             </div>
             <div class="rounded-md bg-[#F4F4F4] flex p-3 -mb-4">
@@ -30,8 +31,7 @@
                 </div>
                 <div class="flex flex-col flex-1">
                     <div class="font-bold">Saved</div>
-                    <!-- TODO fix this JS nonsense -->
-                    <div>{{ goal.goal_deposit[0] }}</div>
+                    <div> {{ goal.deposit }}</div>
                 </div>
             </div>
             <DetailsDisplay
@@ -44,8 +44,19 @@
 
 <script setup>
 import DetailsDisplay from "../Components/DetailsDisplay.vue";
+import { computed } from "vue";
 let pageVariables = defineProps({
     goals: Object,
     detailsTab: Object,
 });
+
+let percent = computed(() =>{
+    return (goal) => {
+        return 'w-['+getPercent(goal.end_goal, goal.deposit)+'%]';
+    }
+})
+
+function getPercent(fullSum = 0, sum = 0){
+    return (sum / fullSum * 100) > 100 ? 100 : (sum / fullSum * 100).toFixed();
+}
 </script>

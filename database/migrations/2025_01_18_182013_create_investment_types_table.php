@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('investment_icons', function (Blueprint $table) {
+        Schema::create('investment_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('symbol')->nullable();
-            $table->string('iconify_name');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('investment_icons');
+        Schema::dropIfExists('investment_types');
     }
 };

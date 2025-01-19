@@ -10,14 +10,11 @@ require __DIR__ . "/web/expenses/expenseList.php";
 // Budget
 require __DIR__ . "/web/budget/budgetTypes.php";
 
-// Route::get('/', function () {
-//     return Inertia::render('Home');
-// });
+// Investment
+require __DIR__ . "/web/investment/investments.php";
+
 Route::get('/debt', function () {
     return Inertia::render('Debt');
-});
-Route::get('/investment', function () {
-    return Inertia::render('Investment');
 });
 
 Route::get('/item', function () {

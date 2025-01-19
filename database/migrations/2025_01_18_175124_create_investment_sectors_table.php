@@ -11,18 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('investment_stocks', function (Blueprint $table) {
+        Schema::create('investment_sectors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('icon_id')->nullable();
-            $table->decimal('price',10,2);
-            $table->decimal('eps',10,2);
-            $table->decimal('pe',10,2);
             $table->timestamps();
-            $table->foreign('id')
-                ->references('stock_id')
-                ->on('investments')
-                ->cascadeOnUpdate();
         });
     }
 
@@ -31,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('investment_stocks');
+        Schema::dropIfExists('investment_sectors');
     }
 };

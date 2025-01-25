@@ -3,11 +3,12 @@
 namespace App\Models\investment;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AssetPerformance extends Model
 {
     public $fillable = [
-        'asset_id',
+        'investment_id',
         'revenue',
         'is_green',
         'eps',
@@ -19,4 +20,9 @@ class AssetPerformance extends Model
         'dividend_pay_date',
         'dividend_frequency'
     ];
+
+    public function investment(): BelongsTo
+    {
+        return $this->belongsTo(Investment::class);
+    }
 }

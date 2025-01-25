@@ -15,7 +15,7 @@ class InvestorClosedPositionsData extends Data
     {
         return new self(
             $data['positions'],
-            $data['insturments']
+            $data['instruments']
         );
     }
 }

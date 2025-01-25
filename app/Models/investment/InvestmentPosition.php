@@ -4,7 +4,7 @@ namespace App\Models\investment;
 
 use Illuminate\Database\Eloquent\Model;
 
-class InvestmentPossition extends Model
+class InvestmentPosition extends Model
 {
     public $fillable = [
         'investment_id',

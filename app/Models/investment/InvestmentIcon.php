@@ -3,6 +3,7 @@
 namespace App\Models\investment;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class InvestmentIcon extends Model
 {
@@ -11,4 +12,9 @@ class InvestmentIcon extends Model
         'symbol',
         'iconify_name',
     ];
+
+    public function investment(): BelongsTo
+    {
+        return $this->belongsTo(Investment::class);
+    }
 }

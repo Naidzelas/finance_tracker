@@ -16,7 +16,7 @@ class InvestorHistoryData extends Data
     public static function fromArray(array $data): self
     {
         return new self(
-            $data['insturments'],
+            $data['instruments'],
             $data['daily']
         );
     }

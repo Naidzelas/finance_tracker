@@ -19,8 +19,13 @@
                 </button>
             </div>
             <div v-for="(detailsType, type) in detailsTab" class="w-full mt-1">
+                <DetailStatDisplay
+                    v-if="type == 'stats' && detailsType"
+                    :name="type"
+                    :data="detailsType[id]"
+                ></DetailStatDisplay>
                 <DetailTableDisplay
-                    v-if="type == 'table'"
+                    v-if="type == 'table' && detailsType"
                     :name="type"
                     :tableHead="detailsType['thead']"
                     :tableData="detailsType[id]"
@@ -43,6 +48,7 @@ import { reactive } from "vue";
 import DetailNoteDisplay from "./DetailNoteDisplay.vue";
 import DetailTableDisplay from "./DetailTableDisplay.vue";
 import DetailDocumentDisplay from "./DetailDocumentDisplay.vue";
+import DetailStatDisplay from "./DetailStatDisplay.vue";
 defineProps({ detailsTab: Object, id: Number });
 let state = reactive({ detailsTab: true, expand: true });
 

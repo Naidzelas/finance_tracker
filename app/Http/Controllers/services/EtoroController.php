@@ -18,7 +18,7 @@ class EtoroController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
         return response()->json([
-            'username' => $etoro->portfolio,
+            'portfolio' => $etoro->portfolio,
             'hisotry' => $etoro->history,
             'returns' => $etoro->returns
         ]);
@@ -65,7 +65,7 @@ class EtoroController extends Controller
         }
 
         return response()->json([
-            'insturments' => $etoro->instruments,
+            'instruments' => $etoro->instruments,
             'daily' => $etoro->daily
         ]);
     }
@@ -81,7 +81,7 @@ class EtoroController extends Controller
         }
 
         return response()->json([
-            'insturment' => $etoro->instrument,
+            'instrument' => $etoro->instrument,
         ]);
     }
 }

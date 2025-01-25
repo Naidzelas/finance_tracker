@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('investment_icons', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('symbol')->nullable();
             $table->string('iconify_name');
             $table->timestamps();
         });

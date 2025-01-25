@@ -12,15 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('investments', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('investment_note_id')->autoIncrement();
+            $table->id()->primary();
+            $table->string('symbol')->nullable();
+            $table->integer('instrument_id')->nullable();
+            $table->unsignedBigInteger('investment_note_id')->nullable();
             $table->integer('investment_type_id')->nullable();
             $table->integer('investment_icon_id')->nullable();
             $table->integer('investment_sector_id')->nullable();
             $table->decimal('invested',10,2)->nullable();
             $table->decimal('profit',10,2)->nullable();
             $table->decimal('profit_percent',10,2)->nullable();
-            $table->boolean('is_green');
+            $table->boolean('is_green')->nullable();
             $table->decimal('value')->nullable();
             $table->timestamps();
             $table->index('investment_note_id');

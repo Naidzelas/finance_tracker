@@ -15,9 +15,9 @@ class GoalController extends Controller
     {
         return Inertia::render('Goal', [
             'goals' => Goal::query()->with([
-                    'icon'
-                ])
-                ->withSum('goal_deposit as deposit','deposit')
+                'icon'
+            ])
+                ->withSum('goal_deposit as deposit', 'deposit')
                 ->get(),
             'detailsTab' => [
                 'table' => self::buildDetailTable(),
@@ -43,7 +43,9 @@ class GoalController extends Controller
                 'is_active' => ['Boolean',],
                 'date' => ['Date',],
             ],
-            'icons' => Icons::query()->get()->toArray(),
+            'selectData' => [
+                'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
+            ]
         ]);
     }
 
@@ -59,7 +61,7 @@ class GoalController extends Controller
         $goal = Goal::query()->where('id', $goalId)
             ->first();
 
-        return Inertia::render('Item',[
+        return Inertia::render('Item', [
             'registerRoute' => 'goal/' . $goalId,
             'method' => 'put',
             'list' => [
@@ -70,8 +72,10 @@ class GoalController extends Controller
                 'icon_id' => ['Select', $goal->icon_id],
                 'is_main_priority' => ['Boolean', $goal->is_main_priority],
                 'is_active' => ['Boolean', $goal->is_active],
-        ],
-            'icons' => Icons::query()->get()->toArray(),
+            ],
+            'selectData' => [
+                'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
+            ]
         ]);
     }
 
@@ -80,7 +84,7 @@ class GoalController extends Controller
         $budgetType = Goal::find($budgetId);
         $budgetType->fill($request->all());
         $budgetType->save();
-        
+
         return to_route('index');
     }
 
@@ -89,7 +93,7 @@ class GoalController extends Controller
     {
         Goal::find($goalId)->delete();
     }
-    
+
     private function buildDetailTable(): Collection
     {
         $table = [
@@ -100,14 +104,14 @@ class GoalController extends Controller
                 'Progress'
             ]
         ];
-    
+
         $goals = Goal::query()->with(['goal_deposit' => fn($query) =>
-            $query->selectRaw('goal_id, SUM(deposit) as deposit, concat(year(updated_at), "/",  month(updated_at)) as date')
-                ->groupByRaw('goal_id, concat(year(updated_at), "/",  month(updated_at))')])->get()->toArray();
-    
+        $query->selectRaw('goal_id, SUM(deposit) as deposit, concat(year(updated_at), "/",  month(updated_at)) as date')
+            ->groupByRaw('goal_id, concat(year(updated_at), "/",  month(updated_at))')])->get()->toArray();
+
         $i = 1;
         foreach ($goals as $goal) {
-            foreach($goal['goal_deposit'] as $deposit){
+            foreach ($goal['goal_deposit'] as $deposit) {
                 $table[$goal['id']]['tbody'][] = [
                     'Nr' => $i++,
                     'Date' => $deposit['date'],

@@ -52,13 +52,13 @@ import DragAndDrop from "../Components/DragAndDrop.vue";
 defineProps({
     registerRoute: String,
     list: Object,
-    icons: Object,
+    selectData: Object,
     method: String,
 });
 const page = usePage();
 const formObject = {};
 const listObject = {};
-provide("icons", page.props.icons);
+provide("selectData", page.props.selectData);
 provide("data", page.props.data);
 
 Object.entries(page.props.list).forEach(

@@ -1,5 +1,6 @@
 <template>
     <div v-for="goal in goal_data" class="mb-2 group relative">
+        <!-- <EditOrDelete :route="{edit:'goal.edit', delete:'goal.destroy'}" :id="goal.id"></EditOrDelete> -->
         <div
             class="flex w-0 gap-2 p-2 absolute top-[25%] right-10 invisible group-hover:visible cursor-pointer group-hover:transition-all group-hover:ease-in-out hover:scale-110 group-hover:w-32"
         >
@@ -35,6 +36,7 @@
 <script setup>
 import { Link, router } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import EditOrDelete from './EditOrDelete.vue';
 
 defineProps({ goal_data: Object });
 

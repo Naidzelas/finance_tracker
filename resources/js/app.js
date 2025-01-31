@@ -7,6 +7,7 @@ import { Icon } from "@iconify/vue";
 import { ZiggyVue } from 'ziggy-js';
 
 createInertiaApp({
+  progress: false,
   resolve: name => {
     const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
     let page = pages[`./Pages/${name}.vue`]

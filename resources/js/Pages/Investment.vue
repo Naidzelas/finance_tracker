@@ -1,14 +1,10 @@
 <template>
     <section class="flex flex-col mr-40 ml-40">
         <div class="mb-10 text-5xl">current investments</div>
-        <!-- <pre>
-            {{ investments }}
-
-        </pre> -->
         <div
             v-if="Object.keys(investments).length"
             v-for="investment in investments"
-            class="flex-col"
+            class="flex-col group relative"
         >
             <div class="rounded-md bg-[#F4F4F4] flex p-3 -mb-4">
                 <div class="flex flex-1 pl-10">
@@ -25,7 +21,7 @@
                 </div>
                 <div class="flex flex-col flex-1">
                     <div class="font-bold">Invested</div>
-                    <div>€</div>
+                    <div>{{ investment.invested ?? 0 }} €</div>
                 </div>
                 <div class="flex flex-col flex-1">
                     <div class="font-bold">P/L %</div>
@@ -36,17 +32,27 @@
                 </div>
                 <div class="flex flex-col flex-1">
                     <div class="font-bold">P/L</div>
-                    <div></div>
+                    <div v-if="investment.is_green">
+                        {{ investment.profit ?? 0 }} €
+                    </div>
+                    <div v-else>{{ -Math.abs(investment.profit) ?? 0 }} €</div>
                 </div>
                 <div class="flex flex-col flex-1">
                     <div class="font-bold">Value</div>
-                    <div></div>
+                    <div>{{ investment.value ?? 0 }} €</div>
                 </div>
             </div>
             <DetailsDisplay
                 :detailsTab="detailsTab"
                 :id="investment.id"
             ></DetailsDisplay>
+            <EditOrDelete
+                :action="{
+                    edit: 'investment.edit',
+                    delete: 'investment.destroy',
+                }"
+                :id="investment.id"
+            ></EditOrDelete>
         </div>
         <NoData v-else></NoData>
     </section>
@@ -55,19 +61,11 @@
 <script setup>
 import DetailsDisplay from "../Components/DetailsDisplay.vue";
 import NoData from "../Components/NoData.vue";
-import { computed } from "vue";
+import EditOrDelete from "../Components/EditOrDelete.vue";
+import DropDown from "../Components/DropDown.vue";
 let pageVariables = defineProps({
     investments: Object,
     detailsTab: Object,
 });
 
-// let percent = computed(() =>{
-//     return (goal) => {
-//         return 'w-['+getPercent(goal.end_goal, goal.deposit)+'%]';
-//     }
-// })
-
-// function getPercent(fullSum = 0, sum = 0){
-//     return (sum / fullSum * 100) > 100 ? 100 : (sum / fullSum * 100).toFixed();
-// }
 </script>

@@ -47,6 +47,7 @@ let pageVariables = defineProps({
 
 const style = ref("invisible");
 const value = ref();
+
 function dropdown() {
     style.value = "visible";
     router.reload();

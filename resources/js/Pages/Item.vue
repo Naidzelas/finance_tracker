@@ -1,10 +1,10 @@
 <template>
     <section class="mr-40 ml-40">
         <div class="flex flex-col">
-            <div class="text-5xl mb-2">
+            <div class="mb-2 text-5xl">
                 add new {{ registerRoute }}
             </div>
-            <div class="text-gray-500 text-lg mb-8 flex">
+            <div class="flex mb-8 text-gray-500 text-lg">
                 <div>current goals</div>
                 <div class="self-center">
                     <Icon icon="mdi:dot" class="size-8"></Icon>
@@ -24,18 +24,18 @@
             <!-- Don't forget to undo HIDDEN -->
             <DragAndDrop></DragAndDrop>
             <!-- input block end -->
-            <div class="w-full mt-1 bg-gray-400 h-px"></div>
+            <div class="bg-gray-400 mt-1 w-full h-px"></div>
             <div class="flex justify-end space-x-2">
                 <Link
                     href="/"
-                    class="bg-[#525252] w-40 pb-px text-center text-white text-xl mt-2"
+                    class="bg-[#525252] mt-2 pb-px w-40 text-center text-white text-xl"
                 >
                     CANCEL
                 </Link>
 
                 <button
                     type="submit"
-                    class="bg-[#006692] w-40 pb-px text-center text-white text-xl mt-2"
+                    class="bg-[#006692] mt-2 pb-px w-40 text-center text-white text-xl"
                 >
                     CONFIRM
                 </button>

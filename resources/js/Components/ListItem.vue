@@ -79,9 +79,9 @@ import Datepicker from "@vuepic/vue-datepicker";
 import "../../css/custom-vue-datepicker.css";
 let pageVariables = defineProps({ list: Object, form: Object });
 
-// onMounted(() => {
-//     pageVariables.form[pageVariables.list.name] = pageVariables.list.value;
-// });
+onMounted(() => {
+    pageVariables.form[pageVariables.list.name] = pageVariables.list.value;
+});
 
 let selectData = inject("selectData");
 let date = ref("2020/01/01");

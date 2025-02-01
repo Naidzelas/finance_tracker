@@ -58,9 +58,8 @@ class GoalController extends Controller
 
     public function edit($goalId)
     {
-        $goal = Goal::query()->where('id', $goalId)
-            ->first();
-
+        $goal = Goal::find($goalId);
+        
         return Inertia::render('Item', [
             'registerRoute' => 'goal/' . $goalId,
             'method' => 'put',

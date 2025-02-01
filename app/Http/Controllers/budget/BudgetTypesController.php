@@ -13,16 +13,18 @@ class BudgetTypesController extends Controller
 {
     public function create()
     {
-        return Inertia::render('Item',[
+        return Inertia::render('Item', [
             'registerRoute' => 'budget',
             'method' => 'post',
             'list' => [
-                'name'=> ['String',],
-                'amount'=>  ['Number',],
+                'name' => ['String',],
+                'amount' =>  ['Number',],
                 'icon_id' => ['Select',],
-                'filter_keys' =>['String',],
-        ],
-            'icons' => Icons::query()->get()->toArray(),
+                'filter_keys' => ['String',],
+            ],
+            'selectData' => [
+                'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
+            ]
         ]);
     }
     public function store(Request $request, BudgetTypes $budgetTypes)
@@ -31,15 +33,17 @@ class BudgetTypesController extends Controller
         $budgetTypes->fill($request->all());
         $budgetTypes->save();
         $newBudgetItem = $budgetTypes::query()->latest()->limit(1)->first();
-        Expense::query()->where('type_id','!=', $newBudgetItem->id)
+        Expense::query()->where('type_id', '!=', $newBudgetItem->id)
             ->each(function ($expenseItem) use ($newBudgetItem) {
-            if(strpos($expenseItem->transaction_name, $newBudgetItem->filter_keys) 
-                || $expenseItem->transaction_name == $newBudgetItem->filter_keys){
+                if (
+                    strpos($expenseItem->transaction_name, $newBudgetItem->filter_keys)
+                    || $expenseItem->transaction_name == $newBudgetItem->filter_keys
+                ) {
 
-                $expenseItem->type_id = $newBudgetItem->id;
-                $expenseItem->save();
-            }
-        });
+                    $expenseItem->type_id = $newBudgetItem->id;
+                    $expenseItem->save();
+                }
+            });
         return to_route('index');
     }
 
@@ -49,16 +53,18 @@ class BudgetTypesController extends Controller
             ->where('id', $budgetId)
             ->first();
 
-        return Inertia::render('Item',[
+        return Inertia::render('Item', [
             'registerRoute' => 'budget/' . $budgetId,
             'method' => 'put',
             'list' => [
-                'name'=> ['String', $budgetType->name],
-                'amount'=>  ['Number', $budgetType->amount],
+                'name' => ['String', $budgetType->name],
+                'amount' =>  ['Number', $budgetType->amount],
                 'icon_id' => ['Select', $budgetType->icon_id],
-                'filter_keys' =>['String', $budgetType->filter_keys],
-        ],
-            'icons' => Icons::query()->get()->toArray(),
+                'filter_keys' => ['String', $budgetType->filter_keys],
+            ],
+            'selectData' => [
+                'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
+            ]
         ]);
     }
 
@@ -67,7 +73,7 @@ class BudgetTypesController extends Controller
         $budgetType = BudgetTypes::find($budgetId);
         $budgetType->fill($request->all());
         $budgetType->save();
-        
+
         return to_route('index');
     }
 

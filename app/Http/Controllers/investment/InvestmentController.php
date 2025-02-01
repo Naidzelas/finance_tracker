@@ -59,7 +59,7 @@ class InvestmentController extends Controller
             'method' => 'post',
             'list' => $list,
             'selectData' => [
-                'investment_icon_id' => InvestmentIcon::query()->select('id','iconify_name as data')->get()->toArray(),
+                'investment_icon_id' => InvestmentIcon::query()->select('id', 'iconify_name as data')->get()->toArray(),
                 'investment_type_id' => InvestmentType::query()->select('id', 'name as data')->get()->toArray(),
             ],
         ]);
@@ -84,10 +84,10 @@ class InvestmentController extends Controller
 
         if (Investment::where('investment_type_id', 1)->count()) {
             $investment->fill($request->all());
-            $profit_percent = ($request->value - $request->invested)/abs($request->invested) * 100;
+            $profit_percent = ($request->value - $request->invested) / abs($request->invested) * 100;
             $investment->profit_percent = $profit_percent;
             $investment->is_green = $request->invested < $request->value ? true : false;
-            $investment->profit = $request->invested * ($profit_percent/100);
+            $investment->profit = $request->invested * ($profit_percent / 100);
             $investment->save();
         } else {
             new InitialInvestmentLoadController($request->username, new EtoroController);

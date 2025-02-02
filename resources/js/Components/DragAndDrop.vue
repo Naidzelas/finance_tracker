@@ -1,26 +1,45 @@
 <template>
     <div
-        class="hidden bg-white border-2 border-dashed w-64 h-24 border-black p-5 flex items-center justify-center"
+        class="group flex justify-center border-2 bg-white p-5 border-black border-dashed w-64 h-24 cursor-pointer"
+        @click="triggerFileInput"
     >
-        <button @click="triggerFileInput" class="flex">
+        <button class="flex self-center">
             <div>Drag and</div>
             <Icon
                 icon="material-symbols-light:water-drop"
-                class="text-[#006692] size-6 ml-1"
+                class="ml-1 text-[#006692] group-hover:animate-bounce size-6"
             ></Icon>
         </button>
+    </div>
+    <div v-if="files">Files:</div>
+    <div class="flex-col">
+        <div v-for="(file, index) in files" class="mr-2 font-thin">
+            {{ index + 1 }}.
+            {{ file.name.substr(0, 10) }}
+            {{ (file.size / 1000).toFixed(2) }}MB
+        </div>
     </div>
     <input
         type="file"
         ref="fileInput"
-        class="file:bg-white file:border-0 invisible"
-        @input="form.avatar = $event.target.files[0]"
+        :showUploadButton="false"
+        class="file:border-0 file:bg-white invisible"
+        :multiple="true"
+        @input="form.avatar = $event.target.files"
+        @change="files = form.avatar"
     />
 </template>
 
 <script setup>
 import { ref } from "vue";
+
 const fileInput = ref(null);
+let files = ref("");
+
+let pageVariables = defineProps({
+    form: Object,
+});
+
 function triggerFileInput(event) {
     event.preventDefault();
     fileInput.value.click();

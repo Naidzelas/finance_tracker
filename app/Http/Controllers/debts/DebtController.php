@@ -37,6 +37,7 @@ class DebtController extends Controller
                 'payment_date' => ['Date',],
                 'interest_rate' => ['Number',],
                 'icon_id' => ['Select',],
+                'avatar' => ['Avatar',],
             ],
             'selectData' => [
                 'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
@@ -46,9 +47,10 @@ class DebtController extends Controller
 
     public function store(Request $request, Debt $debt)
     {
+        // dd($request->avatar);
         $debt->fill($request->all());
         $debt->payment_date = now();
-        $debt->document_id = 1;        
+        $debt->document_id = 1;
         $debt->save();
         return to_route('debt.index');
     }
@@ -77,6 +79,7 @@ class DebtController extends Controller
 
     public function update(Request $request, $debtId)
     {
+        dd($request);
         $debt = Debt::find($debtId);
         $debt->fill($request->all());
         $debt->save();

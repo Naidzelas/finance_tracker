@@ -29,7 +29,12 @@
     </div>
 
     <!-- Select value input -->
-    <DropDown v-if="list.dataType == 'Select'" :options="selectData[list.name]" :name="(list.name).toString()" :form="form"></DropDown>
+    <DropDown
+        v-if="list.dataType == 'Select'"
+        :options="selectData[list.name]"
+        :name="list.name.toString()"
+        :form="form"
+    ></DropDown>
 
     <!-- Boolean value input -->
     <div
@@ -75,6 +80,7 @@
 <script setup>
 import { ref, inject, onMounted } from "vue";
 import DropDown from "./DropDown.vue";
+import DragAndDrop from "./DragAndDrop.vue";
 import Datepicker from "@vuepic/vue-datepicker";
 import "../../css/custom-vue-datepicker.css";
 let pageVariables = defineProps({ list: Object, form: Object });

@@ -1,9 +1,7 @@
 <template>
     <section class="mr-40 ml-40">
         <div class="flex flex-col">
-            <div class="mb-2 text-5xl">
-                add new {{ registerRoute }}
-            </div>
+            <div class="mb-2 text-5xl">add new {{ registerRoute }}</div>
             <div class="flex mb-8 text-gray-500 text-lg">
                 <div>current goals</div>
                 <div class="self-center">
@@ -12,18 +10,22 @@
                 <div>add new {{ registerRoute }}</div>
             </div>
         </div>
+
         <!-- input block -->
         <form @submit.prevent="handleForm(method)">
-            <div class="flex flex-wrap ml-[-1em]">
+            <div class="flex flex-wrap mb-10 ml-[-1em]">
                 <ListItem
                     v-for="listItem in listObject"
                     :list="listItem"
                     :form="form"
                 ></ListItem>
             </div>
-            <!-- Don't forget to undo HIDDEN -->
-            <DragAndDrop></DragAndDrop>
-            <!-- input block end -->
+            <DragAndDrop
+                v-if="Object.keys(listObject.avatar).length"
+                :form="form"
+            ></DragAndDrop>
+        <!-- input block end -->
+
             <div class="bg-gray-400 mt-1 w-full h-px"></div>
             <div class="flex justify-end space-x-2">
                 <Link
@@ -73,7 +75,7 @@ Object.entries(page.props.list).forEach(
 );
 const form = useForm(formObject);
 
-function handleForm(method){
-    form.submit(method, '/' + page.props.registerRoute, form)
+function handleForm(method) {
+    form.submit(method, "/" + page.props.registerRoute, form);
 }
 </script>

@@ -13,9 +13,12 @@ require __DIR__ . "/web/budget/budgetTypes.php";
 // Investment
 require __DIR__ . "/web/investment/investments.php";
 
-Route::get('/debt', function () {
-    return Inertia::render('Debt');
-});
+// Debt
+require __DIR__ . "/web/debt/debts.php";
+
+// Route::get('/debt', function () {
+//     return Inertia::render('Debt');
+// });
 
 Route::get('/item', function () {
     return Inertia::render('Item');

@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('debt_icons', function (Blueprint $table) {
+        Schema::create('cache', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('iconify_name');
+            $table->bigInteger('expiration');
+            $table->string('key');
+            $table->text('value');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('debt_icons');
+        Schema::dropIfExists('cache');
     }
 };

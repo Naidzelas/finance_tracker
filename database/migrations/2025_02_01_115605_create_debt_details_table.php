@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('documents', function (Blueprint $table) {
+        Schema::create('debt_details', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('file_name');
+            $table->unsignedBigInteger('debt_id');
+            $table->string('loan_name');
+            $table->decimal('paid_amount',10,2)->default(0);
+            $table->string('loan_iban');
             $table->timestamps();
-            $table->foreign('id')
-                ->references('document_id')
+            $table->index('debt_id');
+            $table->foreign('debt_id')
+                ->references('id')
                 ->on('debts')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('debt_documents');
+        Schema::dropIfExists('debt_details');
     }
 };

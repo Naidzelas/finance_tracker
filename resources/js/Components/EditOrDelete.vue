@@ -25,14 +25,14 @@ let pageVariables = defineProps({
     id: Number,
 });
 
-const deleteItem = async (id) => {
-    router.delete(route(pageVariables.action.delete, id), {
-        onSuccess: () => {
-            router.visit("/investment", { only: ["investment"] });
-        },
-        onError: (errors) => {
-            console.error("Delete failed:", errors);
-        },
-    });
-};
+// const deleteItem = async (id) => {
+//     router.delete(route(pageVariables.action.delete, id), {
+//         onSuccess: () => {
+//             router.visit((pageVariables.action.redirect).toString(), { only: [] });
+//         },
+//         onError: (errors) => {
+//             console.error("Delete failed:", errors);
+//         },
+//     });
+// };
 </script>

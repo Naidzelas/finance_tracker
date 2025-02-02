@@ -7,12 +7,9 @@ use App\Http\Controllers\services\EtoroController;
 use App\Models\investment\AssetPerformance;
 use App\Models\investment\Investment;
 use App\Models\investment\InvestmentIcon;
-use App\Models\investment\InvestmentSector;
 use App\Models\investment\InvestmentType;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-
-use function PHPUnit\Framework\isEmpty;
 
 class InvestmentController extends Controller
 {

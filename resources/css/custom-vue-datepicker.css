@@ -31,10 +31,12 @@
     background-color: var(--dp-background-color);
     border-radius: var(--dp-border-radius);
     font-family: var(--dp-font-family);
-    border: 1px solid var(--dp-border-color);
+    border-bottom: 2px solid black;
+    /* border: 1px solid var(--dp-border-color); */
     outline: none;
+    height:28px;
     transition: border-color .2s cubic-bezier(0.645, 0.045, 0.355, 1);
-    width: 82.5%;
+    width: 100%;
     font-size: var(--dp-font-size);
     line-height: calc(var(--dp-font-size)*1.5);
     padding: var(--dp-input-padding);

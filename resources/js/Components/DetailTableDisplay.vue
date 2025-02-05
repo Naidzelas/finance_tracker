@@ -1,6 +1,6 @@
 <template>
-    <div class="text-2xl mt-2 mr text-start">{{name}}</div>
-    <div class="w-full mt-1 bg-gray-400 h-px mb-6"></div>
+    <div class="mt-2 text-2xl text-start mr">{{ name }}</div>
+    <div class="bg-gray-400 mt-1 mb-6 w-full h-px"></div>
     <table v-if="tableData" class="table-fixed w-full text-left">
         <thead>
             <tr>
@@ -8,12 +8,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="item in tableData.tbody" class="even:bg-[#D9D9D9]">
-                <td>{{ item.Nr }}</td>
-                <td>{{ item.Date }}</td>
-                <td>{{ item.Paid }}</td>
-                <td>{{ item.Progress }}</td>
-                <td class="flex justify-end mr-10"><Icon icon="fa6-solid:trash"></Icon></td>
+            <tr v-for="row in tableData" class="even:bg-[#D9D9D9]">
+                <td v-for="item in row">{{ item }}</td>
+                <td class="flex justify-end mr-10">
+                    <Icon icon="fa6-solid:trash"></Icon>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -23,8 +22,8 @@
 defineProps({
     name: String,
     tableData: Object,
-    tableHead: Object
-})
+    tableHead: Object,
+});
 
 // let data = inject('data');
 </script>

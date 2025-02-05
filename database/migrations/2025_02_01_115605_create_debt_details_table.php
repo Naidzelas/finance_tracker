@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('debt_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('debt_id');
-            $table->string('loan_name');
             $table->decimal('paid_amount',10,2)->default(0);
-            $table->string('loan_iban');
+            $table->integer('payment_date');
+            $table->dateTime('loan_end_date');
+            $table->string('loan_iban')->nullable();
             $table->timestamps();
             $table->index('debt_id');
             $table->foreign('debt_id')

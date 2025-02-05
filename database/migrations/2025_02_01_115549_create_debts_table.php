@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('debts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('active')->default(0);
+            $table->boolean('active')->default(1);
             $table->decimal('loan_size', 10, 2);
             $table->decimal('monthly_payment', 10, 2);
-            $table->decimal('loan_post_interest', 10, 2);
-            $table->dateTime('payment_date');
+            $table->decimal('loan_final_amount', 10, 2);
             $table->decimal('interest_rate', 10, 2)->default(0);
             $table->integer('icon_id')->nullable();
             $table->unsignedBigInteger('document_id')->nullable();

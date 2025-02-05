@@ -34,6 +34,7 @@
         :options="selectData[list.name]"
         :name="list.name.toString()"
         :form="form"
+        :data="list.value"
     ></DropDown>
 
     <!-- Boolean value input -->
@@ -56,33 +57,14 @@
     </div>
 
     <!-- Date value input -->
-    <!-- <div v-if="pageVariables.list.dataType == 'Date'" class="relative p-5">
-        <label for="form_item" class="font-thin text-xl"></label>
-        <div class="flex bg-white mt-1 border-b-2 border-black w-52 h-7">
-        <div
-                @click="yourCustomMethod"
-                class="right-8 bottom-7 absolute text-gray-400"
-            >
-                <Icon icon="ion:calendar" class="size-4"></Icon>
-            </div>
-        <input
-                :id="pageVariables.list.name"
-                v-model="date"
-                name="form_item"
-                class="block pl-3 w-full"
-                :placeholder="pageVariables.list.name"
-            />
-        <Datepicker ref="datepicker" v-model="date"></Datepicker>
-        </div>
-    </div> -->
+    <Date v-if="pageVariables.list.dataType == 'Date'" :form="form" :name="list.name.toString()" :data="list.value"></Date>
 </template>
 
 <script setup>
 import { ref, inject, onMounted } from "vue";
 import DropDown from "./DropDown.vue";
-import DragAndDrop from "./DragAndDrop.vue";
-import Datepicker from "@vuepic/vue-datepicker";
-import "../../css/custom-vue-datepicker.css";
+import Date from "./Date.vue";
+
 let pageVariables = defineProps({ list: Object, form: Object });
 
 onMounted(() => {

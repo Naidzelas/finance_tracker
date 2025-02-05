@@ -8,8 +8,9 @@ class DebtDetail extends Model
 {
     public $fillable = [
         'debt_id',
-        'loan_name',
         'paid_amount',
+        'payment_date',
+        'loan_end_date',
         'loan_iban'
     ];
 }

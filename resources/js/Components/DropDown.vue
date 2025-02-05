@@ -43,10 +43,15 @@ let pageVariables = defineProps({
     name: String,
     options: Object,
     form: Object,
+    data: Object,
 });
 
 const style = ref("invisible");
+// TODO this is nasty needs better solution..
 const value = ref();
+if(pageVariables.data){
+    value = ref(pageVariables.options[pageVariables.data-1].data);
+};
 
 function dropdown() {
     style.value = "visible";

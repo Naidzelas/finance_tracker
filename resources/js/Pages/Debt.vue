@@ -34,7 +34,7 @@
                 </div>
                 <div class="flex flex-col flex-1">
                     <div class="font-bold">Payment date</div>
-                    <div>{{ debt.payment_date }}</div>
+                    <div>{{ debt.debt_detail.payment_date }}</div>
                 </div>
                 <div class="flex flex-col flex-1">
                     <div class="font-bold">Interest Rate</div>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="flex flex-col flex-1 group-hover:invisible">
                     <div class="font-bold">Payment left</div>
-                    <div>N/a</div>
+                    <div> {{ (debt.loan_size/debt.monthly_payment).toFixed() ?? 'N/A' }}</div>
                 </div>
             </div>
             <DetailsDisplay :detailsTab="detailsTab" :id="debt.id"></DetailsDisplay>

@@ -112,10 +112,10 @@ class GoalController extends Controller
         foreach ($goals as $goal) {
             foreach ($goal['goal_deposit'] as $deposit) {
                 $table[$goal['id']]['tbody'][] = [
-                    'Nr' => $i++,
-                    'Date' => $deposit['date'],
-                    'Paid' => $deposit['deposit'] . ' / ' . $goal['contribution'],
-                    'Progress' => 'Nothing'
+                    $i++,
+                    $deposit['date'],
+                    $deposit['deposit'] . ' / ' . $goal['contribution'],
+                    'Nothing',
                 ];
             }
         }

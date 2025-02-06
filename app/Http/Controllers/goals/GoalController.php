@@ -21,9 +21,6 @@ class GoalController extends Controller
                 ->get(),
             'detailsTab' => [
                 'table' => self::buildDetailTable(),
-                // TODO this is an Example, remove later
-                'documents' => '',
-                'notes' => ''
             ]
         ]);
     }

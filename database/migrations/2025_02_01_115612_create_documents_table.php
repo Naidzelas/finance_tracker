@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('file_name');
+            $table->integer('documentable_id');
+            $table->string('documentable_type');
+            $table->string('filename');
+            $table->string('file_path')->nullable();
             $table->timestamps();
-            $table->foreign('id')
-                ->references('document_id')
-                ->on('debts')
-                ->cascadeOnUpdate();
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('debt_documents');
+        Schema::dropIfExists('documents');
     }
 };

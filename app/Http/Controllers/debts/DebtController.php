@@ -16,14 +16,17 @@ class DebtController extends Controller
 {
     public function index()
     {
+        $debt = Debt::query()->with([
+            'icon',
+            'debtDetail',
+            'documents'
+        ])->get();
+
         return Inertia::render('Debt', [
-            'debts' => Debt::query()->with([
-                'icon',
-                'debtDetail'
-            ])->get(),
+            'debts' => $debt,
             'detailsTab' => [
                 'table' => self::buildDetailTable(),
-                'documents' => '',
+                'documents' => $debt->keyBy('id'),
             ]
         ]);
     }
@@ -53,7 +56,7 @@ class DebtController extends Controller
 
     public function store(Request $request)
     {
-
+        // dd($request->avatar);
         $debt = Debt::create([
             'name' => $request->name,
             'loan_size' => $request->loan_size,
@@ -71,10 +74,21 @@ class DebtController extends Controller
                 'loan_iban' => $request->loan_iban
             ]);
         }
+        foreach ($request->avatar as $avatar) {
+            $document = new Document([
+                'filename' => $avatar->getClientOriginalName(),
+                'file_path' => $avatar->path()
+            ]);
+            $debt->documents()->save($document);
+            // Document::create([
+            //     'name' => $request->name,
+            //     'file_name' => $avatar->getClientOriginalName(),
+            // ]);
+        };
+        // dd();
+        // $document = Document::create([
 
-        $document = Document::create([
-
-        ]);
+        // ]);
 
         return to_route('debt.index');
     }
@@ -139,13 +153,13 @@ class DebtController extends Controller
         $table = [
             'thead' => [
                 'Paid Amount',
-                'Loan End Date' ,
+                'Loan End Date',
                 'Loan Iban'
             ]
         ];
         $debtDetail = DebtDetail::all();
-        
-        foreach($debtDetail as $detail){
+
+        foreach ($debtDetail as $detail) {
             $table[$detail['id']]['tbody'][] = [
                 $detail->paid_amount,
                 $detail->payment_date,

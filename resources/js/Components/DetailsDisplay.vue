@@ -33,6 +33,7 @@
                 <DetailDocumentDisplay
                     v-if="type == 'documents'"
                     :name="type"
+                    :data="detailsType[id][type]"
                 ></DetailDocumentDisplay>
                 <DetailNoteDisplay
                     v-if="type == 'notes'"

@@ -2,9 +2,11 @@
 
 namespace App\Models\Debts;
 
+use App\Models\Documents\Document;
 use App\Models\Icons;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Debt extends Model
 {
@@ -27,5 +29,10 @@ class Debt extends Model
     public function debtDetail(): HasOne
     {
         return $this->hasOne(DebtDetail::class);
+    }
+
+    public function documents(): MorphMany
+    {
+        return $this->morphMany(Document::class, 'documentable');
     }
 }

@@ -20,9 +20,7 @@ return new class extends Migration
             $table->decimal('loan_final_amount', 10, 2);
             $table->decimal('interest_rate', 10, 2)->default(0);
             $table->integer('icon_id')->nullable();
-            $table->unsignedBigInteger('document_id')->nullable();
             $table->timestamps();
-            $table->index('document_id');
         });
     }
 

@@ -56,7 +56,6 @@ class DebtController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->avatar);
         $debt = Debt::create([
             'name' => $request->name,
             'loan_size' => $request->loan_size,
@@ -80,16 +79,11 @@ class DebtController extends Controller
                 'file_path' => $avatar->path()
             ]);
             $debt->documents()->save($document);
-            // Document::create([
-            //     'name' => $request->name,
-            //     'file_name' => $avatar->getClientOriginalName(),
-            // ]);
+            $store = new DebtFileController($avatar->getClientOriginalName(),$avatar->get());
+            $store->upload();
         };
+        
         // dd();
-        // $document = Document::create([
-
-        // ]);
-
         return to_route('debt.index');
     }
 
@@ -167,5 +161,12 @@ class DebtController extends Controller
             ];
         }
         return collect($table);
+    }
+
+    public function download($id)
+    {
+        dd($id);
+        $store = new DebtFileController('test.txt');
+        $store->download();
     }
 }

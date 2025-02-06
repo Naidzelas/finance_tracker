@@ -16,9 +16,8 @@ require __DIR__ . "/web/investment/investments.php";
 // Debt
 require __DIR__ . "/web/debt/debts.php";
 
-// Route::get('/debt', function () {
-//     return Inertia::render('Debt');
-// });
+// Document
+require __DIR__ . "/web/document/document.php";
 
 Route::get('/item', function () {
     return Inertia::render('Item');

@@ -35,4 +35,8 @@ abstract class File
         $path = Storage::disk($this->location)->path($this->file);
         return response()->file($path);
     }
+    public function exists()
+    {
+        return Storage::disk($this->location)->exists($this->file);
+    }
 }

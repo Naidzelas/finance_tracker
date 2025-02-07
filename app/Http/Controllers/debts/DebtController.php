@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Debts;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\document\PDF;
 use App\Models\Debts\Debt;
 use App\Models\Debts\DebtDetail;
 use App\Models\Documents\Document;
@@ -79,10 +80,10 @@ class DebtController extends Controller
                 'file_path' => $avatar->path()
             ]);
             $debt->documents()->save($document);
-            $store = new DebtFileController($avatar->getClientOriginalName(),$avatar->get());
+            $store = new PDF($avatar->getClientOriginalName(), $avatar->get());
             $store->upload();
         };
-        
+
         // dd();
         return to_route('debt.index');
     }
@@ -161,12 +162,5 @@ class DebtController extends Controller
             ];
         }
         return collect($table);
-    }
-
-    public function download($id)
-    {
-        dd($id);
-        $store = new DebtFileController('test.txt');
-        $store->download();
     }
 }

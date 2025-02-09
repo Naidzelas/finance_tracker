@@ -4,14 +4,14 @@ Work in progress...
 # **FEATURE LIST**
 - [ ] Goals
 - [ ] Investments
-   - [ ] ETORO API integration
+   - [x] ETORO API integration
    - [ ] Obsidian notepad or regular note pad or rich text integration for notes.
    - [ ] Documents of earnings reports, porfolio performance.
 - [ ] Debts
    - [ ] Document import of loan contracts.
 - [ ] Expense categorization
 - [ ] Expense list
-   - [ ] Infinite scroll implementation to avoid pagination solutions.
+   - [x] Infinite scroll implementation to avoid pagination solutions.
 - [ ] Statistics
 - [ ] Mobile port
 - [ ] Dark Mode

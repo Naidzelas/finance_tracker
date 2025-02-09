@@ -1,26 +1,20 @@
 <template>
     <section class="flex flex-col mr-40 ml-40">
         <div class="text-5xl">all expenses</div>
-        <div class="text-md mt-1 mb-10">finance • expenses</div>
-        <div v-for="(expense, date) in expenses">
-            <div class="flex">
+        <div class="mt-1 mb-10 text-md">finance • all expenses</div>
+        <div v-for="expense in expenses">
+            <!-- <div class="flex">
                 <div
-                    class="rounded border-6 bg-[#C9AA8E] w-36 h-8 text-lg mb-2 text-white text-center font-bold"
+                    class="border-6 bg-[#C9AA8E] mb-2 rounded w-36 h-8 font-bold text-center text-lg text-white"
                 >
-                    {{ date }}
+                    {{ expense.YM }}
                 </div>
                 <div class="flex-auto"></div>
-                <div
-                    class="bg-[#3C3C3C] rounded-md size-8 grid place-items-center"
-                >
-                    <Icon
-                        icon="ion:calendar"
-                        color="white"
-                        class="size-6"
-                    ></Icon>
+                <div class="place-items-center grid bg-[#3C3C3C] rounded-md size-8">
+                    <Icon icon="ion:calendar" color="white" class="size-6"></Icon>
                 </div>
                 <div
-                    class="bg-[#3C3C3C] rounded-md size-8 grid place-items-center ml-1"
+                    class="place-items-center grid bg-[#3C3C3C] ml-1 rounded-md size-8"
                 >
                     <Icon
                         icon="tabler:category-filled"
@@ -28,37 +22,62 @@
                         class="size-6"
                     ></Icon>
                 </div>
-            </div>
-            <div v-for="item in expense" :key="item.id">
-                <div class="rounded-md bg-[#F4F4F4] flex p-3 mb-[-1em]">
-                    <div class="flex pr-10 pl-10">
-                        <div><Icon icon="lucide:house" class="size-12"></Icon></div>
-                    </div>
-                    <div class="flex pr-36">
-                        <div>{{ item.type_id + ' type name' }}</div>
-                    </div>
-                    <div class="flex flex-col pr-6 flex-1">
-                        <div class="font-bold">Name</div>
-                        <div>{{ item.transaction_name }}</div>
-                    </div>
-                    <div class="flex flex-col flex-1">
-                        <div class="font-bold">Amount</div>
-                        <div>{{ item.amount }}</div>
-                    </div>
-                    <div class="flex flex-col flex-1">
-                        <div class="font-bold">Date</div>
-                        <div>{{ item.date }}</div>
+            </div> -->
+            <div class="flex bg-[#F4F4F4] mb-[-1em] p-3 rounded-md">
+                <div class="flex pr-10 pl-10">
+                    <div>
+                        <Icon icon="lucide:house" class="size-12"></Icon>
                     </div>
                 </div>
-                <DetailsDisplay></DetailsDisplay>
+                <div class="flex pr-36">
+                    <div>{{ expense.type_id + " type name" }}</div>
+                </div>
+                <div class="flex flex-col flex-1 pr-6">
+                    <div class="font-bold">Name</div>
+                    <div>{{ expense.transaction_name }}</div>
+                </div>
+                <div class="flex flex-col flex-1">
+                    <div class="font-bold">Amount</div>
+                    <div>{{ expense.amount }}</div>
+                </div>
+                <div class="flex flex-col flex-1">
+                    <div class="font-bold">Date</div>
+                    <div>{{ expense.date }}</div>
+                </div>
             </div>
+            <DetailsDisplay></DetailsDisplay>
         </div>
+        <WhenVisible
+            always
+            :params="{
+                data: {
+                    page: expenses_paginated.current_page + 1,
+                },
+                only: ['expenses', 'expenses_paginated'],
+            }"
+        >
+            <template #fallback>
+                <div class="text-center">
+                    <Icon
+                        icon="mingcute:loading-fill"
+                        class="animate-spin size-6"
+                    ></Icon>
+                </div>
+            </template>
+        </WhenVisible>
     </section>
 </template>
 
 <script setup>
-import { reactive } from "vue";
 import DetailsDisplay from "../Components/DetailsDisplay.vue";
+import { WhenVisible, router } from "@inertiajs/vue3";
 
-defineProps({ expenses: Object });
+let pageVaribalbes = defineProps({
+    expenses: Object,
+    expenses_paginated: Object,
+});
+
+// router.reload({
+//     reset: ["expenses"],
+// });
 </script>

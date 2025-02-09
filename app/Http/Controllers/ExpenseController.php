@@ -18,7 +18,6 @@ class ExpenseController extends Controller
     public function index(Expense $expense)
     {
         return Inertia::render('Home', [
-            'expenses' => $expense->all()->toArray(),
             'current_expenses' => $expense->where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->format('Y-m-d'))
                 ->get(),
@@ -46,7 +45,7 @@ class ExpenseController extends Controller
         $budgetTypes = BudgetTypes::all()->keyBy('id')->toArray();
 
         foreach ($data as $item) {
-            $expense->create([
+            $expense->updateOrCreate([
                 'type_id' => key(array_filter($budgetTypes, function ($type) use ($item) {
                     if (
                         strpos($item['transaction_name'], $type['filter_keys'])

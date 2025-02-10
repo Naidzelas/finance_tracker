@@ -25,7 +25,7 @@
                     <div class="place-items-center grid pl-3">
                         <Icon
                             :icon="item.data"
-                            class="text-slate-500 size-fit"
+                            class="size-fit text-slate-500"
                         ></Icon>
                     </div>
                     {{ item.data }}
@@ -49,9 +49,9 @@ let pageVariables = defineProps({
 const style = ref("invisible");
 // TODO this is nasty needs better solution..
 const value = ref();
-if(pageVariables.data){
-    value = ref(pageVariables.options[pageVariables.data-1].data);
-};
+// if(pageVariables.data){
+//     value = ref();
+// };
 
 function dropdown() {
     style.value = "visible";

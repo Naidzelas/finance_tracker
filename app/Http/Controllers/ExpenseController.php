@@ -20,9 +20,11 @@ class ExpenseController extends Controller
         return Inertia::render('Home', [
             'current_expenses' => $expense->where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->format('Y-m-d'))
+                ->orderBy('date')
                 ->get(),
             'previous_expenses' => $expense->where('date', '>=', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->subMonth()->format('Y-m-d'))
+                ->orderBy('date')
                 ->get(),
             'goals' => Goal::query()->with('icon')->withSum('goal_deposit as deposit', 'deposit')->get(),
             'budget_types' => BudgetTypes::query()->with('icon')->get()->toArray(),

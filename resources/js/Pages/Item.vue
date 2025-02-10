@@ -21,7 +21,7 @@
                 ></ListItem>
             </div>
             <DragAndDrop
-                v-if="Object.keys(listObject.avatar).length"
+                v-if="Object.keys(listObject.avatar??{}).length"
                 :form="form"
             ></DragAndDrop>
         <!-- input block end -->
@@ -30,14 +30,14 @@
             <div class="flex justify-end space-x-2">
                 <Link
                     href="/"
-                    class="bg-[#525252] mt-2 pb-px w-40 text-center text-white text-xl"
+                    class="bg-[#525252] mt-2 pb-px w-40 text-white text-xl text-center"
                 >
                     CANCEL
                 </Link>
 
                 <button
                     type="submit"
-                    class="bg-[#006692] mt-2 pb-px w-40 text-center text-white text-xl"
+                    class="bg-[#006692] mt-2 pb-px w-40 text-white text-xl text-center"
                 >
                     CONFIRM
                 </button>
@@ -74,7 +74,7 @@ Object.entries(page.props.list).forEach(
     )
 );
 const form = useForm(formObject);
-
+console.log(listObject);
 function handleForm(method) {
     form.submit(method, "/" + page.props.registerRoute, form);
 }

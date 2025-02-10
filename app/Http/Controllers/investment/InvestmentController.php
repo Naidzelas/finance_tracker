@@ -29,8 +29,6 @@ class InvestmentController extends Controller
                     'investment.investmentType',
                     'investment.investmentSector'
                 ])->get()->keyBy('investment_id'),
-                'table' => '',
-                'notes' => ''
             ]
         ]);
     }

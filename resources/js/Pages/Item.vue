@@ -11,8 +11,9 @@
             </div>
         </div>
 
-        <!-- input block -->
         <form @submit.prevent="handleForm(method)">
+
+        <!-- input block -->
             <div class="flex flex-wrap mb-10 ml-[-1em]">
                 <ListItem
                     v-for="listItem in listObject"
@@ -28,8 +29,9 @@
 
             <div class="bg-gray-400 mt-1 w-full h-px"></div>
             <div class="flex justify-end space-x-2">
+                <!-- TODO fix this cancel button when in budget -->
                 <Link
-                    href="/"
+                    :href="'/' + registerRoute.split('/')[0]"
                     class="bg-[#525252] mt-2 pb-px w-40 text-white text-xl text-center"
                 >
                     CANCEL
@@ -74,8 +76,8 @@ Object.entries(page.props.list).forEach(
     )
 );
 const form = useForm(formObject);
-console.log(listObject);
+
 function handleForm(method) {
-    form.submit(method, "/" + page.props.registerRoute, form);
+    form.submit(method, "/" + page.props.registerRoute);
 }
 </script>

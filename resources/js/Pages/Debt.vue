@@ -8,7 +8,7 @@
         >
             <div class="bg-[white] mb-0.5 rounded-full">
                 <div
-                    class="bg-gradient-to-r from-black to-[#606060] mb-1 rounded-full w-0 h-2 transform transition-all duration-700"
+                    class="bg-gradient-to-r from-black to-[#606060] mb-1 rounded-full w-0 h-2 transition-all duration-700 transform"
                 ></div>
             </div>
             <div class="flex bg-[#F4F4F4] -mb-4 p-3 rounded-md">
@@ -40,17 +40,25 @@
                     <div class="font-bold">Interest Rate</div>
                     <div>{{ debt.interest_rate }}</div>
                 </div>
-                <div class="flex flex-col flex-1 group-hover:invisible">
+                <div class="group-hover:invisible flex flex-col flex-1">
                     <div class="font-bold">Payment left</div>
-                    <div> {{ (debt.loan_size/debt.monthly_payment).toFixed() ?? 'N/A' }}</div>
+                    <div>
+                        {{
+                            (debt.loan_size / debt.monthly_payment).toFixed() ??
+                            "N/A"
+                        }}
+                    </div>
                 </div>
             </div>
-            <DetailsDisplay :detailsTab="detailsTab" :id="debt.id"></DetailsDisplay>
+            <DetailsDisplay
+                :detailsTab="detailsTab"
+                :id="debt.id"
+            ></DetailsDisplay>
             <EditOrDelete
                 :action="{
                     edit: 'debt.edit',
                     delete: 'debt.destroy',
-                    redirect: 'debt.index',
+                    redirect: '/debt',
                 }"
                 :id="debt.id"
             ></EditOrDelete>

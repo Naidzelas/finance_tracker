@@ -3,16 +3,16 @@
     <div class="flex flex-col">
         <div class="relative">
             <button @click="navToggle(true)">
-                <Icon icon="ph:cube-fill" class="size-10 mt-1"></Icon>
+                <Icon icon="ph:cube-fill" class="mt-1 size-10"></Icon>
             </button>
             <div v-if="pageVariables.menu_visible">
                 <div
-                    class="bg-white size-12 w-20 absolute top-0 right-0.5 rounded-r-md"
+                    class="top-0 right-0.5 absolute bg-white rounded-r-md w-20 size-12"
                 >
                     <button @click="navToggle(false)">
                         <Icon
                             icon="fluent:receipt-cube-20-regular"
-                            class="size-10 mt-1 ml-10"
+                            class="mt-1 ml-10 size-10"
                         ></Icon>
                     </button>
 
@@ -21,21 +21,21 @@
             </div>
         </div>
         <div class="self-center">
-            <Icon icon="clarity:bell-solid-badged" class="size-6 mt-6"></Icon>
+            <Icon icon="clarity:bell-solid-badged" class="mt-6 size-6"></Icon>
         </div>
         <div class="self-center">
             <div v-if="pageVariables.routeName === '/'">
                 <button @click="modalToggle(true)">
-                    <Icon icon="basil:add-solid" class="size-6 mt-4"></Icon>
+                    <Icon icon="basil:add-solid" class="mt-4 size-6"></Icon>
                 </button>
             </div>
             <Link v-else :href="pageVariables.routeName + '/create'"
-                ><Icon icon="basil:add-solid" class="size-6 mt-4"></Icon
+                ><Icon icon="basil:add-solid" class="mt-4 size-6"></Icon
             ></Link>
         </div>
         <div v-if="pageVariables.routeName === '/'" class="self-center">
             <Link href="/expense_list">
-                <Icon icon="material-symbols:list-alt" class="size-6 mt-4"></Icon>
+                <Icon icon="material-symbols:list-alt" class="mt-4 size-6"></Icon>
             </Link>
         </div>
     </div>

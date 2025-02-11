@@ -22,7 +22,7 @@
                 <DetailStatDisplay
                     v-if="type == 'stats' && detailsType"
                     :name="type"
-                    :data="detailsType[id]"
+                    :data="detailsType[id]??{}"
                 ></DetailStatDisplay>
                 <DetailTableDisplay
                     v-if="type == 'table' && detailsType"

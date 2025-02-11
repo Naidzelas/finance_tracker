@@ -17,7 +17,7 @@ return new class extends Migration
             $table->decimal('deposit',10,2);
             $table->timestamps();
             $table->foreign('goal_id')
-                ->references('goal_deposit_id')
+                ->references('id')
                 ->on('goals')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');

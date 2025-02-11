@@ -1,8 +1,8 @@
 <template>
     <div v-for="goal in goal_data" class="group relative mb-2">
-        <EditOrDelete :action="{edit:'goal.edit', delete:'goal.destroy'}" :id="goal.id"></EditOrDelete>
+        <EditOrDelete :action="{edit:'goal.edit', delete:'goal.destroy', redirect:'/'}" :id="goal.id"></EditOrDelete>
         <!-- <div
-            class="group-hover:visible group-hover:ease-in-out group-hover:w-32 top-[25%] right-10 absolute flex gap-2 p-2 w-0 group-hover:transition-all cursor-pointer invisible hover:scale-110"
+            class="group-hover:visible group-hover:w-32 invisible top-[25%] right-10 absolute flex gap-2 p-2 w-0 hover:scale-110 group-hover:transition-all group-hover:ease-in-out cursor-pointer"
         >
             <Link
                 :href="route('goal.edit', { id: goal.id })"
@@ -22,13 +22,13 @@
             <div class="bg-black w-[25%] h-1" :class="percent(goal)"></div>
         </div>
         <div
-            class="flex place-items-center border-6 bg-[white] p-4 rounded text-center"
+            class="flex place-items-center bg-[white] p-4 border-6 rounded text-center"
         >
             <div class="flex flex-auto justify-center">
                 <Icon :icon="goal.icon.iconify_name" class="size-10"></Icon>
             </div>
             <div class="w-96 font-semibold text-3xl">{{ goal.name }}</div>
-            <div class="flex-auto text-3xl group-hover:invisible">{{ goal.end_goal }}</div>
+            <div class="group-hover:invisible flex-auto text-3xl">{{ goal.end_goal }}</div>
         </div>
     </div>
 </template>
@@ -40,16 +40,16 @@ import EditOrDelete from './EditOrDelete.vue';
 
 defineProps({ goal_data: Object });
 
-const deleteItem = async (id) => {
-    router.delete(route("goal.destroy", id), {
-        onSuccess: () => {
-            router.visit("/", { only: ["goals"] });
-        },
-        onError: (errors) => {
-            console.error("Delete failed:", errors);
-        },
-    });
-};
+// const deleteItem = async (id) => {
+//     router.delete(route("goal.destroy", id), {
+//         onSuccess: () => {
+//             router.visit("/", { only: ["goals"] });
+//         },
+//         onError: (errors) => {
+//             console.error("Delete failed:", errors);
+//         },
+//     });
+// };
 
 // TODO make this a component
 let percent = computed(() =>{

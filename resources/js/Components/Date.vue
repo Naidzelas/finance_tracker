@@ -20,7 +20,7 @@ import { lt } from "date-fns/locale";
 let pageVariables = defineProps({
     form: Object,
     name: String,
-    data: Object,
+    data: String,
 });
 
 let date = ref();

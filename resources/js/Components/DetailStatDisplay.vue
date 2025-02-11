@@ -1,7 +1,7 @@
 <template>
-    <div class="text-2xl mt-2 mr text-start">{{ name }}</div>
-    <div class="w-full mt-1 bg-gray-400 h-px mb-6"></div>
-    <div class="grid grid-cols-6 gap-2">
+    <div class="mt-2 text-2xl text-start mr">{{ name }}</div>
+    <div class="bg-gray-400 mt-1 mb-6 w-full h-px"></div>
+    <div v-if="Object.keys(data).length" class="gap-2 grid grid-cols-6">
         <div class="flex-col">
             <label class="font-bold text-md">Revenue</label>
             <div v-if="data.is_green">{{ data.revenue }}</div>
@@ -54,6 +54,7 @@
             <div>{{ data.dividend_frequency ?? 'N/A' }}</div>
         </div>
     </div>
+    <div v-else>No Data</div>
 </template>
 
 <script setup>

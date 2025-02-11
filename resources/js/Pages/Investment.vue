@@ -4,9 +4,9 @@
         <div
             v-if="Object.keys(investments).length"
             v-for="investment in investments"
-            class="flex-col group relative"
+            class="group relative flex-col"
         >
-            <div class="rounded-md bg-[#F4F4F4] flex p-3 -mb-4">
+            <div class="flex bg-[#F4F4F4] -mb-4 p-3 rounded-md">
                 <div class="flex flex-1 pl-10">
                     <div>
                         <Icon
@@ -50,6 +50,7 @@
                 :action="{
                     edit: 'investment.edit',
                     delete: 'investment.destroy',
+                    redirect: '/investment'
                 }"
                 :id="investment.id"
             ></EditOrDelete>
@@ -62,7 +63,7 @@
 import DetailsDisplay from "../Components/DetailsDisplay.vue";
 import NoData from "../Components/NoData.vue";
 import EditOrDelete from "../Components/EditOrDelete.vue";
-import DropDown from "../Components/DropDown.vue";
+
 let pageVariables = defineProps({
     investments: Object,
     detailsTab: Object,

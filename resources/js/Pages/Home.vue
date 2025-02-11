@@ -38,7 +38,7 @@
                 <div class="mt-6 mb-6 text-2xl text-left">goals</div>
                 <div class="flex justify-end mt-[-2em] mb-2">
                     <Link
-                        href="/goal/create"
+                        :href="route('goal.create')"
                         method="get"
                         as="button"
                         type="button"

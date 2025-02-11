@@ -43,7 +43,7 @@ let pageVariables = defineProps({
     name: String,
     options: Object,
     form: Object,
-    data: Object,
+    data: String,
 });
 
 const style = ref("invisible");

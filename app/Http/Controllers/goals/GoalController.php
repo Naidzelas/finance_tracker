@@ -32,13 +32,11 @@ class GoalController extends Controller
             'method' => 'post',
             'list' => [
                 'name' => ['String',],
-                'goal_deposit_id' =>  ['Number',],
                 'end_goal' => ['Number',],
                 'contribution' => ['Number',],
                 'icon_id' => ['Select',],
                 'is_main_priority' => ['Boolean',],
                 'is_active' => ['Boolean',],
-                'date' => ['Date',],
             ],
             'selectData' => [
                 'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
@@ -56,13 +54,12 @@ class GoalController extends Controller
     public function edit($goalId)
     {
         $goal = Goal::find($goalId);
-        
+
         return Inertia::render('Item', [
             'registerRoute' => 'goal/' . $goalId,
             'method' => 'put',
             'list' => [
                 'name' => ['String', $goal->name],
-                'goal_deposit_id' =>  ['Number', $goal->goal_deposit_id],
                 'end_goal' => ['Number', $goal->end_goal],
                 'contribution' => ['Number', $goal->contribution],
                 'icon_id' => ['Select', $goal->icon_id],
@@ -102,11 +99,21 @@ class GoalController extends Controller
         ];
 
         $goals = Goal::query()->with(['goal_deposit' => fn($query) =>
-        $query->selectRaw('goal_id, SUM(deposit) as deposit, concat(year(updated_at), "/",  month(updated_at)) as date')
-            ->groupByRaw('goal_id, concat(year(updated_at), "/",  month(updated_at))')])->get()->toArray();
+            $query->selectRaw('goal_id, SUM(deposit) as deposit, concat(year(updated_at), "/",  month(updated_at)) as date')
+                ->groupByRaw('goal_id, concat(year(updated_at), "/",  month(updated_at))')
+        ])->get()->toArray();
 
         $i = 1;
         foreach ($goals as $goal) {
+            if (!$goal['goal_deposit']) {
+                $table[$goal['id']]['tbody'][] = [
+                    1,
+                    'No Data',
+                    'No Data',
+                    'No Data',
+                ];
+                continue;
+            }
             foreach ($goal['goal_deposit'] as $deposit) {
                 $table[$goal['id']]['tbody'][] = [
                     $i++,

@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Inertia\Inertia;
-
 class DebtController extends Controller
 {
     public function index()
@@ -74,17 +73,18 @@ class DebtController extends Controller
                 'loan_iban' => $request->loan_iban
             ]);
         }
-        foreach ($request->avatar as $avatar) {
-            $document = new Document([
-                'filename' => $avatar->getClientOriginalName(),
-                'file_path' => $avatar->path()
-            ]);
-            $debt->documents()->save($document);
-            $store = new PDF($avatar->getClientOriginalName(), $avatar->get());
-            $store->upload();
-        };
-
-        // dd();
+        if ($request->avatar) {
+            foreach ($request->avatar as $avatar) {
+                $document = new Document([
+                    'filename' => $avatar->getClientOriginalName(),
+                    'file_path' => $avatar->path()
+                ]);
+                $debt->documents()->save($document);
+                $store = new PDF($avatar->getClientOriginalName(), $avatar->get());
+                $store->upload();
+            };
+        }
+        
         return to_route('debt.index');
     }
 
@@ -104,7 +104,6 @@ class DebtController extends Controller
                 'payment_date' => ['Number', $debt->debtDetail->payment_date],
                 'loan_end_date' => ['Date', $debt->debtDetail->loan_end_date],
                 'loan_iban' => ['String', $debt->debtDetail->loan_iban],
-                'avatar' => ['Avatar',],
             ],
             'selectData' => [
                 'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
@@ -114,6 +113,8 @@ class DebtController extends Controller
 
     public function update(Request $request, $debtId)
     {
+        // TODO file upload only works for POST method so can't put it here. Will need to add file attach functionality.
+
         $debt = Debt::find($debtId);
         $debt->fill([
             'name' => $request->name,
@@ -149,15 +150,16 @@ class DebtController extends Controller
             'thead' => [
                 'Paid Amount',
                 'Loan End Date',
+                'Loan Final Amount',
                 'Loan Iban'
             ]
         ];
-        $debtDetail = DebtDetail::all();
-
+        $debtDetail = DebtDetail::with('debt')->get();
         foreach ($debtDetail as $detail) {
             $table[$detail['id']]['tbody'][] = [
                 $detail->paid_amount,
-                $detail->payment_date,
+                Carbon::parse($detail->loan_end_date)->format('Y-m-d'),
+                $detail->debt->loan_final_amount,
                 $detail->loan_iban ?? 'N/A'
             ];
         }

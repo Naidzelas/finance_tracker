@@ -1,6 +1,6 @@
 <template>
     <div
-        class="group-hover:visible group-hover:ease-in-out group-hover:w-32 top-4 right-10 absolute flex gap-2 p-2 w-0 group-hover:transition-all cursor-pointer invisible hover:scale-110"
+        class="group-hover:visible group-hover:w-32 invisible top-4 right-10 absolute flex gap-2 p-2 w-0 hover:scale-110 group-hover:transition-all group-hover:ease-in-out cursor-pointer"
     >
         <Link
             :href="route((action.edit).toString(), { id: id })"
@@ -25,14 +25,14 @@ let pageVariables = defineProps({
     id: Number,
 });
 
-// const deleteItem = async (id) => {
-//     router.delete(route(pageVariables.action.delete, id), {
-//         onSuccess: () => {
-//             router.visit((pageVariables.action.redirect).toString(), { only: [] });
-//         },
-//         onError: (errors) => {
-//             console.error("Delete failed:", errors);
-//         },
-//     });
-// };
+const deleteItem = async (id) => {
+    router.delete(route(pageVariables.action.delete, id), {
+        onSuccess: () => {
+            router.visit((pageVariables.action.redirect).toString(), { only: [] });
+        },
+        onError: (errors) => {
+            console.error("Delete failed:", errors);
+        },
+    });
+};
 </script>

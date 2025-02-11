@@ -3,6 +3,7 @@
 namespace App\Models\Debts;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DebtDetail extends Model
 {
@@ -13,4 +14,9 @@ class DebtDetail extends Model
         'loan_end_date',
         'loan_iban'
     ];
+
+    public function debt(): BelongsTo
+    {
+        return $this->belongsTo(Debt::class);
+    }
 }

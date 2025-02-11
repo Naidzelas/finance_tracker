@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('amount',10,2);
             $table->string('icon_id')->nullable();
-            $table->string('filter_keys')->nullable();
             $table->timestamps();
         });
     }

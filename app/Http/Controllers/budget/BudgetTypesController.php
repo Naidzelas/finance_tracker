@@ -4,6 +4,7 @@ namespace App\Http\Controllers\budget;
 
 use App\Http\Controllers\Controller;
 use App\Models\Budget\BudgetTypes;
+use App\Models\Budget\FilterTags;
 use App\Models\Expenses\Expense;
 use App\Models\Icons;
 use Illuminate\Http\Request;
@@ -20,30 +21,41 @@ class BudgetTypesController extends Controller
                 'name' => ['String',],
                 'amount' =>  ['Number',],
                 'icon_id' => ['Select',],
-                'filter_keys' => ['String',],
+                'tags' => ['Tag',],
             ],
             'selectData' => [
                 'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
             ]
         ]);
     }
-    public function store(Request $request, BudgetTypes $budgetTypes)
+    public function store(Request $request)
     {
-        // TODO make filter_keys array 
-        $budgetTypes->fill($request->all());
-        $budgetTypes->save();
-        $newBudgetItem = $budgetTypes::query()->latest()->limit(1)->first();
-        Expense::query()->where('type_id', '!=', $newBudgetItem->id)
-            ->each(function ($expenseItem) use ($newBudgetItem) {
-                if (
-                    strpos($expenseItem->transaction_name, $newBudgetItem->filter_keys)
-                    || $expenseItem->transaction_name == $newBudgetItem->filter_keys
-                ) {
+        $budgetTypes = BudgetTypes::create([
+            'name' => $request->name,
+            'amount' => $request->amount,
+            'icon_id' => $request->icon_id,
+        ]);
 
-                    $expenseItem->type_id = $newBudgetItem->id;
-                    $expenseItem->save();
-                }
-            });
+        if ($request->tags) {
+            foreach ($request->tags as $tag) {
+                FilterTags::create([
+                    'budget_type_id' => $budgetTypes->id,
+                    'tag' => $tag,
+                ]);
+            }
+        };
+        // $newBudgetItem = $budgetTypes::query()->latest()->limit(1)->first();
+        // Expense::query()->where('type_id', '!=', $newBudgetItem->id)
+        //     ->each(function ($expenseItem) use ($newBudgetItem) {
+        //         if (
+        //             strpos($expenseItem->transaction_name, $newBudgetItem->filter_keys)
+        //             || $expenseItem->transaction_name == $newBudgetItem->filter_keys
+        //         ) {
+
+        //             $expenseItem->type_id = $newBudgetItem->id;
+        //             $expenseItem->save();
+        //         }
+        //     });
         return to_route('index');
     }
 
@@ -60,7 +72,7 @@ class BudgetTypesController extends Controller
                 'name' => ['String', $budgetType->name],
                 'amount' =>  ['Number', $budgetType->amount],
                 'icon_id' => ['Select', $budgetType->icon_id],
-                'filter_keys' => ['String', $budgetType->filter_keys],
+                'tags' => ['Tag'],
             ],
             'selectData' => [
                 'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),

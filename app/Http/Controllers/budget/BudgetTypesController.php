@@ -44,12 +44,13 @@ class BudgetTypesController extends Controller
                 ]);
             }
         };
-        // $newBudgetItem = $budgetTypes::query()->latest()->limit(1)->first();
-        // Expense::query()->where('type_id', '!=', $newBudgetItem->id)
-        //     ->each(function ($expenseItem) use ($newBudgetItem) {
+
+        $filter = FilterTags::find($budgetTypes->id);
+        // Expense::query()->where('type_id', '!=', $budgetTypes->id)
+        //     ->each(function ($expenseItem) use ($filter) {
         //         if (
-        //             strpos($expenseItem->transaction_name, $newBudgetItem->filter_keys)
-        //             || $expenseItem->transaction_name == $newBudgetItem->filter_keys
+        //             strpos($expenseItem->transaction_name, $filter->filter_keys)
+        //             || $expenseItem->transaction_name == $filter->filter_keys
         //         ) {
 
         //             $expenseItem->type_id = $newBudgetItem->id;

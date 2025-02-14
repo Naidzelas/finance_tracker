@@ -6,12 +6,19 @@
             <input
                 :id="list.name"
                 v-model="form[list.name]"
-                name="form_item"
+                name="form_item[]"
                 class="block pl-3 w-full"
                 :placeholder="list.name"
             />
         </div>
     </div>
+    <!-- Tags input -->
+    <Tags
+        v-if="pageVariables.list.dataType == 'Tag'"
+        :form="form"
+        :name="list.name.toString()"
+        :data="list.value"
+    ></Tags>
 
     <!-- Number value input -->
     <div v-if="list.dataType == 'Number'" class="relative p-5">
@@ -68,6 +75,7 @@
 import { inject, onMounted } from "vue";
 import DropDown from "./DropDown.vue";
 import Date from "./Date.vue";
+import Tags from "./Tags.vue";
 
 let pageVariables = defineProps({ list: Object, form: Object });
 

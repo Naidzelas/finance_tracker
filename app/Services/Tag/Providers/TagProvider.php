@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace App\Services\Tag\Providers;
 
 use App\Services\Tag\Repositories\TagRepository;
@@ -15,7 +16,12 @@ class TagProvider extends ServiceProvider
     public function register()
     {
         match ($this->app->environment()) {
-            default => $this->app->bind(TagRepositoryInterface::class, TagRepository::class),
+            default => $this->app->bind(TagRepositoryInterface::class, function ($app, $parameters) {
+                $model = $parameters['model'] ?? null;
+                $availableTags = $parameters['availableTags'] ?? null;
+                return new TagRepository($model, $availableTags);
+            }),
+            // default => $this->app->bind(TagRepositoryInterface::class, TagRepository::class),
         };
     }
 }

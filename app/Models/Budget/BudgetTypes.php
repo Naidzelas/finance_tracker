@@ -25,6 +25,6 @@ class BudgetTypes extends Model
 
     public function tag(): HasMany
     {
-        return $this->hasMany(FilterTags::class);
+        return $this->hasMany(FilterTags::class, 'budget_type_id');
     }
 }

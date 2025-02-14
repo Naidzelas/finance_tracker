@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\budget;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Services\TagService;
 use App\Models\Budget\BudgetTypes;
 use App\Models\Budget\FilterTags;
 use App\Models\Expenses\Expense;
 use App\Models\Icons;
+use App\Services\Tag\Repositories\TagRepositoryInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -45,18 +47,10 @@ class BudgetTypesController extends Controller
             }
         };
 
-        $filter = FilterTags::find($budgetTypes->id);
-        // Expense::query()->where('type_id', '!=', $budgetTypes->id)
-        //     ->each(function ($expenseItem) use ($filter) {
-        //         if (
-        //             strpos($expenseItem->transaction_name, $filter->filter_keys)
-        //             || $expenseItem->transaction_name == $filter->filter_keys
-        //         ) {
-
-        //             $expenseItem->type_id = $newBudgetItem->id;
-        //             $expenseItem->save();
-        //         }
-        //     });
+        $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
+        $tagService = new TagService($tagRepository);
+        $tagService->applyTags();
+        
         return to_route('index');
     }
 

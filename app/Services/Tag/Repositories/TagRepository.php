@@ -2,7 +2,6 @@
 
 namespace App\Services\Tag\Repositories;
 
-use App\Models\Budget\FilterTags;
 use App\Services\Tag\DTOs\ContainsTagData;
 use App\Services\Tag\Exceptions\TagException;
 use Illuminate\Support\Str;
@@ -35,12 +34,19 @@ class TagRepository implements TagRepositoryInterface
 
     public function applyTag()
     {
+        throw_if(!$this->model || !$this->availableTags, TagException::class, 'Model does not exist or there are no availableTags');
 
-        return '';
+        foreach ($this->availableTags as $avaiableTag) {
+            if (self::contains($avaiableTag->tag, $this->model->transaction_name)->contains) {
+                $this->model->update(['type_id' => $avaiableTag->budget_type_id]);
+            }
+        }
     }
 
     public function applyTags()
     {
+        throw_if(!$this->model || !$this->availableTags, TagException::class, 'Model does not exist or there are no availableTags');
+
         $this->model::each(function ($model) {
             foreach ($this->availableTags as $avaiableTag) {
                 if (self::contains($avaiableTag->tag, $model->transaction_name)->contains) {

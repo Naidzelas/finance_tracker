@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Services;
 
-use App\Models\Budget\FilterTags;
 use App\Services\Tag\Facades\Tag;
 use App\Services\Tag\Exceptions\TagException;
 use App\Services\Tag\Repositories\TagRepositoryInterface;
@@ -33,6 +32,15 @@ class TagService
         try {
             /** @var \App\Services\Tag\DTOs\ContainsTagData */
             $this->tagRepository->applyTags();
+        } catch (TagException $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    public function applyTag()
+    {
+        try {
+            /** @var \App\Services\Tag\DTOs\ContainsTagData */
+            $this->tagRepository->applyTag();
         } catch (TagException $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

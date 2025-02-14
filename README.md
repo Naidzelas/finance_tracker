@@ -8,12 +8,14 @@ Work in progress...
    - [ ] Obsidian notepad or regular note pad or rich text integration for notes.
    - [ ] Documents of earnings reports, porfolio performance.
 - [ ] Debts
-   - [ ] Document import of loan contracts.
+   - [x] Document import.
 - [x] Expense categorization
 - [x] Expense list
    - [x] Infinite scroll implementation to avoid pagination solutions.
+   - [x] Filter previous month expense list. 
 - [ ] Statistics
 - [ ] Mobile port
+- [ ] Upcoming events
 - [ ] Dark Mode
 - [ ] Log in
       

@@ -9,8 +9,8 @@ Work in progress...
    - [ ] Documents of earnings reports, porfolio performance.
 - [ ] Debts
    - [ ] Document import of loan contracts.
-- [ ] Expense categorization
-- [ ] Expense list
+- [x] Expense categorization
+- [x] Expense list
    - [x] Infinite scroll implementation to avoid pagination solutions.
 - [ ] Statistics
 - [ ] Mobile port

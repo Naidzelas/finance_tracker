@@ -29,7 +29,7 @@
 <script setup>
 import { ref } from "vue";
 let pageVariables = defineProps({
-    form: Array,
+    form: Object,
     name: String,
     data: String,
 });

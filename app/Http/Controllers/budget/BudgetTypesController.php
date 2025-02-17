@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\budget;
 
+use App\Events\NotificationEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Services\TagService;
 use App\Models\Budget\BudgetTypes;
@@ -50,7 +51,7 @@ class BudgetTypesController extends Controller
         $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
         $tagService = new TagService($tagRepository);
         $tagService->applyTags();
-        
+        event(new NotificationEvent('Budget item has been created'));
         return to_route('index');
     }
 

@@ -20,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <div class="self-center">
+        <div class="relative self-center">
             <Icon icon="clarity:bell-solid-badged" class="mt-6 size-6"></Icon>
         </div>
         <div class="self-center">
@@ -35,18 +35,24 @@
         </div>
         <div v-if="pageVariables.routeName === '/'" class="self-center">
             <Link href="/expense_list">
-                <Icon icon="material-symbols:list-alt" class="mt-4 size-6"></Icon>
+                <Icon
+                    icon="material-symbols:list-alt"
+                    class="mt-4 size-6"
+                ></Icon>
             </Link>
         </div>
     </div>
     <div class="flex mr-10 text-4xl">finance</div>
 </template>
 <script setup>
-import { reactive, provide, ref } from "vue";
+import { reactive, provide, ref, onMounted } from "vue";
 import { router } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 import NavItems from "../Components/NavItems.vue";
 import ImportFileModal from "./ImportFileModal.vue";
+import "vue-toastification/dist/index.css";
+import { useToast } from "vue-toastification";
+const toast = useToast();
 
 let pageVariables = reactive({
     menu_visible: false,
@@ -66,4 +72,24 @@ provide("modal_state", modal_visible);
 router.on("start", (event) => {
     pageVariables.routeName = event.detail.visit.url.pathname;
 });
+
+onMounted(() => {
+    Echo.channel("notification").listen("NotificationEvent", (e) => {
+        notification(e.message);
+    });
+});
+
+function notification(message) {
+    // toast(Notifications);
+    toast.success(message, {
+        position: "top-right",
+        timeout: 3000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        hideProgressBar: true,
+        icon: true,
+        closeButton: false,
+    });
+}
+toast.clear();
 </script>

@@ -12,8 +12,7 @@
         </div>
 
         <form @submit.prevent="handleForm(method)">
-
-        <!-- input block -->
+            <!-- input block -->
             <div class="flex flex-wrap mb-10 ml-[-1em]">
                 <ListItem
                     v-for="listItem in listObject"
@@ -22,10 +21,10 @@
                 ></ListItem>
             </div>
             <DragAndDrop
-                v-if="Object.keys(listObject.avatar??{}).length"
+                v-if="Object.keys(listObject.avatar ?? {}).length"
                 :form="form"
             ></DragAndDrop>
-        <!-- input block end -->
+            <!-- input block end -->
 
             <div class="bg-gray-400 mt-1 w-full h-px"></div>
             <div class="flex justify-end space-x-2">
@@ -53,6 +52,7 @@ import { useForm, usePage, Link } from "@inertiajs/vue3";
 import { provide } from "vue";
 import ListItem from "../Components/ListItem.vue";
 import DragAndDrop from "../Components/DragAndDrop.vue";
+
 defineProps({
     registerRoute: String,
     list: Object,

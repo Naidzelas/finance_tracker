@@ -18,14 +18,14 @@ class ExpenseController extends Controller
 {
     private const UNCATEGORIZED = 1;
 
-    public function index(Expense $expense)
+    public function index(Request $request)
     {
         return Inertia::render('Home', [
-            'current_expenses' => $expense->where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
+            'current_expenses' => $request->current_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->format('Y-m-d'))
                 ->orderBy('date')
                 ->get(),
-            'previous_expenses' => $expense->where('date', '>=', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d'))
+            'previous_expenses' => $request->previous_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->subMonth()->format('Y-m-d'))
                 ->orderBy('date')
                 ->get(),

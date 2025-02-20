@@ -51,7 +51,7 @@ defineProps({ goal_data: Object });
 //     });
 // };
 
-// TODO make this a component
+// TODO make this a component and this will only show change if the page is reloaded.
 let percent = computed(() =>{
     return (goal) => {
         return 'w-['+getPercent(goal.end_goal, goal.deposit)+'%]';

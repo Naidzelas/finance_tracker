@@ -31,21 +31,38 @@ class ExpenseListController extends Controller
             'expenses_paginated' => $data->toArray(),
         ]);
     }
-    
-    // TODO possibly move this to expense controller or refactor to just update previous_expenses.
-    public function fetch($yearMonth)
+
+    // TODO possibly make a service for conditional queries.
+    public function fetch($container, $year_month)
     {
-        return Inertia::render('Home', [
-            'current_expenses' => Expense::where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
+        $containerData = match ($container) {
+            'previous_expenses' => Expense::where('date', '>=', Carbon::parse($year_month)->startOfMonth()->format('Y-m-d'))
+                ->where('date', '<=', Carbon::parse($year_month)->endOfMonth()->format('Y-m-d'))
+                ->orderBy('date')
+                ->get()
+                ->toArray(),
+            'default' => []
+        };
+
+        return to_route('index', [$container => $containerData]);
+    }
+
+    public function fetchByType($container, $budget_types = null)
+    {
+        $containerData = match ($container) {
+            'current_expenses' => Expense::whereIn('type_id', explode(',', $budget_types))->where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->format('Y-m-d'))
                 ->orderBy('date')
-                ->get(),
-            'previous_expenses' => Expense::where('date', '>=', Carbon::parse($yearMonth)->startOfMonth()->format('Y-m-d'))
-                ->where('date', '<=', Carbon::parse($yearMonth)->endOfMonth()->format('Y-m-d'))
+                ->get()
+                ->toArray(),
+            'previous_expenses' => Expense::whereIn('type_id', explode(',', $budget_types))->where('date', '>=', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d'))
+                ->where('date', '<=', Carbon::now()->endOfMonth()->subMonth()->format('Y-m-d'))
                 ->orderBy('date')
-                ->get(),
-            'goals' => Goal::query()->with('icon')->withSum('goal_deposit as deposit', 'deposit')->get(),
-            'budget_types' => BudgetTypes::query()->with('icon')->get()->toArray(),
-        ]);
+                ->get()
+                ->toArray(),
+            'default' => []
+        };
+
+        return to_route('index', [$container => $containerData]);
     }
 }

@@ -5,7 +5,10 @@
             <button @click="navToggle(true)">
                 <Icon icon="ph:cube-fill" class="mt-1 size-10"></Icon>
             </button>
-            <div v-if="pageVariables.menu_visible">
+            <div
+                v-if="pageVariables.menu_visible"
+                @pointerleave="navToggle(false)"
+            >
                 <div
                     class="top-0 right-0.5 absolute bg-white rounded-r-md w-20 size-12"
                 >

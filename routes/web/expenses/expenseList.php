@@ -15,4 +15,5 @@ Route::resource('/expense_list', ExpenseListController::class)->only([
     'update',
 ]);
 
-Route::get('/previous_expenses/{yearMonth}', [ExpenseListController::class, 'fetch'])->name('expense_list.fetch');
+Route::get('/expense_list/{container}/{year_month}', [ExpenseListController::class, 'fetch'])->name('expense_list.fetch');
+Route::get('/expense_list/filter/{container}/{budget_types}', [ExpenseListController::class, 'fetchByType'])->name('expense_list.fetchByType');

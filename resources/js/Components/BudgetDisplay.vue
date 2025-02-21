@@ -1,6 +1,6 @@
 <template>
-    <div class="rounded border-6 bg-[white]">
-        <div class="grid grid-cols-3 gap-1 p-4 justify-items-center">
+    <div class="bg-[white] border-6 rounded">
+        <div class="justify-items-center gap-2 grid grid-cols-3 p-4">
             <BudgetItem v-for="item in budget_types" :item="item"></BudgetItem>
         </div>
     </div>

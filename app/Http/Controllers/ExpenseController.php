@@ -30,7 +30,15 @@ class ExpenseController extends Controller
                 ->orderBy('date')
                 ->get(),
             'goals' => Goal::query()->with('icon')->withSum('goal_deposit as deposit', 'deposit')->get(),
-            'budget_types' => BudgetTypes::query()->with('icon')->get()->toArray(),
+            'budget_types' => BudgetTypes::query()->with([
+                'icon',
+            ])->get()
+                ->map(function ($item) {
+                    $item->budget_left = $item->amount + Expense::currentPostway('D')
+                        ->where('type_id', $item->id)
+                        ->sum('amount') -  Expense::currentPostway()->where('type_id', $item->id)->sum('amount');
+                    return $item;
+                }),
         ]);
     }
 
@@ -47,7 +55,7 @@ class ExpenseController extends Controller
                 break;
             default:
         }
-        
+
         $filterTags = new FilterTags();
         foreach ($data as $item) {
             $expense = Expense::updateOrCreate([

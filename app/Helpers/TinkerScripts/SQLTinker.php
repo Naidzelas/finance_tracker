@@ -1,19 +1,23 @@
 <?php
 
-use App\Http\Controllers\Services\TagService;
+
 use App\Models\Budget\BudgetTypes;
-use App\Models\Budget\FilterTags;
 use App\Models\Expenses\Expense;
-use App\Models\Goals\Goal;
-use App\Models\Goals\GoalDeposit;
-use App\Services\Tag\Repositories\TagRepositoryInterface;
-use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 function run()
 {
-    $model = new Expense(); // Or any other model
-    $availableTags = new FilterTags();
-    $tagRepository = app(TagRepositoryInterface::class, ['model' => $model, 'availableTags' => $availableTags]);
-    $tagService = new TagService($tagRepository);
-    $tagService->applyTags();
+
+    // $expense = Expense::currentPostway('D');
+    $budget = BudgetTypes::query()->with([
+        'icon',
+    ])->get()
+    ->map(function ($item) {
+        $item->budget_left = $item->amount + Expense::currentPostway('D')
+            ->where('type_id',$item->id)
+            ->sum('amount') -  Expense::currentPostway()->where('type_id',$item->id)->sum('amount');
+        return $item;
+    });
+
+    return $budget;
 }

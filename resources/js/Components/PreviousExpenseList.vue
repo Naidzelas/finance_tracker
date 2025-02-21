@@ -140,7 +140,7 @@ function submit() {
             })
         );
     } else {
-        router.visit("/", { only: ["current_expenses"] });
+        router.visit("/", { only: ["previous_expenses"] });
     }
 }
 

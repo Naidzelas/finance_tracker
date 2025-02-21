@@ -6,6 +6,7 @@
         >
             <input
                 @click="dropdown()"
+                autocomplete="off"
                 :id="name"
                 name="form_item"
                 v-model="value"
@@ -16,7 +17,7 @@
             <div class="top-0 right-0 absolute place-items-center grid h-full">
                 <Icon icon="ri:arrow-drop-down-line" class="size-5"></Icon>
             </div>
-            <div class="bg-white shadow-md mt-3" :class="style" >
+            <div class="bg-white shadow-md mt-3" :class="style">
                 <div
                     @click="selected(item.id, item.data)"
                     v-for="item in options"
@@ -45,35 +46,25 @@ let pageVariables = defineProps({
     data: String,
 });
 
-
 const style = ref("invisible");
 
 const value = ref();
 
 // TODO ugly, need refactor.
 onMounted(() => {
-    if (pageVariables.options.length) {
+    if (typeof(pageVariables.data) !== 'undefined') {
         value.value = pageVariables.options[pageVariables.data-1].data;
         pageVariables.form[pageVariables.name] = pageVariables.options[pageVariables.data-1].id;
     }
 });
 
-// wtf why is this working????
-let visible = reactive({
-    menu_visible: false,
-});
-// ^^^^ I DONT UNDESTAND THIS ATM ^^^^
-
-function dropdown(toggle) {
-    visible.menu_visible = toggle;
+function dropdown() {
     style.value = "visible";
 }
 
-function selected(id, item, toggle) {
+function selected(id, item) {
     pageVariables.form[pageVariables.name] = id;
     value.value = item;
-    visible.menu_visible = toggle;
     style.value = "invisible";
 }
-
 </script>

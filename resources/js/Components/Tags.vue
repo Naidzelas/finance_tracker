@@ -37,7 +37,7 @@ let pageVariables = defineProps({
 });
 
 onMounted(() => {
-    if (pageVariables.data.length) {
+    if (typeof(pageVariables.data) !== 'undefined') {
         for (const value of pageVariables.data) {
             tags.value.push(value.tag);
         }

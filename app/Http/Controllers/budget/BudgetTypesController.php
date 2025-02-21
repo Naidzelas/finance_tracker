@@ -33,7 +33,7 @@ class BudgetTypesController extends Controller
     }
     public function store(Request $request)
     {
-        $budgetTypes = BudgetTypes::create([
+        $budgetType = BudgetTypes::create([
             'name' => $request->name,
             'amount' => $request->amount,
             'icon_id' => $request->icon_id,
@@ -42,7 +42,7 @@ class BudgetTypesController extends Controller
         if ($request->tags) {
             foreach ($request->tags as $tag) {
                 FilterTags::create([
-                    'budget_type_id' => $budgetTypes->id,
+                    'budget_type_id' => $budgetType->id,
                     'tag' => $tag,
                 ]);
             }
@@ -79,6 +79,20 @@ class BudgetTypesController extends Controller
         $budgetType = BudgetTypes::find($budgetId);
         $budgetType->fill($request->all());
         $budgetType->save();
+
+        // if ($request->tags) {
+        //     foreach ($request->tags as $tag) {
+        //         FilterTags::create([
+        //             'budget_type_id' => $budgetTypes->id,
+        //             'tag' => $tag,
+        //         ]);
+        //     }
+        // };
+        
+        $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
+        $tagService = new TagService($tagRepository);
+        $tagService->applyTags();
+        event(new NotificationEvent('Budget item has been updated'));
 
         return to_route('index');
     }

@@ -99,6 +99,8 @@ function submit() {
                 budget_types: types.value,
             })
         );
+    } else {
+        router.visit("/", { only: ["current_expenses"] });
     }
 }
 

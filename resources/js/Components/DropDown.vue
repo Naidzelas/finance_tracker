@@ -36,8 +36,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { router } from "@inertiajs/vue3";
+import { ref, reactive, onMounted } from "vue";
 
 let pageVariables = defineProps({
     name: String,
@@ -46,22 +45,35 @@ let pageVariables = defineProps({
     data: String,
 });
 
-const style = ref("invisible");
-// TODO this is nasty needs better solution.. need to change this to conditional rendering rather than page reload.
-const value = ref();
-// if(pageVariables.data){
-//     value = ref();
-// };
 
-function dropdown() {
+const style = ref("invisible");
+
+const value = ref();
+
+// TODO ugly, need refactor.
+onMounted(() => {
+    if (pageVariables.options.length) {
+        value.value = pageVariables.options[pageVariables.data-1].data;
+        pageVariables.form[pageVariables.name] = pageVariables.options[pageVariables.data-1].id;
+    }
+});
+
+// wtf why is this working????
+let visible = reactive({
+    menu_visible: false,
+});
+// ^^^^ I DONT UNDESTAND THIS ATM ^^^^
+
+function dropdown(toggle) {
+    visible.menu_visible = toggle;
     style.value = "visible";
-    router.reload();
 }
 
-function selected(id, item) {
+function selected(id, item, toggle) {
     pageVariables.form[pageVariables.name] = id;
     value.value = item;
+    visible.menu_visible = toggle;
     style.value = "invisible";
-    router.reload();
 }
+
 </script>

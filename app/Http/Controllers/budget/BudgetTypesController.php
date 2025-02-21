@@ -57,10 +57,8 @@ class BudgetTypesController extends Controller
 
     public function edit($budgetId)
     {
-        $budgetType = BudgetTypes::query()->with('icon')
-            ->where('id', $budgetId)
-            ->first();
-
+        $budgetType = BudgetTypes::with(['icon','tag'])->find($budgetId);
+            
         return Inertia::render('Item', [
             'registerRoute' => 'budget/' . $budgetId,
             'method' => 'put',
@@ -68,7 +66,7 @@ class BudgetTypesController extends Controller
                 'name' => ['String', $budgetType->name],
                 'amount' =>  ['Number', $budgetType->amount],
                 'icon_id' => ['Select', $budgetType->icon_id],
-                'tags' => ['Tag'],
+                'tags' => ['Tag', $budgetType->tag],
             ],
             'selectData' => [
                 'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),

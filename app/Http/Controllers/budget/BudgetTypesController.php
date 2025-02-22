@@ -15,6 +15,10 @@ use Inertia\Inertia;
 
 class BudgetTypesController extends Controller
 {
+    public function index()
+    {
+        return to_route('index');
+    }
     public function create()
     {
         return Inertia::render('Item', [
@@ -81,6 +85,7 @@ class BudgetTypesController extends Controller
         $budgetType->fill($request->all());
         $budgetType->save();
 
+        // TODO this need as fix.. when tags are unchanged this first or new breaks.
         if ($request->tags) {
             foreach ($request->tags as $tag) {
                 FilterTags::firstOrNew([

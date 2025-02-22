@@ -36,7 +36,6 @@ class GoalController extends Controller
                 'contribution' => ['Number',],
                 'icon_id' => ['Select',],
                 'is_main_priority' => ['Boolean',],
-                'is_active' => ['Boolean',],
             ],
             'selectData' => [
                 'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
@@ -64,7 +63,6 @@ class GoalController extends Controller
                 'contribution' => ['Number', $goal->contribution],
                 'icon_id' => ['Select', $goal->icon_id],
                 'is_main_priority' => ['Boolean', $goal->is_main_priority],
-                'is_active' => ['Boolean', $goal->is_active],
             ],
             'selectData' => [
                 'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
@@ -74,6 +72,7 @@ class GoalController extends Controller
 
     public function update(Request $request, $budgetId)
     {
+        // dd($request);
         $budgetType = Goal::find($budgetId);
         $budgetType->fill($request->all());
         $budgetType->save();

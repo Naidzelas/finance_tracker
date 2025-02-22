@@ -17,7 +17,6 @@ class Goal extends Model
         'contribution',
         'icon_id',
         'is_main_priority',
-        'active',
     ];
 
     public function goal_deposit(): HasMany

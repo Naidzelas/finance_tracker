@@ -44,23 +44,13 @@
     ></DropDown>
 
     <!-- Boolean value input -->
-    <div
+    <Checkbox
         v-if="list.dataType == 'Boolean'"
-        class="relative flex items-center mt-8 p-5"
-    >
-        <input
-            :id="list.item"
-            name="form_item"
-            v-model="form[list.name]"
-            type="checkbox"
-            class="peer relative bg-white checked:bg-[#006692] mr-3 border-[#006692] border-1 checked:border-0 rounded-none size-7 appearance-none cursor-pointer shrink-0"
-        />
-        <label for="form_item" class="font-thin text-xl">{{ list.name }}</label>
-        <Icon
-            icon="material-symbols:check-rounded"
-            class="hidden peer-checked:block absolute size-7 text-white pointer-events-none"
-        ></Icon>
-    </div>
+        :name="list.name.toString()"
+        :form="form"
+        :data="list.value ? true : false"
+        :id="list.item"
+    ></Checkbox>
 
     <!-- Date value input -->
     <Date
@@ -76,6 +66,7 @@ import { inject, onMounted } from "vue";
 import DropDown from "./DropDown.vue";
 import Date from "./Date.vue";
 import Tags from "./Tags.vue";
+import Checkbox from "./Checkbox.vue";
 
 let pageVariables = defineProps({ list: Object, form: Object });
 

@@ -6,7 +6,9 @@
                 v-for="(tag, index) in tags"
                 class="flex bg-[#006692] mt-1 mb-1 ml-2 p-1 rounded-sm w-full text-white hover:scale-110"
             >
-                <div class="self-center text-sm text-nowrap grow">{{ tag }}</div>
+                <div class="self-center text-sm text-nowrap grow">
+                    {{ tag }}
+                </div>
                 <Icon
                     @click="removeTag(index)"
                     icon="mdi:remove"
@@ -27,14 +29,22 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 let pageVariables = defineProps({
-    form: Array,
+    form: Object,
     name: String,
-    data: String,
+    data: Array,
 });
 
-const tags = ref(pageVariables.form.tags ?? []);
+onMounted(() => {
+    if (typeof(pageVariables.data) !== 'undefined') {
+        for (const value of pageVariables.data) {
+            tags.value.push(value.tag);
+        }
+    }
+});
+
+const tags = ref([]);
 const newTag = ref("");
 
 const addTag = (event, tag) => {
@@ -46,5 +56,6 @@ const addTag = (event, tag) => {
 
 const removeTag = (index) => {
     tags.value.splice(index, 1);
+    pageVariables.form.tags = tags;
 };
 </script>

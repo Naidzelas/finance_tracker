@@ -7,9 +7,11 @@
             <div class="text-4xl">personal Information</div>
             <PreviousExpenseList
                 :previous_expenses="previous_expenses"
+                :budget_types="budget_types"
             ></PreviousExpenseList>
             <CurrentExpenseList
                 :current_expenses="current_expenses"
+                :budget_types="budget_types"
             ></CurrentExpenseList>
             <div>
                 <div class="mb-6 text-2xl text-left">basic info</div>

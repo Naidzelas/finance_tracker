@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
-use App\Models\Budget\BudgetIcon;
 
 class HandleInertiaRequests extends Middleware
 {

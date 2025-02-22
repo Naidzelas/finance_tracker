@@ -2,6 +2,7 @@
 
 namespace App\Models\Budget;
 
+use App\Models\Expenses\Expense;
 use App\Models\Icons;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,5 +27,10 @@ class BudgetTypes extends Model
     public function tag(): HasMany
     {
         return $this->hasMany(FilterTags::class, 'budget_type_id');
+    }
+
+    public function expense(): HasMany
+    {
+        return $this->hasMany(Expense::class, 'type_id');
     }
 }

@@ -6,6 +6,7 @@
         >
             <input
                 @click="dropdown()"
+                autocomplete="off"
                 :id="name"
                 name="form_item"
                 v-model="value"
@@ -16,7 +17,7 @@
             <div class="top-0 right-0 absolute place-items-center grid h-full">
                 <Icon icon="ri:arrow-drop-down-line" class="size-5"></Icon>
             </div>
-            <div class="bg-white shadow-md mt-3" :class="style" >
+            <div class="bg-white shadow-md mt-3" :class="style">
                 <div
                     @click="selected(item.id, item.data)"
                     v-for="item in options"
@@ -36,8 +37,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { router } from "@inertiajs/vue3";
+import { ref, reactive, onMounted } from "vue";
 
 let pageVariables = defineProps({
     name: String,
@@ -47,21 +47,24 @@ let pageVariables = defineProps({
 });
 
 const style = ref("invisible");
-// TODO this is nasty needs better solution..
+
 const value = ref();
-// if(pageVariables.data){
-//     value = ref();
-// };
+
+// TODO ugly, need refactor.
+onMounted(() => {
+    if (typeof(pageVariables.data) !== 'undefined') {
+        value.value = pageVariables.options[pageVariables.data-1].data;
+        pageVariables.form[pageVariables.name] = pageVariables.options[pageVariables.data-1].id;
+    }
+});
 
 function dropdown() {
     style.value = "visible";
-    router.reload();
 }
 
 function selected(id, item) {
     pageVariables.form[pageVariables.name] = id;
     value.value = item;
     style.value = "invisible";
-    router.reload();
 }
 </script>

@@ -12,6 +12,7 @@ class TagRepository implements TagRepositoryInterface
 {
     protected $model;
     protected $availableTags;
+    private const UNDEFINED = 1;
     public function __construct(
         $model,
         $availableTags
@@ -53,6 +54,17 @@ class TagRepository implements TagRepositoryInterface
                     $model->update(['type_id' => $avaiableTag->budget_type_id]);
                 }
             }
+        });
+    }
+
+    public function removeTagsById(int $tagId)
+    {
+        throw_if(!$tagId, TagException::class, 'No Tag ID provided');
+
+        $this->model::whereHas('budgetType.tag', function ($query) use ($tagId) {
+            $query->where('id', $tagId);
+        })->each(function ($query) {
+            $query->update(['type_id' => self::UNDEFINED]);
         });
     }
 }

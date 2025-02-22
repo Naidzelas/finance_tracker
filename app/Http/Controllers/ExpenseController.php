@@ -18,19 +18,27 @@ class ExpenseController extends Controller
 {
     private const UNCATEGORIZED = 1;
 
-    public function index(Expense $expense)
+    public function index(Request $request)
     {
         return Inertia::render('Home', [
-            'current_expenses' => $expense->where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
+            'current_expenses' => $request->current_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->format('Y-m-d'))
                 ->orderBy('date')
                 ->get(),
-            'previous_expenses' => $expense->where('date', '>=', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d'))
+            'previous_expenses' => $request->previous_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->subMonth()->format('Y-m-d'))
                 ->orderBy('date')
                 ->get(),
             'goals' => Goal::query()->with('icon')->withSum('goal_deposit as deposit', 'deposit')->get(),
-            'budget_types' => BudgetTypes::query()->with('icon')->get()->toArray(),
+            'budget_types' => BudgetTypes::query()->with([
+                'icon',
+            ])->get()
+                ->map(function ($item) {
+                    $item->budget_left = $item->amount + Expense::currentPostway('D')
+                        ->where('type_id', $item->id)
+                        ->sum('amount') -  Expense::currentPostway()->where('type_id', $item->id)->sum('amount');
+                    return $item;
+                }),
         ]);
     }
 
@@ -47,7 +55,7 @@ class ExpenseController extends Controller
                 break;
             default:
         }
-        
+
         $filterTags = new FilterTags();
         foreach ($data as $item) {
             $expense = Expense::updateOrCreate([

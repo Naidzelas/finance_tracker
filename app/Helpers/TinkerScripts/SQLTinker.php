@@ -2,6 +2,7 @@
 
 
 use App\Models\Budget\BudgetTypes;
+use App\Models\Budget\FilterTags;
 use App\Models\Expenses\Expense;
 use Carbon\Carbon;
 
@@ -9,10 +10,9 @@ function run()
 {
 
     // $expense = Expense::currentPostway('D');
-    $budget = BudgetTypes::query()->with([
-        'icon',
-        'tag'
-    ])->get()->toArray();
+    $filterTags = FilterTags::where('budget_type_id', 4)->get();
 
-    return $budget;
+    return $filterTags->map(function($filter){
+        return $filter->tag;
+    })->toArray();
 }

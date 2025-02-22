@@ -6,7 +6,7 @@
                     <Icon :icon="item.icon.iconify_name" class="size-8"></Icon>
                 </div>
                 <div class="text-4xl text-right basis-1/2">
-                    {{ item.budget_left }}
+                    {{ (item.budget_left).toFixed(2) }}
                 </div>
             </div>
             <div
@@ -25,7 +25,7 @@
                     class="top-2 right-0 absolute size-6"
                 ></Icon>
                 <div class="text-4xl text-right basis-1/2">
-                    {{ item.budget_left }}
+                    {{ (item.budget_left).toFixed(2) }}
                 </div>
             </div>
             <div

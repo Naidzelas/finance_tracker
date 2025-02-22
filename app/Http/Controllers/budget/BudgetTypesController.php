@@ -57,8 +57,8 @@ class BudgetTypesController extends Controller
 
     public function edit($budgetId)
     {
-        $budgetType = BudgetTypes::with(['icon','tag'])->find($budgetId);
-            
+        $budgetType = BudgetTypes::with(['icon', 'tag'])->find($budgetId);
+
         return Inertia::render('Item', [
             'registerRoute' => 'budget/' . $budgetId,
             'method' => 'put',
@@ -76,24 +76,33 @@ class BudgetTypesController extends Controller
 
     public function update(Request $request, $budgetId)
     {
+        $filterTags = FilterTags::where('budget_type_id', $budgetId)->get();
         $budgetType = BudgetTypes::find($budgetId);
         $budgetType->fill($request->all());
         $budgetType->save();
 
-        // if ($request->tags) {
-        //     foreach ($request->tags as $tag) {
-        //         FilterTags::create([
-        //             'budget_type_id' => $budgetTypes->id,
-        //             'tag' => $tag,
-        //         ]);
-        //     }
-        // };
-        
+        if ($request->tags) {
+            foreach ($request->tags as $tag) {
+                FilterTags::firstOrNew([
+                    'budget_type_id' => $budgetId,
+                    'tag' => $tag,
+                ])->save();
+            }
+        };
+
         $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
         $tagService = new TagService($tagRepository);
         $tagService->applyTags();
-        event(new NotificationEvent('Budget item has been updated'));
 
+        foreach ($filterTags as $filterTag) {
+            if (!in_array($filterTag->tag, $request->tags)) {
+                $tagService->removeTagsById($filterTag->id);
+                $filterTag->delete();
+                event(new NotificationEvent('Tag Removed'));
+            }
+        }
+
+        event(new NotificationEvent('Budget item has been updated'));
         return to_route('index');
     }
 

@@ -10,4 +10,5 @@ interface TagRepositoryInterface
     public function contains(string $tag, string $seachableString): ContainsTagData;
     public function applyTag();
     public function applyTags();
+    public function removeTagsById(int $tagId);
 }

@@ -56,5 +56,6 @@ const addTag = (event, tag) => {
 
 const removeTag = (index) => {
     tags.value.splice(index, 1);
+    pageVariables.form.tags = tags;
 };
 </script>

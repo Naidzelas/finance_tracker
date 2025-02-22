@@ -45,4 +45,14 @@ class TagService
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function removeTagsById($tagId)
+    {
+        try {
+            /** @var \App\Services\Tag\DTOs\ContainsTagData */
+            $this->tagRepository->removeTagsById($tagId);
+        } catch (TagException $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }

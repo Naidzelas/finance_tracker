@@ -7,11 +7,12 @@ use App\Http\Controllers\Controller;
 class SWEDImportExpensesController extends Controller
 {
     private const TRANSACTION_DATE = 2;
-    private const AMOUNT = 5;
-    private const DEBIT_CREDIT = 7;
-    private const CURRENCY = 6;
+    private const AMOUNT = 6;
+    private const DEBIT_CREDIT = 8;
+    private const CURRENCY = 7;
     private const TRANSACTION_NAME = 3;
-    private const TRANSACTION_NAME_NOT_FOUND = 4;
+    private const TRANSACTION_NAME_NOT_FOUND = 5;
+    private const IBAN = 4;
 
     public function __invoke(String $filename): array
     {
@@ -32,6 +33,7 @@ class SWEDImportExpensesController extends Controller
                     'debit_credit' => $arrayItem[self::DEBIT_CREDIT],
                     'currency' => $arrayItem[self::CURRENCY],
                     'transaction_name' => $arrayItem[self::TRANSACTION_NAME] ?: $arrayItem[self::TRANSACTION_NAME_NOT_FOUND],
+                    'iban' => $arrayItem[self::IBAN]
                 ];
             }
         }

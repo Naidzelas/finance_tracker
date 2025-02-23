@@ -1,5 +1,5 @@
 <template class="relative">
-    <ImportFileModal></ImportFileModal>
+    <ImportFileModal class="z-10"></ImportFileModal>
     <div class="flex flex-col">
         <div class="relative">
             <button @click="navToggle(true)">

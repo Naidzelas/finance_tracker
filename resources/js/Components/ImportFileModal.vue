@@ -1,14 +1,14 @@
 <template>
     <form @submit.prevent="handleSubmit" v-if="modal_state">
         <div
-            class="fixed top-0 left-0 blur-sm opacity-80 w-full h-full bg-[#4D4D4D]"
+            class="top-0 left-0 fixed bg-[#4D4D4D] opacity-80 w-full h-full"
         ></div>
         <div
-            class="absolute inset-[45%] bg-[#D9D9D9] w-80 h-fit flex flex-col justify-center items-center"
+            class="absolute inset-[45%] flex flex-col justify-center items-center bg-[#D9D9D9] w-80 h-fit"
         >
-            <div class="text-2xl mb-6 pt-6">import documents</div>
+            <div class="mb-6 pt-6 text-2xl">import documents</div>
 
-            <div class="flex w-[90%] mb-2 space-x-2">
+            <div class="flex space-x-2 mb-2 w-[90%]">
                 <div class="flex-1">
                     <input
                         type="radio"
@@ -21,7 +21,7 @@
                     />
                     <label
                         for="seb"
-                        class="inline-flex items-center justify-between w-full p-2 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked/seb:border-blue-600 peer-checked/seb:text-blue-600 hover:text-gray-600 hover:bg-gray-100"
+                        class="inline-flex justify-between items-center bg-white hover:bg-gray-100 p-2 border border-gray-200 peer-checked/seb:border-blue-600 rounded-lg w-full text-gray-500 hover:text-gray-600 peer-checked/seb:text-blue-600 cursor-pointer"
                         >SEB</label
                     >
                 </div>
@@ -36,39 +36,39 @@
                     />
                     <label
                         for="swed"
-                        class="inline-flex items-center justify-between w-full p-2 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked/swed:border-blue-600 peer-checked/swed:text-blue-600 hover:text-gray-600 hover:bg-gray-100"
+                        class="inline-flex justify-between items-center bg-white hover:bg-gray-100 p-2 border border-gray-200 peer-checked/swed:border-blue-600 rounded-lg w-full text-gray-500 hover:text-gray-600 peer-checked/swed:text-blue-600 cursor-pointer"
                         >SWEDBANK</label
                     >
                 </div>
             </div>
 
             <div
-                class="bg-white border-2 border-dashed border-black p-5 h-24 flex items-center justify-center w-[90%]"
+                class="flex justify-center items-center bg-white p-5 border-2 border-black border-dashed w-[90%] h-24"
             >
                 <button @click="triggerFileInput" class="flex">
                     <div>Drag and</div>
                     <Icon
                         icon="material-symbols-light:water-drop"
-                        class="text-[#006692] size-6 ml-1"
+                        class="ml-1 size-6 text-[#006692]"
                     ></Icon>
                 </button>
             </div>
             <input
                 type="file"
                 ref="fileInput"
-                class="file:bg-white file:border-0 invisible"
+                class="invisible file:bg-white file:border-0"
                 @input="form.avatar = $event.target.files[0]"
             />
             <button
                 @click="modalToggle(false)"
-                class="bg-[#525252] w-[90%] pb-px text-center text-white text-xl mt-2"
+                class="bg-[#525252] mt-2 pb-px w-[90%] text-white text-xl text-center"
             >
                 CANCEL
             </button>
 
             <button
                 type="submit"
-                class="bg-[#006692] w-[90%] pb-px text-center text-white text-xl mt-2 mb-4"
+                class="bg-[#006692] mt-2 mb-4 pb-px w-[90%] text-white text-xl text-center"
             >
                 CONFIRM
             </button>

@@ -65,6 +65,7 @@ class ExpenseController extends Controller
                 'date' => $item['transaction_date'],
                 'debit_credit' => $item['debit_credit'],
                 'currency' => $item['currency'],
+                'iban' => $item['iban']
             ]);
             $tagRepository = app(TagRepositoryInterface::class, ['model' => $expense, 'availableTags' => $filterTags]);
             $tagService = new TagService($tagRepository);

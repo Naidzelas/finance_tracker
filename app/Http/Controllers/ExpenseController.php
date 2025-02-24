@@ -34,9 +34,9 @@ class ExpenseController extends Controller
                 'icon',
             ])->get()
                 ->map(function ($item) {
-                    $item->budget_left = $item->amount + Expense::currentPostway('D')
+                    $item->budget_left = $item->amount + Expense::currentPostway()
                         ->where('type_id', $item->id)
-                        ->sum('amount') -  Expense::currentPostway()->where('type_id', $item->id)->sum('amount');
+                        ->sum('amount') -  Expense::currentPostway('D')->where('type_id', $item->id)->sum('amount');
                     return $item;
                 }),
         ]);

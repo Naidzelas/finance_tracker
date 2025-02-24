@@ -9,7 +9,8 @@ class GoalDeposit extends Model
 {
     protected $fillable = [
         'goal_id',
-        'deposit'
+        'deposit',
+        'date',
     ];
 
     public function goal(): BelongsTo

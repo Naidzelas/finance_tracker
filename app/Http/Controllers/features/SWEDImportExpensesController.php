@@ -26,11 +26,11 @@ class SWEDImportExpensesController extends Controller
 
             unset($dataArray[0]);
             array_splice($dataArray, count($dataArray) - 3, 3);
-            foreach ($dataArray as $arrayItem){
+            foreach ($dataArray as $arrayItem) {
                 $array[] = [
                     'transaction_date' => $arrayItem[self::TRANSACTION_DATE],
                     'amount' => $arrayItem[self::AMOUNT],
-                    'debit_credit' => $arrayItem[self::DEBIT_CREDIT],
+                    'debit_credit' => str_replace('K', 'C', $arrayItem[self::DEBIT_CREDIT]),
                     'currency' => $arrayItem[self::CURRENCY],
                     'transaction_name' => $arrayItem[self::TRANSACTION_NAME] ?: $arrayItem[self::TRANSACTION_NAME_NOT_FOUND],
                     'iban' => $arrayItem[self::IBAN]

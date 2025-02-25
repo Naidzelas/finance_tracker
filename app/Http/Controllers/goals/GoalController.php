@@ -123,17 +123,28 @@ class GoalController extends Controller
     public function update(Request $request, $budgetId)
     {
         // dd($request);
-        $budgetType = Goal::find($budgetId);
-        $budgetType->fill($request->all());
-        $budgetType->save();
+        $goal = Goal::find($budgetId);
+        $goal->fill($request->all());
+        $goal->save();
 
+        $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
+        $tagService = new TagService($tagRepository);
+        $tagService->applyTagsByIban($request->saving_account_iban, $goal->type_id);
+        event(new NotificationEvent('Budget items have been updated'));
+        
         return to_route('goal.index');
     }
 
 
     public function destroy($goalId): void
     {
-        Goal::find($goalId)->delete();
+        $goal = Goal::find($goalId);
+        $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
+        $tagService = new TagService($tagRepository);
+        $tagService->removeTagsByIban($goal->saving_account_iban);
+        BudgetTypes::find($goal->type_id)->delete();
+        $goal->delete();
+        event(new NotificationEvent('Budget item removed'));
     }
 
     // TODO absolute disaster, will need to revisit and refactor

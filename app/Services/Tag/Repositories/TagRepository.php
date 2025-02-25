@@ -80,5 +80,12 @@ class TagRepository implements TagRepositoryInterface
             }
         });
     }
-    public function removeTagsByIban(string $iban, int $id) {}
+    public function removeTagsByIban(string $iban) 
+    {
+        $this->model::each(function ($model) use ($iban) {
+            if (self::contains($iban, $model->iban ?? '')->contains) {
+                $model->update(['type_id' => self::UNDEFINED]);
+            }
+        });
+    }
 }

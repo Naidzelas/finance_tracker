@@ -113,6 +113,10 @@ class BudgetTypesController extends Controller
 
     public function destroy($budgetId): void
     {
+        $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
+        $tagService = new TagService($tagRepository);
+        $tagService->removeTagsById($budgetId);
         BudgetTypes::find($budgetId)->delete();
+        event(new NotificationEvent('Budget item has been removed'));
     }
 }

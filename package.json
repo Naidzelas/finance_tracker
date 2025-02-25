@@ -21,6 +21,7 @@
         "@vitejs/plugin-vue": "^5.1.1",
         "@vuepic/vue-datepicker": "^9.0.3",
         "date-fns": "^4.1.0",
+        "lightvue": "^1.5.1",
         "unplugin-icons": "^0.19.2",
         "vue": "^3.4.35",
         "vue-toastification": "^2.0.0-rc.5",

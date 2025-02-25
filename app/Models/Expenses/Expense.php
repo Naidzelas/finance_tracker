@@ -18,7 +18,8 @@ class Expense extends Model
         'amount',
         'currency',
         'debit_credit',
-        'date'
+        'date',
+        'iban'
     ];
 
     public function scopeCurrentPostway(Builder $query, $postway = 'C'): void

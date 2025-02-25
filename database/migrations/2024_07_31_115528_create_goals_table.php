@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('goals', function (Blueprint $table) {
             $table->id();
             $table->string('name', 50);
+            $table->integer('type_id');
             $table->decimal('end_goal',8,2)->nullable();
             $table->decimal('contribution',8,2)->nullable();
             $table->string('icon_id')->nullable();

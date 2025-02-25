@@ -34,9 +34,9 @@ class ExpenseController extends Controller
                 'icon',
             ])->get()
                 ->map(function ($item) {
-                    $item->budget_left = $item->amount + Expense::currentPostway('D')
+                    $item->budget_left = $item->amount + Expense::currentPostway()
                         ->where('type_id', $item->id)
-                        ->sum('amount') -  Expense::currentPostway()->where('type_id', $item->id)->sum('amount');
+                        ->sum('amount') -  Expense::currentPostway('D')->where('type_id', $item->id)->sum('amount');
                     return $item;
                 }),
         ]);
@@ -65,6 +65,7 @@ class ExpenseController extends Controller
                 'date' => $item['transaction_date'],
                 'debit_credit' => $item['debit_credit'],
                 'currency' => $item['currency'],
+                'iban' => $item['iban']
             ]);
             $tagRepository = app(TagRepositoryInterface::class, ['model' => $expense, 'availableTags' => $filterTags]);
             $tagService = new TagService($tagRepository);

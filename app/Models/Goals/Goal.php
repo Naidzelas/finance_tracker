@@ -13,11 +13,12 @@ class Goal extends Model
     use HasFactory;
     protected $fillable = [
         'name',
+        'saving_account_iban',
+        'type_id',
         'end_goal',
         'contribution',
         'icon_id',
         'is_main_priority',
-        'active',
     ];
 
     public function goal_deposit(): HasMany

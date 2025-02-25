@@ -11,6 +11,7 @@ class SEBImportExpensesController extends Controller
     private const DEBIT_CREDIT = 14;
     private const CURRENCY = 2;
     private const TRANSACTION_NAME = 4;
+    private const IBAN = 6;
 
     public function __invoke(String $filename): array
     {
@@ -30,6 +31,7 @@ class SEBImportExpensesController extends Controller
                     'debit_credit' => $arrayItem[self::DEBIT_CREDIT],
                     'currency' => $arrayItem[self::CURRENCY],
                     'transaction_name' => $arrayItem[self::TRANSACTION_NAME],
+                    'iban' => $arrayItem[self::IBAN]
                 ];
             }
         }

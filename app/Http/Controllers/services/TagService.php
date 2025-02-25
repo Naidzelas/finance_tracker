@@ -55,4 +55,24 @@ class TagService
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function applyTagsByIban($iban, $id)
+    {
+        try {
+            /** @var \App\Services\Tag\DTOs\ContainsTagData */
+            $this->tagRepository->applyTagsByIban($iban, $id);
+        } catch (TagException $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function removeTagsByIban($iban)
+    {
+        try {
+            /** @var \App\Services\Tag\DTOs\ContainsTagData */
+            $this->tagRepository->removeTagsByIban($iban);
+        } catch (TagException $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }

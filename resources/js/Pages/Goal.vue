@@ -31,7 +31,9 @@
                 </div>
                 <div class="flex flex-col flex-1">
                     <div class="font-bold">Months to complete</div>
-                    <div>{{ goal.end_goal / goal.contribution }}</div>
+                    <div>
+                        {{ (goal.end_goal / goal.contribution).toFixed(1) }}
+                    </div>
                 </div>
                 <div class="flex flex-col flex-1">
                     <div class="font-bold">Saved</div>

@@ -23,6 +23,10 @@ class TagRepository implements TagRepositoryInterface
 
     public function contains(string $tag, string $seachableString): ContainsTagData
     {
+        if (!$seachableString || !$tag) {
+            return ContainsTagData::fromArray(['contains' => false]);
+        };
+
         $tag = '*' . Str::upper($tag) . '*';
 
         $result = [
@@ -65,6 +69,23 @@ class TagRepository implements TagRepositoryInterface
             $query->where('id', $tagId);
         })->each(function ($query) {
             $query->update(['type_id' => self::UNDEFINED]);
+        });
+    }
+
+    public function applyTagsByIban(string $iban, int $id)
+    {
+        $this->model::each(function ($model) use ($iban, $id) {
+            if (self::contains($iban, $model->iban ?? '')->contains) {
+                $model->update(['type_id' => $id]);
+            }
+        });
+    }
+    public function removeTagsByIban(string $iban) 
+    {
+        $this->model::each(function ($model) use ($iban) {
+            if (self::contains($iban, $model->iban ?? '')->contains) {
+                $model->update(['type_id' => self::UNDEFINED]);
+            }
         });
     }
 }

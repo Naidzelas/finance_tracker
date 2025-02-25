@@ -11,4 +11,6 @@ interface TagRepositoryInterface
     public function applyTag();
     public function applyTags();
     public function removeTagsById(int $tagId);
+    public function applyTagsByIban(string $iban, int $id);
+    public function removeTagsByIban(string $iban);
 }

@@ -6,12 +6,11 @@
             v-for="goal in goals"
             class="group relative flex-col"
         >
-            <div class="bg-[white] mb-0.5 rounded-full">
-                <div
-                    class="bg-gradient-to-r from-black to-[#606060] mb-1 rounded-full w-0 h-2 transition-all duration-700 transform"
-                    :class="percent(goal)"
-                ></div>
-            </div>
+            <LvProgressBar
+                :value="getPercent(goal.end_goal, goal.contribution)"
+                :color="'#008ba0'"
+                class="bg-white mb-0.5 rounded-md h-2"
+            ></LvProgressBar>
             <div class="flex bg-[#F4F4F4] -mb-4 p-3 rounded-md">
                 <div class="flex flex-1 pl-10">
                     <div>
@@ -61,21 +60,14 @@
 import DetailsDisplay from "../Components/DetailsDisplay.vue";
 import EditOrDelete from "../Components/EditOrDelete.vue";
 import NoData from "../Components/NoData.vue";
-import { computed } from "vue";
+import LvProgressBar from "lightvue/progress-bar";
+
 let pageVariables = defineProps({
     goals: Object,
     detailsTab: Object,
 });
 
-let percent = computed(() => {
-    return (goal) => {
-        return "w-[" + getPercent(goal.end_goal, goal.deposit) + "%]";
-    };
-});
-
 function getPercent(fullSum = 0, sum = 0) {
-    return (sum / fullSum) * 100 > 100
-        ? 100
-        : ((sum / fullSum) * 100).toFixed();
+    return Number(((sum / fullSum) * 100).toFixed());
 }
 </script>

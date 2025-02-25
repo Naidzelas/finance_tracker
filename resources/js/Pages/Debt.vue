@@ -6,11 +6,12 @@
             v-for="debt in debts"
             class="group relative flex-col"
         >
-            <div class="bg-[white] mb-0.5 rounded-full">
-                <div
-                    class="bg-gradient-to-r from-black to-[#606060] mb-1 rounded-full w-0 h-2 transition-all duration-700 transform"
-                ></div>
-            </div>
+            <LvProgressBar
+                :value="getPercent()"
+                :color="'#008ba0'"
+                class="bg-white mb-0.5 rounded-md h-2"
+            ></LvProgressBar>
+
             <div class="flex bg-[#F4F4F4] -mb-4 p-3 rounded-md">
                 <div class="flex flex-1 pl-10">
                     <div>
@@ -71,13 +72,14 @@
 import DetailsDisplay from "../Components/DetailsDisplay.vue";
 import EditOrDelete from "../Components/EditOrDelete.vue";
 import NoData from "../Components/NoData.vue";
-import { computed } from "vue";
+import LvProgressBar from "lightvue/progress-bar";
+
 let pageVariables = defineProps({
     debts: Object,
     detailsTab: Object,
 });
 
-let percent = computed(() => {});
-
-function getPercent() {}
+function getPercent(fullSum = 0, sum = 0) {
+    return Number(((sum / fullSum) * 100).toFixed());
+}
 </script>

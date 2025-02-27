@@ -2,6 +2,7 @@
 
 namespace App\Models\Debts;
 
+use App\Models\Budget\BudgetTypes;
 use App\Models\Documents\Document;
 use App\Models\Icons;
 use Illuminate\Database\Eloquent\Model;
@@ -35,5 +36,10 @@ class Debt extends Model
     public function documents(): MorphMany
     {
         return $this->morphMany(Document::class, 'documentable');
+    }
+
+    public function budgetType(): HasOne
+    {
+        return $this->hasOne(BudgetTypes::class, 'id', 'type_id');
     }
 }

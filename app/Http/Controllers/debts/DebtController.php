@@ -18,20 +18,22 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Inertia\Inertia;
+
 class DebtController extends Controller
 {
     public function index()
     {
-        $debt = Debt::query()->with([
-            'icon',
-            'debtDetail',
-            'documents'
-        ])->get();
+        $debt = Debt::with(['budgetType.expense:id,type_id,amount', 'icon', 'debtDetail', 'documents'])->get()->map(function ($debt) {
+            if ($debt->toArray()['budget_type']) {
+                $debt->paid = array_sum(array_column($debt->toArray()['budget_type']['expense'], 'amount'));
+            }
+            return $debt;
+        });
 
         return Inertia::render('Debt', [
             'debts' => $debt,
             'detailsTab' => [
-                'table' => self::buildDetailTable(),
+                'table' => self::buildDetailTable($debt),
                 'documents' => $debt->keyBy('id'),
             ]
         ]);
@@ -92,7 +94,7 @@ class DebtController extends Controller
                 'loan_iban' => $request->loan_iban
             ]);
         }
-        
+
         if ($request->avatar) {
             foreach ($request->avatar as $avatar) {
                 $document = new Document([
@@ -104,7 +106,7 @@ class DebtController extends Controller
                 $store->upload();
             };
         }
-        
+
         return to_route('debt.index');
     }
 
@@ -176,7 +178,7 @@ class DebtController extends Controller
         $debt->delete();
     }
 
-    private function buildDetailTable(): Collection
+    private function buildDetailTable($debt): Collection
     {
         $table = [
             'thead' => [
@@ -186,15 +188,16 @@ class DebtController extends Controller
                 'Loan Iban'
             ]
         ];
-        $debtDetail = DebtDetail::with('debt')->get();
-        foreach ($debtDetail as $detail) {
-            $table[$detail['id']]['tbody'][] = [
-                $detail->paid_amount,
-                Carbon::parse($detail->loan_end_date)->format('Y-m-d'),
-                $detail->debt->loan_final_amount,
-                $detail->loan_iban ?? 'N/A'
+
+        foreach ($debt->toArray() as $detail) {
+            $table[$detail['debt_detail']['id']]['tbody'][] = [
+                $detail['paid'] ?? 0,
+                Carbon::parse($detail['debt_detail']['loan_end_date'])->format('Y-m-d'),
+                $detail['loan_final_amount'],
+                $detail['debt_detail']['loan_iban'] ?? 'N/A'
             ];
         }
+
         return collect($table);
     }
 }

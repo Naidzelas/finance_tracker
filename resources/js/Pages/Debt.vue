@@ -7,7 +7,9 @@
             class="group relative flex-col"
         >
             <LvProgressBar
-                :value="getPercent()"
+                :value="
+                    getPercent(debt.loan_final_amount, debt.paid)
+                "
                 :color="'#008ba0'"
                 class="bg-white mb-0.5 rounded-md h-2"
             ></LvProgressBar>
@@ -44,10 +46,7 @@
                 <div class="group-hover:invisible flex flex-col flex-1">
                     <div class="font-bold">Payment left</div>
                     <div>
-                        {{
-                            (debt.loan_size / debt.monthly_payment).toFixed() ??
-                            "N/A"
-                        }}
+                        {{ (debt.loan_size / debt.paid).toFixed() ?? "N/A" }}
                     </div>
                 </div>
             </div>

@@ -122,7 +122,6 @@ class GoalController extends Controller
 
     public function update(Request $request, $budgetId)
     {
-        // dd($request);
         $goal = Goal::find($budgetId);
         $goal->fill($request->all());
         $goal->save();

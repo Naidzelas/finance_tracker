@@ -12,6 +12,7 @@ class Debt extends Model
 {
     public $fillable = [
         'name',
+        'type_id',
         'active',
         'loan_size',
         'monthly_payment',

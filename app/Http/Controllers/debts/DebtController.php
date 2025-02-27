@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers\Debts;
 
+use App\Events\NotificationEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\document\PDF;
+use App\Http\Controllers\Services\TagService;
+use App\Models\Budget\BudgetTypes;
+use App\Models\Budget\FilterTags;
 use App\Models\Debts\Debt;
 use App\Models\Debts\DebtDetail;
 use App\Models\Documents\Document;
+use App\Models\Expenses\Expense;
 use App\Models\Icons;
+use App\Services\Tag\Repositories\TagRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -56,8 +62,21 @@ class DebtController extends Controller
 
     public function store(Request $request)
     {
+
+        $budgetType = BudgetTypes::create([
+            'name' => $request->name,
+            'amount' => $request->monthly_payment,
+            'icon_id' => $request->icon_id,
+        ]);
+
+        $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
+        $tagService = new TagService($tagRepository);
+        $tagService->applyTagsByIban($request->loan_iban, $budgetType->id);
+        event(new NotificationEvent('Budget item has been created'));
+
         $debt = Debt::create([
             'name' => $request->name,
+            'type_id' => $budgetType->id,
             'loan_size' => $request->loan_size,
             'monthly_payment' => $request->monthly_payment,
             'loan_final_amount' => $request->loan_final_amount,
@@ -73,6 +92,7 @@ class DebtController extends Controller
                 'loan_iban' => $request->loan_iban
             ]);
         }
+        
         if ($request->avatar) {
             foreach ($request->avatar as $avatar) {
                 $document = new Document([
@@ -116,6 +136,11 @@ class DebtController extends Controller
         // TODO file upload only works for POST method so can't put it here. Will need to add file attach functionality.
 
         $debt = Debt::find($debtId);
+        BudgetTypes::find($debt->type_id)->update([
+            'name' => $request->name,
+            'amount' => $request->monthly_payment,
+            'icon_id' => $request->icon_id,
+        ]);
         $debt->fill([
             'name' => $request->name,
             'loan_size' => $request->loan_size,
@@ -141,7 +166,14 @@ class DebtController extends Controller
 
     public function destroy($debtId): void
     {
-        Debt::find($debtId)->delete();
+        $debt = Debt::with('debtDetail')->find($debtId);
+        $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
+        $tagService = new TagService($tagRepository);
+        $tagService->removeTagsByIban($debt->debtDetail->loan_iban);
+        // TODO Possibly add DB constraint on delete.
+        DebtDetail::find($debt->id)->delete();
+        BudgetTypes::find($debt->type_id)->delete();
+        $debt->delete();
     }
 
     private function buildDetailTable(): Collection

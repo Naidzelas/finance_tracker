@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('goal_deposits', function (Blueprint $table) {
-            $table->after('deposit', function ($table) {
-                $table->date('date');
-            });
+        Schema::table('debt_details', function (Blueprint $table) {
+            $table->dropColumn('paid_amount');
         });
     }
 
@@ -23,8 +21,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('goal_deposits', function (Blueprint $table) {
-            $table->dropColumn('date');
+        Schema::table('debt_details', function (Blueprint $table) {
+            $table->after('debt_id', function ($table) {
+                $table->integer('paid_amount');
+            });
         });
     }
 };

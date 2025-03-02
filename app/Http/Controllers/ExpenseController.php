@@ -20,22 +20,25 @@ class ExpenseController extends Controller
 
     public function index(Request $request)
     {
+        // dd($request);
+        $user = $request->user();
         return Inertia::render('Home', [
             'current_expenses' => $request->current_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->format('Y-m-d'))
+                ->where('user_id', $user->id)
                 ->orderBy('date')
                 ->get(),
             'previous_expenses' => $request->previous_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->subMonth()->format('Y-m-d'))
+                ->where('user_id', $user->id)
                 ->orderBy('date')
                 ->get(),
-            'goals' => Goal::query()->with('icon')->withSum('goal_deposit as deposit', 'deposit')->get(),
-            'budget_types' => BudgetTypes::query()->with([
+            'goals' => Goal::query()->where('user_id', $user->id)->with('icon')->withSum('goal_deposit as deposit', 'deposit')->get(),
+            'budget_types' => BudgetTypes::query()->where('user_id', $user->id)->with([
                 'icon',
             ])->get()
                 ->map(function ($item) {
                     $item->budget_left = $item->amount + Expense::currentPostway()
-                        ->where('type_id', $item->id)
                         ->sum('amount') -  Expense::currentPostway('D')->where('type_id', $item->id)->sum('amount');
                     return $item;
                 }),
@@ -59,6 +62,7 @@ class ExpenseController extends Controller
         $filterTags = new FilterTags();
         foreach ($data as $item) {
             $expense = Expense::updateOrCreate([
+                'user_id' => $request->user()->id,
                 'type_id' => self::UNCATEGORIZED,
                 'transaction_name' => $item['transaction_name'],
                 'amount' => (float) $item['amount'],

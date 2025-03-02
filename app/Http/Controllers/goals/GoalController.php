@@ -18,16 +18,17 @@ use Inertia\Inertia;
 
 class GoalController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $user = $request->user();
         return Inertia::render('Goal', [
-            'goals' => Goal::query()->with([
+            'goals' => Goal::query()->where('user_id', $user->id)->with([
                 'icon'
             ])
                 ->withSum('goal_deposit as deposit', 'deposit')
                 ->get(),
             'detailsTab' => [
-                'table' => self::buildDetailTable(),
+                'table' => self::buildDetailTable($user),
             ]
         ]);
     }
@@ -54,8 +55,9 @@ class GoalController extends Controller
 
     public function store(Request $request)
     {
-
+        $user = $request->user();
         $budgetType = BudgetTypes::create([
+            'user_id' => $user->id,
             'name' => $request->name,
             'amount' => $request->contribution,
             'icon_id' => $request->icon_id,
@@ -63,10 +65,13 @@ class GoalController extends Controller
 
         $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
         $tagService = new TagService($tagRepository);
-        $tagService->applyTagsByIban($request->saving_account_iban, $budgetType->id);
+        if ($request->saving_account_iban != null) {
+            $tagService->applyTagsByIban($request->saving_account_iban, $budgetType->id);
+        }
         event(new NotificationEvent('Budget item has been created'));
 
         $goal = Goal::create([
+            'user_id' => $user->id,
             'name' => $request->name,
             'end_goal' => $request->end_goal,
             'contribution' => $request->contribution,
@@ -78,6 +83,7 @@ class GoalController extends Controller
 
         // TODO absolute disaster, will need to revisit and refactor
         $goalDeposits = Expense::where('type_id', $budgetType->id)
+            ->where('user_id', $user->id)
             ->select('date', 'debit_credit', 'amount')
             ->get()
             ->groupBy('date')
@@ -128,9 +134,11 @@ class GoalController extends Controller
 
         $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
         $tagService = new TagService($tagRepository);
-        $tagService->applyTagsByIban($request->saving_account_iban, $goal->type_id);
+        if (!$request->saving_account_iban != null) {
+            $tagService->applyTagsByIban($request->saving_account_iban, $goal->type_id);
+        }
         event(new NotificationEvent('Budget items have been updated'));
-        
+
         return to_route('goal.index');
     }
 
@@ -147,7 +155,7 @@ class GoalController extends Controller
     }
 
     // TODO absolute disaster, will need to revisit and refactor
-    private function buildDetailTable(): Collection
+    private function buildDetailTable($user): Collection
     {
         $table = [
             'thead' => [
@@ -158,7 +166,7 @@ class GoalController extends Controller
             ]
         ];
 
-        $goals = Goal::with('goal_deposit:id,goal_id,deposit,date')->select('id','contribution')->get()->map(function ($query) {
+        $goals = Goal::where('user_id', $user->id)->with('goal_deposit:id,goal_id,deposit,date')->select('id', 'contribution')->get()->map(function ($query) {
             foreach ($query->goal_deposit as $deposit) {
                 $value[substr($deposit->date, 0, 7)][] = [
                     'goal_id' => $deposit->goal_id,
@@ -171,7 +179,7 @@ class GoalController extends Controller
 
         $i = 1;
         foreach ($goals as $goal) {
-            
+
             if ($goal->goal_deposit->isEmpty()) {
                 $table[$goal->id]['tbody'][] = [
                     1,
@@ -186,7 +194,7 @@ class GoalController extends Controller
                 $table[$deposit[0]['goal_id']]['tbody'][] = [
                     $i++,
                     $date,
-                    array_sum(array_column($deposit,'deposit')) . ' / ' . $goal['contribution'],
+                    array_sum(array_column($deposit, 'deposit')) . ' / ' . $goal['contribution'],
                     'Nothing',
                 ];
             }

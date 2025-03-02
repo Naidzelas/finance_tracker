@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Investment extends Model
 {
     public $fillable = [
+        'user_id',
         'symbol',
         'instrument_id',
         'investment_note_id',

@@ -1,7 +1,8 @@
 <template>
-    <div>
+    <div v-if="true" class="bg-[white] pt-6 pb-6 border-6 rounded font-bold text-2xl text-center">No data</div>
+    <div v-else>
         <div
-            class="flex p-4 place-items-center rounded border-6 bg-[white] text-center"
+            class="flex place-items-center bg-[white] p-4 border-6 rounded text-center"
         >
             <div class="flex flex-auto justify-center">
                 <svg
@@ -17,7 +18,7 @@
             </div>
             <div class="w-96">
                 <div class="flex flex-col space-y-px">
-                    <div class="text-2xl font-semibold">News</div>
+                    <div class="font-semibold text-2xl">News</div>
                     <div class="text-xl">earnings call</div>
                 </div>
             </div>
@@ -25,51 +26,6 @@
                 <div class="flex flex-col space-y-px">
                     <div class="text-3xl">31</div>
                     <div class="text-xl">Aug.</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div>
-        <div
-            class="flex p-4 place-items-center rounded border-6 bg-[white] text-center mt-2"
-        >
-            <div class="flex flex-auto justify-center">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="size-14"
-                    viewBox="0 0 48 48"
-                >
-                    <g fill="none" stroke="currentColor" stroke-width="3">
-                        <path
-                            d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20Z"
-                        />
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="m7 14l9 23l6-11h4l6 11l9-23"
-                        />
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="m16 6l6 13h4l6-13"
-                        />
-                        <path
-                            stroke-linecap="round"
-                            d="M44 24a19.95 19.95 0 0 0-6.77-15A19.92 19.92 0 0 0 24 4a19.92 19.92 0 0 0-13.23 5A19.95 19.95 0 0 0 4 24"
-                        />
-                    </g>
-                </svg>
-            </div>
-            <div class="w-96">
-                <div class="flex flex-col space-y-px">
-                    <div class="text-2xl font-semibold">News</div>
-                    <div class="text-xl">ex-dividend date</div>
-                </div>
-            </div>
-            <div class="flex-auto text-3xl">
-                <div class="flex flex-col space-y-px">
-                    <div class="text-3xl">23</div>
-                    <div class="text-xl">Oct.</div>
                 </div>
             </div>
         </div>

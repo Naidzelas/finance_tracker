@@ -32,3 +32,6 @@ require __DIR__ . "/web/goals/goals.php";
 
 // Auth
 require __DIR__.'/auth.php';
+
+// Settings
+require __DIR__.'/settings.php';

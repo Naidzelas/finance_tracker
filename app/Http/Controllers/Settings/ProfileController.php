@@ -12,6 +12,14 @@ use App\Http\Requests\AuthKitAccountDeletionRequest;
 
 class ProfileController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        return Inertia::render('Profile',[
+            'user' => $request->user(),
+        ]);
+    }
+
     /**
      * Show the user's profile settings page.
      */
@@ -27,13 +35,19 @@ class ProfileController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+        // $request->validate([
+        //     'name' => ['required', 'string', 'max:255'],
+        // ]);
+        User::find($request->user()->id)->update([
+            'etoro_name' => $request->etoro_name,
+            'income' => $request->income
         ]);
+        // $request->user()->update([
+        //     'etoro_name' => $request->etoro_name,
+        //     'income' => $request->income
+        // ]);
 
-        $request->user()->update(['name' => $request->name]);
-
-        return to_route('profile.edit');
+        return to_route('index');
     }
 
     /**
@@ -42,7 +56,7 @@ class ProfileController extends Controller
     public function destroy(AuthKitAccountDeletionRequest $request): RedirectResponse
     {
         return $request->delete(
-            using: fn (User $user) => $user->delete()
+            using: fn(User $user) => $user->delete()
         );
     }
 }

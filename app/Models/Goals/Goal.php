@@ -12,6 +12,7 @@ class Goal extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'user_id',
         'name',
         'saving_account_iban',
         'type_id',

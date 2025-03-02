@@ -1,6 +1,5 @@
 <?php
 
-use App\Events\NotificationEvent;
 use Illuminate\Support\Facades\Route;
 use inertia\Inertia;
 
@@ -24,5 +23,15 @@ Route::get('/item', function () {
     return Inertia::render('Item');
 });
 
+Route::get('/landing', function () {
+    return Inertia::render('Landing');
+});
+
 // Goals
-include __DIR__ . "/web/goals/goals.php";
+require __DIR__ . "/web/goals/goals.php";
+
+// Auth
+require __DIR__.'/auth.php';
+
+// Settings
+require __DIR__.'/settings.php';

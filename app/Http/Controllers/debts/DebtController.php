@@ -21,9 +21,10 @@ use Inertia\Inertia;
 
 class DebtController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $debt = Debt::with(['budgetType.expense:id,type_id,amount', 'icon', 'debtDetail', 'documents'])->get()->map(function ($debt) {
+        $user = $request->user();
+        $debt = Debt::where('user_id', $user->id)->with(['budgetType.expense:id,type_id,amount', 'icon', 'debtDetail', 'documents'])->get()->map(function ($debt) {
             if ($debt->toArray()['budget_type']) {
                 $debt->paid = array_sum(array_column($debt->toArray()['budget_type']['expense'], 'amount'));
             }
@@ -64,8 +65,9 @@ class DebtController extends Controller
 
     public function store(Request $request)
     {
-
+        $user = $request->user();
         $budgetType = BudgetTypes::create([
+            'user_id' => $user->id,
             'name' => $request->name,
             'amount' => $request->monthly_payment,
             'icon_id' => $request->icon_id,
@@ -73,10 +75,13 @@ class DebtController extends Controller
 
         $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
         $tagService = new TagService($tagRepository);
-        $tagService->applyTagsByIban($request->loan_iban, $budgetType->id);
+        if(!$request->loan_iban != null){
+            $tagService->applyTagsByIban($request->loan_iban, $budgetType->id);
+        }
         event(new NotificationEvent('Budget item has been created'));
 
         $debt = Debt::create([
+            'user_id' => $user->id,
             'name' => $request->name,
             'type_id' => $budgetType->id,
             'loan_size' => $request->loan_size,

@@ -13,10 +13,11 @@ use Inertia\Inertia;
 
 class InvestmentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $user = $request->user();
         return Inertia::render('Investment', [
-            'investments' => Investment::query()->with([
+            'investments' => Investment::query()->where('user_id', $user->id)->with([
                 'investmentIcon',
                 'investmentType',
                 'investmentSector',
@@ -83,9 +84,10 @@ class InvestmentController extends Controller
             $investment->profit_percent = $profit_percent;
             $investment->is_green = $request->invested < $request->value ? true : false;
             $investment->profit = $request->invested * ($profit_percent / 100);
+            $investment->user_id = $request->user()->id;
             $investment->save();
         } else {
-            new InitialInvestmentLoadController($request->username, new EtoroController);
+            new InitialInvestmentLoadController($request->user(), new EtoroController);
         };
 
         return to_route('investment.index');

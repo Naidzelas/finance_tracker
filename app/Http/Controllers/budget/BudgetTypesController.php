@@ -38,6 +38,7 @@ class BudgetTypesController extends Controller
     public function store(Request $request)
     {
         $budgetType = BudgetTypes::create([
+            'user_id' => $request->user()->id,
             'name' => $request->name,
             'amount' => $request->amount,
             'icon_id' => $request->icon_id,

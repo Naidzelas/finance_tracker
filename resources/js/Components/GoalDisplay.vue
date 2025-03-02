@@ -1,5 +1,5 @@
 <template>
-    <div v-for="goal in goal_data" class="group relative mb-2">
+    <div v-if="goal_data.lenght" v-for="goal in goal_data" class="group relative mb-2">
         <EditOrDelete
             :action="{
                 edit: 'goal.edit',
@@ -25,6 +25,7 @@
             </div>
         </div>
     </div>
+    <div v-else class="bg-[white] pt-6 pb-6 border-6 rounded font-bold text-2xl text-center">No data</div>
 </template>
 
 <script setup>

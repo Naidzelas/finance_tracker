@@ -2,16 +2,11 @@
     <div class="relative border h-lvh text-center">
         <div class="relative flex">
             <div class="bg-[white] mb-2 border-6 rounded w-52 h-8 text-lg">
-                {{ previousDate.substring(0, 7) }}
+                {{ getPreviousDate() }}
             </div>
             <div class="flex-auto"></div>
             <div>
-                <VueDatePicker
-                    @change="console.log('test')"
-                    v-model="month"
-                    :format-locale="lt"
-                    month-picker
-                >
+                <VueDatePicker v-model="month" :format-locale="lt" month-picker>
                     <template #trigger>
                         <div
                             class="place-items-center grid bg-[#3C3C3C] rounded-md size-8 hover:cursor-pointer"
@@ -89,7 +84,7 @@ import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { lt } from "date-fns/locale";
 import { router } from "@inertiajs/vue3";
-import { ref, watch, reactive } from "vue";
+import { ref, watch, reactive, onMounted } from "vue";
 
 const pageVariables = defineProps({
     previous_expenses: Object,
@@ -145,7 +140,15 @@ function submit() {
 }
 
 // TODO fix this when no data.
-let previousDate = new Date(
-    pageVariables.previous_expenses[0]["date"]
-).toLocaleDateString("lt-LT");
+function getPreviousDate(){
+    if (typeof pageVariables.previous_expenses[0] !== "undefined") {
+        return new Date(
+            pageVariables.previous_expenses[0]["date"]
+        ).toLocaleDateString("lt-LT").substring(0, 7);
+    }else{
+        let previousDate = new Date();
+        previousDate.setDate(0);
+        return previousDate.toLocaleDateString("lt-LT").substring(0, 7)
+    }
+}
 </script>

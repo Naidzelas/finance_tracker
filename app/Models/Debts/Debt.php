@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class Debt extends Model
 {
     public $fillable = [
+        'user_id',
         'name',
         'type_id',
         'active',

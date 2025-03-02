@@ -14,6 +14,7 @@ class BudgetTypes extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'name',
         'amount',
         'icon_id',

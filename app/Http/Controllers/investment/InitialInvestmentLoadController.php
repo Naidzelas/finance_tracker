@@ -13,18 +13,18 @@ use Carbon\Carbon;
 
 class InitialInvestmentLoadController
 {
-    public function __construct(string $username, EtoroController $etoro)
+    public function __construct($user, EtoroController $etoro)
     {
-        $portfolio = $etoro->getInvestorPortfolio($username)->getData();
-        $trades = $etoro->getInvestorClosedPositions($username)->getData();
-        self::alocateInvestmentData($portfolio->positions, $etoro, $trades);
+        $portfolio = $etoro->getInvestorPortfolio($user->etoro_name)->getData();
+        $trades = $etoro->getInvestorClosedPositions($user->etoro_name)->getData();
+        self::alocateInvestmentData($portfolio->positions, $etoro, $trades, $user->id);
     }
 
-    private function alocateInvestmentData($positions, $etoro, $trades)
+    private function alocateInvestmentData($positions, $etoro, $trades, $userId)
     {
         // TODO this is dumb access to data. Will need to fix.. and api excludes the keys if they have no values... also need to figure out instrument query by multiple symbols at once.
 
-        self::createInvestment($positions);
+        self::createInvestment($positions, $userId);
         foreach ($positions as $position) {
             $instrument = $etoro->getInstrumentBySymbol($position->symbol)->getData();
             self::createInvestmentSector($instrument->instrument->sector);
@@ -41,10 +41,11 @@ class InitialInvestmentLoadController
         self::createInvestmentPositionRecord($trades);
     }
 
-    private function createInvestment($positions)
+    private function createInvestment($positions, $userId)
     {
         foreach ($positions as $position) {
             Investment::create([
+                'user_id' => $userId,
                 'symbol' => $position->symbol,
                 'profit_percent' => abs($position->netProfit),
                 'is_green' => $position->netProfit > 0 ? true : false

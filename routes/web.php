@@ -23,6 +23,10 @@ Route::get('/item', function () {
     return Inertia::render('Item');
 });
 
+Route::get('/landing', function () {
+    return Inertia::render('Landing');
+});
+
 // Goals
 require __DIR__ . "/web/goals/goals.php";
 

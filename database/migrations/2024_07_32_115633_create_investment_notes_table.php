@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('investment_notes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('investment_id')->nullable();
             $table->text('notes');
             $table->timestamps();
-            $table->foreign('id')
-                ->references('investment_note_id')
+            $table->foreign('investment_id')
+                ->references('id')
                 ->on('investments')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();

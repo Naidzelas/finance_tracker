@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id()->primary();
             $table->string('symbol')->nullable();
             $table->integer('instrument_id')->nullable();
-            $table->unsignedBigInteger('investment_note_id')->nullable();
             $table->integer('investment_type_id')->nullable();
             $table->integer('investment_icon_id')->nullable();
             $table->integer('investment_sector_id')->nullable();
@@ -25,7 +24,6 @@ return new class extends Migration
             $table->boolean('is_green')->nullable();
             $table->decimal('value')->nullable();
             $table->timestamps();
-            $table->index('investment_note_id');
         });
     }
 

@@ -17,7 +17,7 @@ Work in progress...
 - [ ] Mobile port
 - [ ] Upcoming events
 - [ ] Dark Mode
-- [ ] Log in
+- [x] Log in
       
 ----
 # **DRAFT DESIGN**

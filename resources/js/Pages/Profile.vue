@@ -44,7 +44,7 @@
                                 <input
                                     name="form_item"
                                     class="block pl-3 w-full"
-                                    value="test"
+                                    :value="debt.paid+ ' / ' +debt.total"
                                     disabled
                                 />
                             </div>
@@ -59,7 +59,7 @@
                                 <input
                                     name="form_item"
                                     class="block pl-3 w-full"
-                                    value="test"
+                                    :value="invested"
                                     disabled
                                 />
                             </div>
@@ -69,12 +69,12 @@
                                 >Email</label
                             >
                             <div
-                                class="flex bg-white mt-1 border-b-2 border-black w-52 h-7"
+                                class="flex bg-white mt-1 border-b-2 border-black h-7"
                             >
                                 <input
                                     name="form_item"
-                                    class="block pl-3 w-full"
-                                    value="test"
+                                    class="block pl-3 w-72"
+                                    :value="user.email"
                                     disabled
                                 />
                             </div>
@@ -117,6 +117,8 @@ function submit() {
 
 const pageVariables = defineProps({
     user: Object,
+    invested: Number,
+    debt: Object,
 });
 
 onMounted(() => {

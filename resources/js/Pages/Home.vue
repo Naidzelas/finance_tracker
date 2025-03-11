@@ -15,7 +15,7 @@
             ></CurrentExpenseList>
             <div>
                 <div class="mb-6 text-2xl text-left">basic info</div>
-                <BasicInfo></BasicInfo>
+                <BasicInfo :debt="debt" :invested="invested"></BasicInfo>
 
                 <div class="mt-6 mb-6 text-2xl text-left">budget remaining</div>
                 <div class="flex justify-end mt-[-2em] mb-2">
@@ -74,6 +74,8 @@ let pageVariables = defineProps({
     goals: Object,
     current_expenses: Object,
     previous_expenses: Object,
+    invested: Number,
+    debt: Object,
 });
 provide("expenses", pageVariables.expenses);
 provide("budget_types", ref(pageVariables.budget_types));

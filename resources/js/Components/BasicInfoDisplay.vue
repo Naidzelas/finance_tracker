@@ -1,13 +1,22 @@
 <template>
-    <div class="rounded border-6 bg-[white] text-center">
-        <div class="grid grid-cols-3 gap-1 p-4">
-            <div class="text-2xl font-semibold">Income</div>
-            <div class="text-2xl font-semibold">Invested</div>
-            <div class="text-2xl font-semibold">Debts</div>
-            <div class="text-xl">1234</div>
-            <div class="text-xl">1234</div>
-            <div class="text-xl">123</div>
+    <div class="bg-[white] border-6 rounded text-center">
+        <div class="gap-1 grid grid-cols-3 p-4">
+            <div class="font-semibold text-2xl">Income</div>
+            <div class="font-semibold text-2xl">Invested</div>
+            <div class="font-semibold text-2xl">Debts</div>
+            <div class="text-xl">{{ user.income }}</div>
+            <div class="text-xl">{{ invested }}</div>
+            <div class="text-xl">{{ debt.paid + " / " + debt.total }}</div>
         </div>
     </div>
 </template>
-<script setup></script>
+<script setup>
+import { usePage } from "@inertiajs/vue3";
+import { computed } from "vue";
+defineProps({
+    debt: Object,
+    invested: Number,
+});
+const page = usePage();
+const user = computed(() => page.props.auth.user);
+</script>

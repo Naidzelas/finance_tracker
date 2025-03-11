@@ -7,8 +7,10 @@ use App\Http\Controllers\features\SWEDImportExpensesController;
 use App\Http\Controllers\Services\TagService;
 use App\Models\Budget\BudgetTypes;
 use App\Models\Budget\FilterTags;
+use App\Models\Debts\Debt;
 use App\Models\Expenses\Expense;
 use App\Models\Goals\Goal;
+use App\Models\investment\Investment;
 use App\Services\Tag\Repositories\TagRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -42,6 +44,18 @@ class ExpenseController extends Controller
                         ->sum('amount') -  Expense::currentPostway('D')->where('type_id', $item->id)->sum('amount');
                     return $item;
                 }),
+            'invested' => Investment::select('id', 'invested')->get()->sum('invested'),
+            'debt' => [
+                'total' => Debt::select('id', 'loan_final_amount')->where('active', 1)->get()->sum('loan_final_amount'),
+                'paid' => Debt::isActive()->select('id', 'type_id')
+                    ->with(['budgetType' => fn($query) => $query->select('id')->with('expense:id,type_id,amount')])
+                    ->get()
+                    ->flatMap(function ($item) {
+                        return  $item->budgetType?->expense->map(function ($expense) {
+                            return $expense->amount;
+                        })->all() ?? [];
+                    })->sum(),
+            ]
         ]);
     }
 

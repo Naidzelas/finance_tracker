@@ -9,14 +9,29 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Http\Requests\AuthKitAccountDeletionRequest;
+use App\Models\Debts\Debt;
+use App\Models\investment\Investment;
+
 
 class ProfileController extends Controller
 {
 
     public function index(Request $request)
     {
-        return Inertia::render('Profile',[
+        return Inertia::render('Profile', [
             'user' => $request->user(),
+            'invested' => Investment::select('id', 'invested')->get()->sum('invested'),
+            'debt' => [
+                'total' => Debt::select('id', 'loan_final_amount')->where('active', 1)->get()->sum('loan_final_amount'),
+                'paid' => Debt::isActive()->select('id', 'type_id')
+                    ->with(['budgetType' => fn($query) => $query->select('id')->with('expense:id,type_id,amount')])
+                    ->get()
+                    ->flatMap(function ($item) {
+                        return  $item->budgetType?->expense->map(function ($expense) {
+                            return $expense->amount;
+                        })->all() ?? [];
+                    })->sum(),
+            ]
         ]);
     }
 

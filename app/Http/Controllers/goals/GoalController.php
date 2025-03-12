@@ -22,7 +22,7 @@ class GoalController extends Controller
     {
         $user = $request->user();
         return Inertia::render('Goal', [
-            'goals' => Goal::query()->where('user_id', $user->id)->with([
+            'goals' => Goal::where('user_id', $user->id)->with([
                 'icon'
             ])
                 ->withSum('goal_deposit as deposit', 'deposit')
@@ -55,6 +55,15 @@ class GoalController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string',
+            'end_goal' => 'required|numeric',
+            'contribution' => 'required|numeric',
+            'icon_id' => 'required|integer',
+            'is_main_priority' => 'required|boolean',
+            'saving_account_iban' => 'nullable|string',
+        ]);
+
         $user = $request->user();
         $budgetType = BudgetTypes::create([
             'user_id' => $user->id,
@@ -128,6 +137,15 @@ class GoalController extends Controller
 
     public function update(Request $request, $budgetId)
     {
+        $request->validate([
+            'name' => 'required|string',
+            'end_goal' => 'required|numeric',
+            'contribution' => 'required|numeric',
+            'icon_id' => 'required|integer',
+            'is_main_priority' => 'required|boolean',
+            'saving_account_iban' => 'nullable|string',
+        ]);
+
         $goal = Goal::find($budgetId);
         $goal->fill($request->all());
         $goal->save();
@@ -146,10 +164,16 @@ class GoalController extends Controller
     public function destroy($goalId): void
     {
         $goal = Goal::find($goalId);
-        $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
-        $tagService = new TagService($tagRepository);
-        $tagService->removeTagsByIban($goal->saving_account_iban);
-        BudgetTypes::find($goal->type_id)->delete();
+        if ($goal->saving_account_iban) {
+            $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
+            $tagService = new TagService($tagRepository);
+            $tagService->removeTagsByIban($goal->saving_account_iban);
+        }
+        
+        $budgetTypes = BudgetTypes::find($goal->type_id);
+        if ($budgetTypes) {
+            $budgetTypes->delete();
+        }
         $goal->delete();
         event(new NotificationEvent('Budget item removed'));
     }

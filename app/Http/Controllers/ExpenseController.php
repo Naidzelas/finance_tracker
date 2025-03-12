@@ -35,7 +35,7 @@ class ExpenseController extends Controller
                 ->where('user_id', $user->id)
                 ->orderBy('date')
                 ->get(),
-            'goals' => Goal::query()->where('user_id', $user->id)->with('icon')->withSum('goal_deposit as deposit', 'deposit')->get(),
+            'goals' => Goal::where('user_id', $user->id)->with('icon')->withSum('goal_deposit as deposit', 'deposit')->get(),
             'budget_types' => BudgetTypes::query()->where('user_id', $user->id)->with([
                 'icon',
             ])->get()

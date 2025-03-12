@@ -8,6 +8,7 @@
             :format="format"
             class="mt-1"
         ></Datepicker>
+        <div v-if="error" class="text-red-500 text-sm">{{ error }}</div>
     </div>
 </template>
 
@@ -21,6 +22,7 @@ let pageVariables = defineProps({
     form: Object,
     name: String,
     data: String,
+    error: String,
 });
 
 let date = ref();

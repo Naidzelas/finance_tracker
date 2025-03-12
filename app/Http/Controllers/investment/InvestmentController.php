@@ -45,9 +45,9 @@ class InvestmentController extends Controller
                 'investment_icon_id' => ['Select',],
             ];
         } else {
-            $list = [
-                'username' => ['String',],
-            ];
+            $request = request();
+            $this->store($request);
+            return;
         }
 
         return Inertia::render('Item', [
@@ -75,17 +75,28 @@ class InvestmentController extends Controller
         ]);
     }
 
-    public function store(Request $request, Investment $investment)
+    public function store(Request $request)
     {
-
         if (Investment::where('investment_type_id', 1)->count()) {
-            $investment->fill($request->all());
-            $profit_percent = ($request->value - $request->invested) / abs($request->invested) * 100;
-            $investment->profit_percent = $profit_percent;
-            $investment->is_green = $request->invested < $request->value ? true : false;
-            $investment->profit = $request->invested * ($profit_percent / 100);
-            $investment->user_id = $request->user()->id;
-            $investment->save();
+            $request->validate([
+                'symbol' => 'required|string',
+                'invested' => 'required|numeric',
+                'value' => 'required|numeric',
+                'investment_type_id' => 'required|integer',
+                'investment_icon_id' => 'required|integer',
+            ]);
+
+            Investment::create([
+                'symbol' => $request->symbol,
+                'invested' => $request->invested,
+                'value' => $request->value,
+                'investment_type_id' => $request->investment_type_id,
+                'investment_icon_id' => $request->investment_icon_id,
+                'user_id' => $request->user()->id,
+                'profit_percent' => ($request->value - $request->invested) / abs($request->invested) * 100,
+                'is_green' => $request->invested < $request->value ? true : false,
+                'profit' => $request->invested * (($request->value - $request->invested) / abs($request->invested)),
+            ]);
         } else {
             new InitialInvestmentLoadController($request->user(), new EtoroController);
         };
@@ -95,6 +106,10 @@ class InvestmentController extends Controller
 
     public function update(Request $request, $investmentId)
     {
+        $request->validate([
+            'invested' => 'required|numeric',
+        ]);
+
         $invested = $request->invested;
         $investment = Investment::find($investmentId);
 

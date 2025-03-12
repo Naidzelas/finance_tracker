@@ -13,6 +13,7 @@
             class="hidden peer-checked:block absolute size-7 text-white pointer-events-none"
         ></Icon>
     </div>
+    <div v-if="error" class="text-red-500 text-sm">{{ error }}</div>
 </template>
 
 <script setup>
@@ -23,6 +24,7 @@ let pageVariables = defineProps({
     form: Object,
     data: Boolean,
     id: Number,
+    error: String,
 });
 
 const check = ref();

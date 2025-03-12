@@ -65,6 +65,19 @@ class DebtController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string',
+            'icon_id' => 'required|integer',
+            'loan_size' => 'required|numeric',
+            'monthly_payment' => 'required|numeric',
+            'loan_final_amount' => 'required|numeric',
+            'interest_rate' => 'required|numeric',
+            'payment_date' => 'required|date',
+            'loan_end_date' => 'required|date',
+            'loan_iban' => 'nullable|string',
+            'avatar' => 'nullable|array',
+        ]);
+
         $user = $request->user();
         $budgetType = BudgetTypes::create([
             'user_id' => $user->id,
@@ -140,6 +153,18 @@ class DebtController extends Controller
 
     public function update(Request $request, $debtId)
     {
+        $request->validate([
+            'name' => 'required|string',
+            'icon_id' => 'required|integer',
+            'loan_size' => 'required|numeric',
+            'monthly_payment' => 'required|numeric',
+            'loan_final_amount' => 'required|numeric',
+            'interest_rate' => 'required|numeric',
+            'payment_date' => 'required|date',
+            'loan_end_date' => 'required|date',
+            'loan_iban' => 'nullable|string',
+        ]);
+
         // TODO file upload only works for POST method so can't put it here. Will need to add file attach functionality.
 
         $debt = Debt::find($debtId);

@@ -7,9 +7,7 @@
             class="group relative flex-col"
         >
             <LvProgressBar
-                :value="
-                    getPercent(debt.loan_final_amount, debt.paid)
-                "
+                :value="getPercent(debt.loan_final_amount, debt.paid)"
                 :color="'#008ba0'"
                 class="bg-white mb-0.5 rounded-md h-2"
             ></LvProgressBar>

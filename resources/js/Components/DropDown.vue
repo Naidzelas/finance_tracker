@@ -33,17 +33,19 @@
                 </div>
             </div>
         </div>
+        <div v-if="error" class="text-red-500 text-sm">{{ error }}</div>
     </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 
 let pageVariables = defineProps({
     name: String,
     options: Object,
     form: Object,
     data: String,
+    error: String,
 });
 
 const style = ref("invisible");

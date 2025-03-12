@@ -37,6 +37,13 @@ class BudgetTypesController extends Controller
     }
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string',
+            'amount' => 'required|numeric',
+            'icon_id' => 'required|integer',
+            'tags' => 'nullable|array',
+        ]);
+
         $budgetType = BudgetTypes::create([
             'user_id' => $request->user()->id,
             'name' => $request->name,
@@ -81,6 +88,13 @@ class BudgetTypesController extends Controller
 
     public function update(Request $request, $budgetId)
     {
+        $request->validate([
+            'name' => 'required|string',
+            'amount' => 'required|numeric',
+            'icon_id' => 'required|integer',
+            'tags' => 'nullable|array',
+        ]);
+
         $filterTags = FilterTags::where('budget_type_id', $budgetId)->get();
         $budgetType = BudgetTypes::find($budgetId);
         $budgetType->fill($request->all());

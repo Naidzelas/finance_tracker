@@ -61,6 +61,10 @@ class ExpenseController extends Controller
 
     public function store(Request $request)
     {
+        if (!$request->hasFile('avatar')) {
+            return;
+        }
+        
         switch ($request->bank) {
             case 'seb':
                 $seb = new SEBImportExpensesController;
@@ -91,6 +95,4 @@ class ExpenseController extends Controller
         }
         return to_route('index');
     }
-
-    public function update(Request $request) {}
 }

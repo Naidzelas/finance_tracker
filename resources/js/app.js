@@ -7,15 +7,17 @@ import PreAppLayout from "./Layout/PreAppLayout.vue";
 import { Icon } from "@iconify/vue";
 import { ZiggyVue } from "ziggy-js";
 import VueToastificationPlugin from "vue-toastification";
+import { createI18n } from "vue-i18n";
+import lt from "../../lang/lt.json";
 
 createInertiaApp({
     progress: false,
     resolve: (name) => {
         const pages = import.meta.glob("./Pages/**/*.vue", { eager: true });
         let page = pages[`./Pages/${name}.vue`];
-        if(name != 'Landing'){
+        if (name != "Landing") {
             page.default.layout = page.default.layout || Layout;
-        }else{
+        } else {
             page.default.layout = PreAppLayout;
         }
         return pages[`./Pages/${name}.vue`];
@@ -29,6 +31,15 @@ createInertiaApp({
                 maxToasts: 20,
                 newestOnTop: true,
             })
+            .use(
+                createI18n({
+                    locale: "lt",
+                    fallbackLocale: "en",
+                    messages: {
+                        lt: { ...lt },
+                    },
+                })
+            )
             .component("Icon", Icon)
             .mount(el);
     },

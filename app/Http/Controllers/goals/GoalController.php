@@ -183,10 +183,10 @@ class GoalController extends Controller
     {
         $table = [
             'thead' => [
-                'Id',
-                'Date',
-                'Paid',
-                'Progress'
+                'id',
+                'date',
+                'paid',
+                'progress'
             ]
         ];
 

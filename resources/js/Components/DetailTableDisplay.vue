@@ -1,10 +1,10 @@
 <template>
-    <div class="mt-2 text-2xl text-start mr">{{ name }}</div>
+    <div class="mt-2 text-2xl text-start mr">{{ $t("general." + name).toLocaleLowerCase() }}</div>
     <div class="bg-gray-400 mt-1 mb-6 w-full h-px"></div>
-    <table v-if="tableData" class="table-fixed w-full text-left">
+    <table v-if="tableData" class="w-full text-left table-fixed">
         <thead>
             <tr>
-                <th v-for="item in tableHead">{{ item }}</th>
+                <th v-for="item in tableHead">{{ $t(translate + '.' + item) }}</th>
             </tr>
         </thead>
         <tbody>
@@ -19,11 +19,12 @@
 </template>
 
 <script setup>
+import { inject } from 'vue';
 defineProps({
     name: String,
     tableData: Object,
     tableHead: Object,
 });
 
-// let data = inject('data');
+let translate = inject('translate');
 </script>

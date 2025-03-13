@@ -72,7 +72,7 @@ class DebtController extends Controller
             'monthly_payment' => 'required|numeric',
             'loan_final_amount' => 'required|numeric',
             'interest_rate' => 'required|numeric',
-            'payment_date' => 'required|date',
+            'payment_date' => 'required|numeric|lte:31',
             'loan_end_date' => 'required|date',
             'loan_iban' => 'nullable|string',
             'avatar' => 'nullable|array',
@@ -88,7 +88,7 @@ class DebtController extends Controller
 
         $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
         $tagService = new TagService($tagRepository);
-        if(!$request->loan_iban != null){
+        if($request?->loan_iban){
             $tagService->applyTagsByIban($request->loan_iban, $budgetType->id);
         }
         event(new NotificationEvent('Budget item has been created'));
@@ -212,10 +212,10 @@ class DebtController extends Controller
     {
         $table = [
             'thead' => [
-                'Paid Amount',
-                'Loan End Date',
-                'Loan Final Amount',
-                'Loan Iban'
+                'loan_payed',
+                'loan_end_date',
+                'loan_final_amount',
+                'loan_iban'
             ]
         ];
 

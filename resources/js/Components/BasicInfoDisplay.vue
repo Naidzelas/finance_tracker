@@ -1,9 +1,9 @@
 <template>
     <div class="bg-[white] border-6 rounded text-center">
         <div class="gap-1 grid grid-cols-3 p-4">
-            <div class="font-semibold text-2xl">Income</div>
-            <div class="font-semibold text-2xl">Invested</div>
-            <div class="font-semibold text-2xl">Debts</div>
+            <div class="font-semibold text-2xl">{{ $t("user.income") }}</div>
+            <div class="font-semibold text-2xl">{{ $t("user.invested") }}</div>
+            <div class="font-semibold text-2xl">{{ $t("user.debt") }}</div>
             <div class="text-xl">{{ user.income }}</div>
             <div class="text-xl">{{ invested }}</div>
             <div class="text-xl">{{ debt.paid + " / " + debt.total }}</div>

@@ -1,5 +1,7 @@
 <template>
-    <div class="mt-2 text-2xl text-start mr">{{ name }}</div>
+    <div class="mt-2 text-2xl text-start mr">
+        {{ $t("general." + name).toLocaleLowerCase() }}
+    </div>
     <div class="bg-gray-400 mt-1 mb-6 w-full h-px"></div>
     <div class="flex gap-2">
         <div
@@ -9,7 +11,7 @@
             <div class="flex justify-end space-x-1 mt-2 mr-2">
                 <button
                     @click="deleteItem(item.id)"
-                    class="hover:text-red-900 transform transition hover:scale-125"
+                    class="hover:text-red-900 hover:scale-125 transition transform"
                 >
                     <Icon
                         icon="fa6-solid:trash"
@@ -21,7 +23,7 @@
                         route('document.download', { filename: item.filename })
                     "
                     as="button"
-                    class="hover:text-yellow-600 transform transition hover:scale-125"
+                    class="hover:text-yellow-600 hover:scale-125 transition transform"
                 >
                     <Icon
                         icon="material-symbols:download-rounded"
@@ -32,7 +34,7 @@
                     :href="route('document.open', { filename: item.filename })"
                     as="button"
                     target="_blank"
-                    class="hover:text-[#297A9D] transform transition hover:scale-125"
+                    class="hover:text-[#297A9D] hover:scale-125 transition transform"
                 >
                     <Icon icon="mdi:eye" class="size-6"></Icon>
                 </a>

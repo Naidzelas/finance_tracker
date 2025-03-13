@@ -54,9 +54,15 @@
             </div>
         </form>
         <div class="clear-both' columns-3 bg-[#9E8167] border-2 'rounded h-10">
-            <div class="pt-1 font-bold text-[white]">Name</div>
-            <div class="pt-1 font-bold text-[white]">Amount (Eur)</div>
-            <div class="pt-1 font-bold text-[white]">Date</div>
+            <div class="pt-1 font-bold text-[white]">
+                {{ $t("expenses.expense_name") }}
+            </div>
+            <div class="pt-1 font-bold text-[white]">
+                {{ $t("expenses.amount") }}
+            </div>
+            <div class="pt-1 font-bold text-[white]">
+                {{ $t("expenses.date") }}
+            </div>
         </div>
         <ExpenseListItem :data="current_expenses"></ExpenseListItem>
     </div>

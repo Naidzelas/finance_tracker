@@ -7,7 +7,9 @@
             type="checkbox"
             class="peer relative bg-white checked:bg-[#006692] mr-3 border-[#006692] border-1 checked:border-0 rounded-none size-7 appearance-none cursor-pointer select-none shrink-0"
         />
-        <label for="form_item" class="font-thin text-xl">{{ name }}</label>
+        <label for="form_item" class="font-thin text-xl">{{
+            $t(registerRoute + "." + name)
+        }}</label>
         <Icon
             icon="material-symbols:check-rounded"
             class="hidden peer-checked:block absolute size-7 text-white pointer-events-none"
@@ -17,7 +19,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch, inject } from "vue";
 
 let pageVariables = defineProps({
     name: String,
@@ -28,6 +30,7 @@ let pageVariables = defineProps({
 });
 
 const check = ref();
+let registerRoute = inject("registerRoute");
 
 onMounted(() => {
     if (typeof pageVariables.data !== "undefined") {
@@ -36,8 +39,7 @@ onMounted(() => {
     }
 });
 
-watch(check, (newValue)=>{
+watch(check, (newValue) => {
     pageVariables.form[pageVariables.name] = newValue;
 });
-
 </script>

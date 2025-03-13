@@ -1,13 +1,23 @@
 <template>
     <section class="mr-40 ml-40">
         <div class="flex flex-col">
-            <div class="mb-2 text-5xl">add new {{ registerRoute }}</div>
+            <div class="mb-2 text-5xl">
+                {{ $t(registerRoute.split('/',1) + "s.add_new").toLocaleLowerCase() }}
+            </div>
             <div class="flex mb-8 text-gray-500 text-lg">
-                <div>current goals</div>
+                <div>
+                    {{
+                        $t(
+                            registerRoute.split('/',1) + "s." + registerRoute.split('/',1)
+                        ).toLocaleLowerCase()
+                    }}
+                </div>
                 <div class="self-center">
                     <Icon icon="mdi:dot" class="size-8"></Icon>
                 </div>
-                <div>add new {{ registerRoute }}</div>
+                <div>
+                    {{ $t(registerRoute.split('/',1) + "s.add_new").toLocaleLowerCase() }}
+                </div>
             </div>
         </div>
 
@@ -33,14 +43,14 @@
                     :href="'/' + registerRoute.split('/')[0]"
                     class="bg-[#525252] mt-2 pb-px w-40 text-white text-xl text-center"
                 >
-                    CANCEL
+                    {{ $t("general.cancel") }}
                 </Link>
 
                 <button
                     type="submit"
                     class="bg-[#006692] mt-2 pb-px w-40 text-white text-xl text-center"
                 >
-                    CONFIRM
+                    {{ $t("general.confirm") }}
                 </button>
             </div>
         </form>
@@ -64,6 +74,7 @@ const formObject = {};
 const listObject = {};
 provide("selectData", page.props.selectData);
 provide("data", page.props.data);
+provide("registerRoute", page.props.registerRoute.split('/',1) + "s");
 
 Object.entries(page.props.list).forEach(
     (el) => (

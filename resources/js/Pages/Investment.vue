@@ -1,6 +1,6 @@
 <template>
     <section class="flex flex-col mr-40 ml-40">
-        <div class="mb-10 text-5xl">current investments</div>
+        <div class="mb-10 text-5xl">{{ $t("investments.title") }}</div>
         <div
             v-if="Object.keys(investments).length"
             v-for="investment in investments"
@@ -16,29 +16,37 @@
                     </div>
                 </div>
                 <div class="flex flex-col flex-1">
-                    <div class="font-bold">Name</div>
+                    <div class="font-bold">
+                        {{ $t("investments.investment_name") }}
+                    </div>
                     <div>{{ investment.symbol }}</div>
                 </div>
                 <div class="flex flex-col flex-1">
-                    <div class="font-bold">Invested</div>
+                    <div class="font-bold">
+                        {{ $t("investments.invested") }}
+                    </div>
                     <div>{{ investment.invested ?? 0 }} €</div>
                 </div>
                 <div class="flex flex-col flex-1">
-                    <div class="font-bold">P/L %</div>
+                    <div class="font-bold">
+                        {{ $t("investments.price_loss_percent") }}
+                    </div>
                     <div v-if="investment.is_green">
                         {{ investment.profit_percent }}
                     </div>
                     <div v-else>{{ -Math.abs(investment.profit_percent) }}</div>
                 </div>
                 <div class="flex flex-col flex-1">
-                    <div class="font-bold">P/L</div>
+                    <div class="font-bold">
+                        {{ $t("investments.price_loss") }}
+                    </div>
                     <div v-if="investment.is_green">
                         {{ investment.profit ?? 0 }} €
                     </div>
                     <div v-else>{{ -Math.abs(investment.profit) ?? 0 }} €</div>
                 </div>
                 <div class="flex flex-col flex-1">
-                    <div class="font-bold">Value</div>
+                    <div class="font-bold">{{ $t("investments.value") }}</div>
                     <div>{{ investment.value ?? 0 }} €</div>
                 </div>
             </div>
@@ -50,7 +58,7 @@
                 :action="{
                     edit: 'investment.edit',
                     delete: 'investment.destroy',
-                    redirect: '/investment'
+                    redirect: '/investment',
                 }"
                 :id="investment.id"
             ></EditOrDelete>
@@ -63,10 +71,12 @@
 import DetailsDisplay from "../Components/DetailsDisplay.vue";
 import NoData from "../Components/NoData.vue";
 import EditOrDelete from "../Components/EditOrDelete.vue";
+import { provide } from "vue";
 
 let pageVariables = defineProps({
     investments: Object,
     detailsTab: Object,
 });
 
+provide("translate", "investments");
 </script>

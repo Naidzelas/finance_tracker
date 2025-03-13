@@ -24,10 +24,13 @@ class DebtController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $debt = Debt::where('user_id', $user->id)->with(['budgetType.expense:id,type_id,amount', 'icon', 'debtDetail', 'documents'])->get()->map(function ($debt) {
-            if ($debt->toArray()['budget_type']) {
-                $debt->paid = array_sum(array_column($debt->toArray()['budget_type']['expense'], 'amount'));
-            }
+        $debt = Debt::where('user_id', $user->id)
+            ->with(['budgetType.expense:id,type_id,amount', 'icon', 'debtDetail', 'documents'])
+            ->get()
+            ->map(function ($debt) {
+                if ($debt->toArray()['budget_type']) {
+                    $debt->paid = array_sum(array_column($debt->toArray()['budget_type']['expense'], 'amount')) ?? 0;
+                }
             return $debt;
         });
 
@@ -72,7 +75,7 @@ class DebtController extends Controller
             'monthly_payment' => 'required|numeric',
             'loan_final_amount' => 'required|numeric',
             'interest_rate' => 'required|numeric',
-            'payment_date' => 'required|date',
+            'payment_date' => 'required|numeric|lte:31',
             'loan_end_date' => 'required|date',
             'loan_iban' => 'nullable|string',
             'avatar' => 'nullable|array',
@@ -88,7 +91,7 @@ class DebtController extends Controller
 
         $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
         $tagService = new TagService($tagRepository);
-        if(!$request->loan_iban != null){
+        if ($request?->loan_iban) {
             $tagService->applyTagsByIban($request->loan_iban, $budgetType->id);
         }
         event(new NotificationEvent('Budget item has been created'));
@@ -201,10 +204,18 @@ class DebtController extends Controller
         $debt = Debt::with('debtDetail')->find($debtId);
         $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
         $tagService = new TagService($tagRepository);
-        $tagService->removeTagsByIban($debt->debtDetail->loan_iban);
+        if ($debt->debtDetail?->loan_iban) {
+            $tagService->removeTagsByIban($debt->debtDetail->loan_iban);
+        }
         // TODO Possibly add DB constraint on delete.
-        DebtDetail::find($debt->id)->delete();
-        BudgetTypes::find($debt->type_id)->delete();
+        $debtDetail = DebtDetail::find($debt->id);
+        if ($debtDetail) {
+            $debtDetail->delete();
+        }
+        $budgetTypes = BudgetTypes::find($debt->type_id);
+        if ($budgetTypes) {
+            $budgetTypes->delete();
+        }
         $debt->delete();
     }
 
@@ -212,16 +223,16 @@ class DebtController extends Controller
     {
         $table = [
             'thead' => [
-                'Paid Amount',
-                'Loan End Date',
-                'Loan Final Amount',
-                'Loan Iban'
+                'loan_payed',
+                'loan_end_date',
+                'loan_final_amount',
+                'loan_iban'
             ]
         ];
 
         foreach ($debt->toArray() as $detail) {
             $table[$detail['debt_detail']['id']]['tbody'][] = [
-                $detail['paid'] ?? 0,
+                round($detail['paid'],2) ?? 0,
                 Carbon::parse($detail['debt_detail']['loan_end_date'])->format('Y-m-d'),
                 $detail['loan_final_amount'],
                 $detail['debt_detail']['loan_iban'] ?? 'N/A'

@@ -152,7 +152,7 @@ class GoalController extends Controller
 
         $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
         $tagService = new TagService($tagRepository);
-        if (!$request->saving_account_iban != null) {
+        if ($request?->saving_account_iban) {
             $tagService->applyTagsByIban($request->saving_account_iban, $goal->type_id);
         }
         event(new NotificationEvent('Budget items have been updated'));
@@ -183,10 +183,10 @@ class GoalController extends Controller
     {
         $table = [
             'thead' => [
-                'Id',
-                'Date',
-                'Paid',
-                'Progress'
+                'id',
+                'date',
+                'paid',
+                'progress'
             ]
         ];
 

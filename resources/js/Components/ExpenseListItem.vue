@@ -1,6 +1,9 @@
 <template>
-    <div v-if="!Object.keys(data).length"> Empty </div>
-    <div v-for="item in data" class="border-2 bg-[white] mt-1 rounded h-10 columns-3">
+    <div v-if="!Object.keys(data).length">{{ $t("general.no_data") }}</div>
+    <div
+        v-for="item in data"
+        class="columns-3 bg-[white] mt-1 border-2 rounded h-10"
+    >
         <div class="pt-1 pl-4 font-bold text-left">
             {{ item.transaction_name.substring(0, 20) }}
         </div>

@@ -1,6 +1,6 @@
 <template>
     <div class="relative p-5">
-        <label for="form_item" class="font-thin text-xl">{{ name }}</label>
+        <label for="form_item" class="font-thin text-xl">{{ $t(registerRoute + "." + name) }}</label>
         <div
             class="relative flex-col bg-white mt-1 border-b-2 border-black w-fit h-7"
         >
@@ -11,7 +11,7 @@
                 name="form_item"
                 v-model="value"
                 class="block pl-3 w-full cursor-pointer"
-                :placeholder="name"
+                :placeholder="$t(registerRoute + '.' + name).toLocaleLowerCase()"
                 :value="value"
             />
             <div class="top-0 right-0 absolute place-items-center grid h-full">
@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, inject } from "vue";
 
 let pageVariables = defineProps({
     name: String,
@@ -49,7 +49,7 @@ let pageVariables = defineProps({
 });
 
 const style = ref("invisible");
-
+let registerRoute = inject("registerRoute");
 const value = ref();
 
 // TODO ugly, need refactor.

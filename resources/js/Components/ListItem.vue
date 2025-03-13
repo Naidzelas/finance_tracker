@@ -1,14 +1,18 @@
 <template>
     <!-- String input -->
     <div v-if="list.dataType == 'String'" class="relative p-5">
-        <label for="form_item" class="font-thin text-xl">{{ list.name }}</label>
+        <label for="form_item" class="font-thin text-xl">{{
+            $t(registerRoute + "." + list.name)
+        }}</label>
         <div class="flex bg-white mt-1 border-b-2 border-black w-52 h-7">
             <input
                 :id="list.name"
                 v-model="form[list.name]"
                 name="form_item[]"
                 class="block pl-3 w-full"
-                :placeholder="list.name"
+                :placeholder="
+                    $t(registerRoute + '.' + list.name).toLocaleLowerCase()
+                "
             />
         </div>
         <div v-if="er[list.name]" class="text-red-500 text-sm">
@@ -25,14 +29,18 @@
 
     <!-- Number value input -->
     <div v-if="list.dataType == 'Number'" class="relative p-5">
-        <label for="form_item" class="font-thin text-xl">{{ list.name }}</label>
+        <label for="form_item" class="font-thin text-xl">{{
+            $t(registerRoute + "." + list.name)
+        }}</label>
         <div class="flex bg-white mt-1 border-b-2 border-black w-52 h-7">
             <input
                 :id="list.name"
                 v-model="form[list.name]"
                 name="form_item"
                 class="block pl-3 w-full"
-                :placeholder="list.name"
+                :placeholder="
+                    $t(registerRoute + '.' + list.name).toLocaleLowerCase()
+                "
             />
         </div>
         <div v-if="er[list.name]" class="text-red-500 text-sm">
@@ -48,6 +56,7 @@
         :form="form"
         :data="list.value"
         :error="er[list.name]"
+        class="z-10"
     ></DropDown>
 
     <!-- Boolean value input -->
@@ -87,4 +96,5 @@ onMounted(() => {
 });
 
 let selectData = inject("selectData");
+let registerRoute = inject("registerRoute");
 </script>

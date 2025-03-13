@@ -45,7 +45,9 @@
             </Link>
         </div>
     </div>
-    <div class="flex mr-10 text-4xl">finance</div>
+    <div class="flex mr-10 text-4xl">
+        {{ $t("general.finance").toLocaleLowerCase() }}
+    </div>
 </template>
 <script setup>
 import { reactive, provide, ref, onMounted } from "vue";

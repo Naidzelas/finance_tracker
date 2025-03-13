@@ -1,14 +1,16 @@
 <template>
     <div class="mr-40 ml-40">
-        <div class="mt-10 mb-10 text-5xl">{{user.name}} cubicle</div>
+        <div class="mt-10 mb-10 text-5xl">
+            {{ user.name }} {{ $t("user.cubicle").toLocaleLowerCase() }}
+        </div>
         <div class="gap-4 grid grid-cols-3">
             <div class="col-span-3">
                 <form @submit.prevent="submit">
                     <div class="flex">
                         <div class="relative p-5">
-                            <label for="form_item" class="font-thin text-xl"
-                                >Etoro account</label
-                            >
+                            <label for="form_item" class="font-thin text-xl">{{
+                                $t("user.etoro_account")
+                            }}</label>
                             <div
                                 class="flex bg-white mt-1 border-b-2 border-black w-52 h-7"
                             >
@@ -20,9 +22,9 @@
                             </div>
                         </div>
                         <div class="relative p-5">
-                            <label for="form_item" class="font-thin text-xl"
-                                >Income</label
-                            >
+                            <label for="form_item" class="font-thin text-xl">{{
+                                $t("user.income")
+                            }}</label>
                             <div
                                 class="flex bg-white mt-1 border-b-2 border-black w-52 h-7"
                             >
@@ -33,26 +35,26 @@
                                 />
                             </div>
                         </div>
-    
+
                         <div class="relative p-5">
-                            <label for="form_item" class="font-thin text-xl"
-                                >Debt</label
-                            >
+                            <label for="form_item" class="font-thin text-xl">{{
+                                $t("user.debt")
+                            }}</label>
                             <div
                                 class="flex bg-white mt-1 border-b-2 border-black w-52 h-7"
                             >
                                 <input
                                     name="form_item"
                                     class="block pl-3 w-full"
-                                    :value="debt.paid+ ' / ' +debt.total"
+                                    :value="(debt.paid).toFixed(2) + ' / ' + debt.total"
                                     disabled
                                 />
                             </div>
                         </div>
                         <div class="relative p-5">
-                            <label for="form_item" class="font-thin text-xl"
-                                >Invested</label
-                            >
+                            <label for="form_item" class="font-thin text-xl">{{
+                                $t("user.invested")
+                            }}</label>
                             <div
                                 class="flex bg-white mt-1 border-b-2 border-black w-52 h-7"
                             >
@@ -65,9 +67,9 @@
                             </div>
                         </div>
                         <div class="relative p-5">
-                            <label for="form_item" class="font-thin text-xl"
-                                >Email</label
-                            >
+                            <label for="form_item" class="font-thin text-xl">{{
+                                $t("user.email")
+                            }}</label>
                             <div
                                 class="flex bg-white mt-1 border-b-2 border-black h-7"
                             >

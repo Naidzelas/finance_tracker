@@ -13,7 +13,7 @@
                             as="button"
                             method="post"
                             class="group-hover:visible invisible bg-white hover:bg-orange-400 p-2 rounded h-fit font-bold hover:text-white"
-                            >Leave my office</Link
+                            >{{ $t("general.logout") }}</Link
                         >
                     </div>
                     <div>
@@ -21,7 +21,7 @@
                             :href="route('profile.index')"
                             as="button"
                             class="group-hover:visible invisible bg-white hover:bg-orange-400 mt-1 ml-2 p-2 rounded h-fit font-bold hover:text-white"
-                            >Get to your cubical</Link
+                            >{{ $t('general.profile') }}</Link
                         >
                     </div>
                 </div>

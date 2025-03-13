@@ -3,8 +3,10 @@
         <div
             class="clear-both gap-10 grid grid-cols-3 mr-40 mb-10 ml-40 w-screen"
         >
-            <div class="col-span-2 text-4xl">current expenses</div>
-            <div class="text-4xl">personal Information</div>
+            <div class="col-span-2 text-4xl">
+                {{ $t("expenses.title").toLocaleLowerCase() }}
+            </div>
+            <div class="text-4xl">{{ $t("expenses.personal_information").toLocaleLowerCase() }}</div>
             <PreviousExpenseList
                 :previous_expenses="previous_expenses"
                 :budget_types="budget_types"
@@ -14,10 +16,14 @@
                 :budget_types="budget_types"
             ></CurrentExpenseList>
             <div>
-                <div class="mb-6 text-2xl text-left">basic info</div>
+                <div class="mb-6 text-2xl text-left">
+                    {{ $t("expenses.basic_info").toLocaleLowerCase() }}
+                </div>
                 <BasicInfo :debt="debt" :invested="invested"></BasicInfo>
 
-                <div class="mt-6 mb-6 text-2xl text-left">budget remaining</div>
+                <div class="mt-6 mb-6 text-2xl text-left">
+                    {{ $t("expenses.budget_remaining").toLocaleLowerCase() }}
+                </div>
                 <div class="flex justify-end mt-[-2em] mb-2">
                     <Link
                         href="/budget/create"
@@ -30,14 +36,18 @@
                             icon="carbon:add-filled"
                             class="mr-1 size-6"
                         ></Icon>
-                        Add new
+                        {{ $t("general.add_new") }}
                     </Link>
                 </div>
 
                 <BudgetDisplay></BudgetDisplay>
-                <div class="mt-6 mb-6 text-2xl text-left">upcoming news</div>
+                <div class="mt-6 mb-6 text-2xl text-left">
+                    {{ $t("expenses.upcoming_news").toLocaleLowerCase() }}
+                </div>
                 <NewsInfo></NewsInfo>
-                <div class="mt-6 mb-6 text-2xl text-left">goals</div>
+                <div class="mt-6 mb-6 text-2xl text-left">
+                    {{ $t("expenses.goals").toLocaleLowerCase() }}
+                </div>
                 <div class="flex justify-end mt-[-2em] mb-2">
                     <Link
                         :href="route('goal.create')"
@@ -50,7 +60,7 @@
                             icon="carbon:add-filled"
                             class="mr-1 size-6"
                         ></Icon>
-                        Add new
+                        {{ $t("general.add_new") }}
                     </Link>
                 </div>
                 <GoalInfo :goal_data="goals"></GoalInfo>

@@ -24,6 +24,7 @@
         "lightvue": "^1.5.1",
         "unplugin-icons": "^0.19.2",
         "vue": "^3.4.35",
+        "vue-i18n": "^11.0.0-rc.1",
         "vue-toastification": "^2.0.0-rc.5",
         "ziggy": "^2.4.0",
         "ziggy-js": "^2.4.1"

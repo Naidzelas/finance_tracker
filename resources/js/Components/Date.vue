@@ -1,6 +1,8 @@
 <template>
     <div class="p-5">
-        <label for="form_item" class="font-thin text-xl">{{ name }}</label>
+        <label for="form_item" class="font-thin text-xl">{{
+            $t(registerRoute + "." + name)
+        }}</label>
         <Datepicker
             v-model="form.loan_end_date"
             :format-locale="lt"
@@ -13,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, inject } from "vue";
 import Datepicker from "@vuepic/vue-datepicker";
 import "../../css/custom-vue-datepicker.css";
 import { lt } from "date-fns/locale";
@@ -26,6 +28,7 @@ let pageVariables = defineProps({
 });
 
 let date = ref();
+let registerRoute = inject("registerRoute");
 
 onMounted(() => {
     const endDate = new Date(pageVariables.data);

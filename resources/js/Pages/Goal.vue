@@ -1,6 +1,6 @@
 <template>
     <section class="flex flex-col mr-40 ml-40">
-        <div class="mb-10 text-5xl">current goals</div>
+        <div class="mb-10 text-5xl">{{ $t("goals.title").toLocaleLowerCase() }}</div>
         <div
             v-if="Object.keys(goals).length"
             v-for="goal in goals"
@@ -21,21 +21,21 @@
                     </div>
                 </div>
                 <div class="flex flex-col flex-1">
-                    <div class="font-bold">Need</div>
+                    <div class="font-bold">{{ $t("goals.need") }}</div>
                     <div>{{ goal.end_goal }}</div>
                 </div>
                 <div class="flex flex-col flex-1">
-                    <div class="font-bold">Monthly</div>
+                    <div class="font-bold">{{ $t("goals.monthly") }}</div>
                     <div>€ {{ goal.contribution }}</div>
                 </div>
                 <div class="flex flex-col flex-1">
-                    <div class="font-bold">Months to complete</div>
+                    <div class="font-bold">{{ $t("goals.months_to_complete") }}</div>
                     <div>
                         {{ (goal.end_goal / goal.contribution).toFixed(1) }}
                     </div>
                 </div>
                 <div class="flex flex-col flex-1">
-                    <div class="font-bold">Saved</div>
+                    <div class="font-bold">{{ $t("goals.saved") }}</div>
                     <div>{{ goal.deposit }}</div>
                 </div>
             </div>
@@ -61,11 +61,14 @@ import DetailsDisplay from "../Components/DetailsDisplay.vue";
 import EditOrDelete from "../Components/EditOrDelete.vue";
 import NoData from "../Components/NoData.vue";
 import LvProgressBar from "lightvue/progress-bar";
+import { provide } from "vue";
 
 let pageVariables = defineProps({
     goals: Object,
     detailsTab: Object,
 });
+
+provide("translate", 'goals');
 
 function getPercent(fullSum = 0, sum = 0) {
     return Number(((sum / fullSum) * 100).toFixed());

@@ -70,9 +70,9 @@
             </div>
         </form>
         <div class="clear-both' columns-3 bg-[#7B7B7B] border-2 'rounded h-10">
-            <div class="pt-1 font-bold text-[white]">Name</div>
-            <div class="pt-1 font-bold text-[white]">Amount (Eur)</div>
-            <div class="pt-1 font-bold text-[white]">Date</div>
+            <div class="pt-1 font-bold text-[white]">{{$t('expenses.expense_name')}}</div>
+            <div class="pt-1 font-bold text-[white]">{{$t('expenses.amount')}}</div>
+            <div class="pt-1 font-bold text-[white]">{{$t('expenses.date')}}</div>
         </div>
         <ExpenseListItem :data="previous_expenses"></ExpenseListItem>
     </div>

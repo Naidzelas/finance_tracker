@@ -1,65 +1,118 @@
 <template>
-    <div class="mt-2 text-2xl text-start mr">{{ name }}</div>
+    <div class="mt-2 text-2xl text-start mr">
+        {{ $t("general." + name) }}
+    </div>
     <div class="bg-gray-400 mt-1 mb-6 w-full h-px"></div>
     <div v-if="Object.keys(data).length" class="gap-2 grid grid-cols-6">
         <div class="flex-col">
-            <label class="font-bold text-md">Revenue</label>
+            <label class="font-bold text-md">{{
+                $t(translate + ".revenue")
+            }}</label>
             <div v-if="data.is_green">{{ data.revenue }}</div>
             <div v-else>{{ -Math.abs(data.revenue) }}</div>
         </div>
         <div class="flex-col">
-            <label class="font-bold text-md">EPS</label>
+            <label class="font-bold text-md">{{
+                $t(translate + ".eps")
+            }}</label>
             <div v-if="data.is_eps_green">{{ data.eps }}</div>
             <div v-else>{{ -Math.abs(data.eps) }}</div>
         </div>
         <div class="flex-col">
-            <label class="font-bold text-md">PE Ratio</label>
+            <label class="font-bold text-md">{{
+                $t(translate + ".pe_ratio")
+            }}</label>
             <div v-if="data.is_pe_green">{{ data.pe_ratio }}</div>
             <div v-else>{{ -Math.abs(data.pe_ratio) }}</div>
         </div>
         <div class="flex-col">
-            <label class="font-bold text-md">Dividend</label>
+            <label class="font-bold text-md">{{
+                $t(translate + ".dividend")
+            }}</label>
             <div>{{ data.dividend }}</div>
         </div>
         <div class="flex-col">
-            <label class="font-bold text-md">Dividend Ex Date</label>
-            <div>{{ data.dividend_ex_date ?? 'N/A' }}</div>
+            <label class="font-bold text-md">{{
+                $t(translate + ".dividend_ex_date")
+            }}</label>
+            <div>{{ data.dividend_ex_date ?? "N/A" }}</div>
         </div>
         <div class="flex-col">
-            <label class="font-bold text-md">Dividend Pay Date</label>
-            <div>{{ data.dividend_pay_date ?? 'N/A' }}</div>
+            <label class="font-bold text-md">{{
+                $t(translate + ".dividend_pay_date")
+            }}</label>
+            <div>{{ data.dividend_pay_date ?? "N/A" }}</div>
         </div>
         <div class="flex-col">
-            <label class="font-bold text-md">Type</label>
-            <div>{{ data.investment.investment_type.name }}</div>
+            <label class="font-bold text-md">{{
+                $t(translate + ".investment_type")
+            }}</label>
+            <div>
+                {{
+                    $t(
+                        translate +
+                            "." +
+                            data.investment.investment_type.name.toLowerCase()
+                    )
+                }}
+            </div>
         </div>
         <div class="flex-col">
-            <label class="font-bold text-md">Sector</label>
-            <div>{{ data.investment.investment_sector.name }}</div>
+            <label class="font-bold text-md">{{
+                $t(translate + ".sector")
+            }}</label>
+            <div>
+                {{
+                    $t(
+                        translate +
+                            "." +
+                            data.investment.investment_sector.name
+                                .toLowerCase()
+                                .replace(" ", "_")
+                    )
+                }}
+            </div>
         </div>
         <div class="flex-col">
-            <label class="font-bold text-md">Earnings call</label>
+            <label class="font-bold text-md">{{
+                $t(translate + ".earnings_call")
+            }}</label>
             <div>In progress</div>
         </div>
         <div class="flex-col">
-            <label class="font-bold text-md">Dividend Payout</label>
+            <label class="font-bold text-md">{{
+                $t(translate + ".dividend_payout")
+            }}</label>
             <div>In progress</div>
         </div>
         <div class="flex-col">
-            <label class="font-bold text-md">Dividend Tax</label>
+            <label class="font-bold text-md">{{
+                $t(translate + ".dividend_tax")
+            }}</label>
             <div>In progress</div>
         </div>
         <div class="flex-col">
-            <label class="font-bold text-md">Dividend Frequency</label>
-            <div>{{ data.dividend_frequency ?? 'N/A' }}</div>
+            <label class="font-bold text-md">{{
+                $t(translate + ".dividend_frequency")
+            }}</label>
+            <div>
+                {{
+                    $t(
+                        translate + "." + data.dividend_frequency.toLowerCase()
+                    ) ?? "N/A"
+                }}
+            </div>
         </div>
     </div>
-    <div v-else>No Data</div>
+    <div v-else>{{ $t("general.no_data") }}</div>
 </template>
 
 <script setup>
+import { inject } from "vue";
 defineProps({
     name: String,
     data: Object,
 });
+
+let translate = inject("translate");
 </script>

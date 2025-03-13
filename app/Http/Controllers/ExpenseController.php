@@ -46,7 +46,11 @@ class ExpenseController extends Controller
                 }),
             'invested' => Investment::select('id', 'invested')->get()->sum('invested'),
             'debt' => [
-                'total' => Debt::select('id', 'loan_final_amount')->where('active', 1)->get()->sum('loan_final_amount'),
+                'total' => Debt::select('id', 'loan_final_amount')
+                    ->where('user_id', $user->id)
+                    ->where('active', 1)
+                    ->get()
+                    ->sum('loan_final_amount'),
                 'paid' => Debt::isActive()->select('id', 'type_id')
                     ->with(['budgetType' => fn($query) => $query->select('id')->with('expense:id,type_id,amount')])
                     ->get()

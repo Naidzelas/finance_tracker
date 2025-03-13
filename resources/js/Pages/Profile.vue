@@ -46,7 +46,7 @@
                                 <input
                                     name="form_item"
                                     class="block pl-3 w-full"
-                                    :value="debt.paid + ' / ' + debt.total"
+                                    :value="(debt.paid).toFixed(2) + ' / ' + debt.total"
                                     disabled
                                 />
                             </div>

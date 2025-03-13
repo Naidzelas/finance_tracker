@@ -73,9 +73,13 @@
         "payment": "Įmokos",
         "loan_payed": "Apmokėta"
     },
-    "budgetTypes": {
+    "budgets": {
         "title": "Biudžeto tipai",
-        "add_budget_type": "Pridėti biudžeto tipą",
+        "budget": "Biudžetas",
+        "name": "Pavadinimas",
+        "icon_id": "Piktograma",
+        "amount": "Suma",
+        "add_new": "Pridėti biudžeto tipą",
         "budget_type_name": "Biudžeto tipo pavadinimas",
         "description": "Aprašymas"
     },
@@ -121,6 +125,11 @@
         "goals": "Tikslai",
         "documents": "Dokumentai",
         "confirm": "Patvirtinti",
-        "cancel": "Atšaukti"
+        "cancel": "Atšaukti",
+        "error":{
+            "name": "Pavadinimo laukas privalomas",
+            "amount": "Sumos laukas privalomas",
+            "icon_id": "Piktogramos laukas privalomas"
+        }
     }
 }

@@ -9,6 +9,7 @@ import { ZiggyVue } from "ziggy-js";
 import VueToastificationPlugin from "vue-toastification";
 import { createI18n } from "vue-i18n";
 import lt from "../../lang/lt.json";
+import en from "../../lang/en.json";
 
 createInertiaApp({
     progress: false,
@@ -37,6 +38,7 @@ createInertiaApp({
                     fallbackLocale: "en",
                     messages: {
                         lt: { ...lt },
+                        en: { ...en }
                     },
                 })
             )

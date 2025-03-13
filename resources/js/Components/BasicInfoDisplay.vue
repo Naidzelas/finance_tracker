@@ -6,7 +6,7 @@
             <div class="font-semibold text-2xl">{{ $t("user.debt") }}</div>
             <div class="text-xl">{{ user.income }}</div>
             <div class="text-xl">{{ invested }}</div>
-            <div class="text-xl">{{ debt.paid + " / " + debt.total }}</div>
+            <div class="text-xl">{{ (debt.paid).toFixed(2) + " / " + debt.total }}</div>
         </div>
     </div>
 </template>

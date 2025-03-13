@@ -10,7 +10,9 @@
                 v-model="form[list.name]"
                 name="form_item[]"
                 class="block pl-3 w-full"
-                :placeholder="$t(registerRoute + '.' + list.name). toLocaleLowerCase()"
+                :placeholder="
+                    $t(registerRoute + '.' + list.name).toLocaleLowerCase()
+                "
             />
         </div>
         <div v-if="er[list.name]" class="text-red-500 text-sm">
@@ -27,14 +29,18 @@
 
     <!-- Number value input -->
     <div v-if="list.dataType == 'Number'" class="relative p-5">
-        <label for="form_item" class="font-thin text-xl">{{ $t(registerRoute + "." + list.name) }}</label>
+        <label for="form_item" class="font-thin text-xl">{{
+            $t(registerRoute + "." + list.name)
+        }}</label>
         <div class="flex bg-white mt-1 border-b-2 border-black w-52 h-7">
             <input
                 :id="list.name"
                 v-model="form[list.name]"
                 name="form_item"
                 class="block pl-3 w-full"
-                :placeholder="$t(registerRoute + '.' + list.name). toLocaleLowerCase()"
+                :placeholder="
+                    $t(registerRoute + '.' + list.name).toLocaleLowerCase()
+                "
             />
         </div>
         <div v-if="er[list.name]" class="text-red-500 text-sm">

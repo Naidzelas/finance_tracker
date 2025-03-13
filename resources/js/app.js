@@ -34,7 +34,8 @@ createInertiaApp({
             })
             .use(
                 createI18n({
-                    locale: "lt",
+                    legacy: false,
+                    locale: "en",
                     fallbackLocale: "en",
                     messages: {
                         lt: { ...lt },

@@ -44,7 +44,7 @@ let pageVariables = defineProps({
     name: String,
     options: Object,
     form: Object,
-    data: String,
+    data: String|Number,
     error: String,
 });
 

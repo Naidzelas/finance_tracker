@@ -11,6 +11,18 @@ import { createI18n } from "vue-i18n";
 import lt from "../../lang/lt.json";
 import en from "../../lang/en.json";
 
+const messages = {
+    lt: { ...lt },
+    en: { ...en },
+};
+
+const i18n = createI18n({
+    legacy: false,
+    locale: localStorage.getItem("locale") || "en",
+    fallbackLocale: "en",
+    messages,
+});
+
 createInertiaApp({
     progress: false,
     resolve: (name) => {
@@ -32,18 +44,10 @@ createInertiaApp({
                 maxToasts: 20,
                 newestOnTop: true,
             })
-            .use(
-                createI18n({
-                    legacy: false,
-                    locale: "en",
-                    fallbackLocale: "en",
-                    messages: {
-                        lt: { ...lt },
-                        en: { ...en }
-                    },
-                })
-            )
+            .use(i18n)
             .component("Icon", Icon)
             .mount(el);
     },
 });
+
+export { i18n };

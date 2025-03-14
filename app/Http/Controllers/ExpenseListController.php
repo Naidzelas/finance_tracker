@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Crypt;
 
 class ExpenseListController extends Controller
 {
@@ -33,36 +34,43 @@ class ExpenseListController extends Controller
     }
 
     // TODO possibly make a service for conditional queries.
-    public function fetch($container, $year_month)
+    public function fetch(Request $request, $container, $year_month)
     {
         $containerData = match ($container) {
             'previous_expenses' => Expense::where('date', '>=', Carbon::parse($year_month)->startOfMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::parse($year_month)->endOfMonth()->format('Y-m-d'))
+                ->where('user_id', $request->user()->id)
                 ->orderBy('date')
                 ->get()
                 ->toArray(),
             'default' => []
         };
 
-        return to_route('index', [$container => $containerData]);
+        $encryptedData = Crypt::encrypt($containerData);
+
+        return to_route('index', ['data' => $encryptedData]);
     }
 
-    public function fetchByType($container, $budget_types = null)
+    public function fetchByType(Request $request, $container, $budget_types = null)
     {
         $containerData = match ($container) {
             'current_expenses' => Expense::whereIn('type_id', explode(',', $budget_types))->where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->format('Y-m-d'))
+                ->where('user_id', $request->user()->id)
                 ->orderBy('date')
                 ->get()
                 ->toArray(),
             'previous_expenses' => Expense::whereIn('type_id', explode(',', $budget_types))->where('date', '>=', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->subMonth()->format('Y-m-d'))
+                ->where('user_id', $request->user()->id)
                 ->orderBy('date')
                 ->get()
                 ->toArray(),
             'default' => []
         };
 
-        return to_route('index', [$container => $containerData]);
+        $encryptedData = Crypt::encrypt($containerData);
+
+        return to_route('index', ['data' => $encryptedData]);
     }
 }

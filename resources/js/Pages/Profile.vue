@@ -88,14 +88,15 @@
                             :href="'/'"
                             class="bg-[#525252] mt-2 pb-px w-40 text-white text-xl text-center"
                         >
-                            CANCEL
+                            {{ $t("general.cancel") }}
                         </Link>
 
                         <button
                             type="submit"
                             class="bg-[#006692] mt-2 pb-px w-40 text-white text-xl text-center"
+                            :disabled="form.processing"
                         >
-                            CONFIRM
+                            {{ $t("general.confirm") }}
                         </button>
                     </div>
                 </form>

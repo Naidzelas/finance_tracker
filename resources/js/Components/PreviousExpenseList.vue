@@ -23,7 +23,7 @@
 
             <div
                 @click="navToggle(true)"
-                class="place-items-center grid bg-[#3C3C3C] ml-1 rounded-md size-8"
+                class="place-items-center grid bg-[#3C3C3C] ml-1 rounded-md size-8 cursor-pointer"
             >
                 <Icon
                     icon="tabler:category-filled"

@@ -12,6 +12,7 @@
                 <button
                     @click="deleteItem(item.id)"
                     class="hover:text-red-900 hover:scale-125 transition transform"
+                    :disabled="disableState"
                 >
                     <Icon
                         icon="fa6-solid:trash"
@@ -53,12 +54,18 @@ defineProps({
     data: Object,
 });
 
+let disableState = ref(false);
+let visible = ref("invisible");
 const deleteItem = async (id) => {
+    disableState.value = true;
+    visible.value = "visible";
     router.delete(route("document.destroy", id), {
         onSuccess: () => {
             router.visit("/debt", { only: ["debts"] });
         },
         onError: (errors) => {
+            disableState.value = false;
+            visible.value = "invisible";
             console.error("Delete failed:", errors);
         },
     });

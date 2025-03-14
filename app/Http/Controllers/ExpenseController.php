@@ -15,6 +15,7 @@ use App\Services\Tag\Repositories\TagRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Crypt;
 
 class ExpenseController extends Controller
 {
@@ -22,15 +23,16 @@ class ExpenseController extends Controller
 
     public function index(Request $request)
     {
-        // dd($request);
         $user = $request->user();
+        $decryptedData = $request->has('data') ? Crypt::decrypt($request->input('data')) : null;
+
         return Inertia::render('Home', [
-            'current_expenses' => $request->current_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
+            'current_expenses' => $decryptedData ?? $request->current_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->format('Y-m-d'))
                 ->where('user_id', $user->id)
                 ->orderBy('date')
                 ->get(),
-            'previous_expenses' => $request->previous_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d'))
+            'previous_expenses' => $decryptedData ?? $request->previous_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->subMonth()->format('Y-m-d'))
                 ->where('user_id', $user->id)
                 ->orderBy('date')

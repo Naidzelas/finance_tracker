@@ -63,14 +63,15 @@
                 @click="modalToggle(false)"
                 class="bg-[#525252] mt-2 pb-px w-[90%] text-white text-xl text-center"
             >
-                CANCEL
+                {{ $t("general.cancel") }}
             </button>
 
             <button
                 type="submit"
                 class="bg-[#006692] mt-2 mb-4 pb-px w-[90%] text-white text-xl text-center"
+                :disabled="form.processing"
             >
-                CONFIRM
+                {{ $t("general.confirm") }}
             </button>
         </div>
     </form>

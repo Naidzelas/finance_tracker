@@ -23,13 +23,7 @@ class BudgetTypesController extends Controller
     public function create()
     {
         if (RequestFacade::input('search')) {
-            $suggestions = Expense::select('transaction_name')
-                ->distinct()
-                ->when(RequestFacade::input('search'), function ($data, $search) {
-                    $searchString = '%' . $search . '%';
-                    $data->where('transaction_name', 'like', $searchString);
-                })->limit(5)
-                ->get();
+            $suggestions = self::suggestTag(RequestFacade::input('search'));
         }
 
         return Inertia::render('Item', [
@@ -83,6 +77,10 @@ class BudgetTypesController extends Controller
     {
         $budgetType = BudgetTypes::with(['icon', 'tag'])->find($budgetId);
 
+        if (RequestFacade::input('search')) {
+            $suggestions = self::suggestTag(RequestFacade::input('search'));
+        }
+
         return Inertia::render('Item', [
             'registerRoute' => 'budget/' . $budgetId,
             'method' => 'put',
@@ -94,6 +92,7 @@ class BudgetTypesController extends Controller
             ],
             'selectData' => [
                 'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
+                'tag_suggestions' => $suggestions ?? [],
             ]
         ]);
     }
@@ -150,5 +149,16 @@ class BudgetTypesController extends Controller
         }
         BudgetTypes::find($budgetId)->delete();
         event(new NotificationEvent('Budget item has been deleted'));
+    }
+
+    private function suggestTag($searchInput)
+    {
+        return Expense::select('transaction_name')
+            ->distinct()
+            ->when($searchInput, function ($data, $search) {
+                $searchString = '%' . $search . '%';
+                $data->where('transaction_name', 'like', $searchString);
+            })->limit(5)
+            ->get();
     }
 }

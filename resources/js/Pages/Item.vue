@@ -74,6 +74,7 @@ const page = usePage();
 const formObject = {};
 const listObject = {};
 provide("selectData", page.props.selectData);
+provide("method", page.props.method);
 provide("data", page.props.data);
 provide("registerRoute", page.props.registerRoute.split('/',1) + "s");
 

@@ -11,6 +11,7 @@ use App\Models\Expenses\Expense;
 use App\Models\Icons;
 use App\Services\Tag\Repositories\TagRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as RequestFacade;
 use Inertia\Inertia;
 
 class BudgetTypesController extends Controller
@@ -21,6 +22,16 @@ class BudgetTypesController extends Controller
     }
     public function create()
     {
+        if (RequestFacade::input('search')) {
+            $suggestions = Expense::select('transaction_name')
+                ->distinct()
+                ->when(RequestFacade::input('search'), function ($data, $search) {
+                    $searchString = '%' . $search . '%';
+                    $data->where('transaction_name', 'like', $searchString);
+                })->limit(5)
+                ->get();
+        }
+
         return Inertia::render('Item', [
             'registerRoute' => 'budget',
             'method' => 'post',
@@ -32,7 +43,8 @@ class BudgetTypesController extends Controller
             ],
             'selectData' => [
                 'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
-            ]
+                'tag_suggestions' => $suggestions ?? [],
+            ],
         ]);
     }
     public function store(Request $request)

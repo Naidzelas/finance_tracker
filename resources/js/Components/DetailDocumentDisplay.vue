@@ -49,6 +49,8 @@
 
 <script setup>
 import { router } from "@inertiajs/vue3";
+import { ref } from "vue";
+
 defineProps({
     name: String,
     data: Object,

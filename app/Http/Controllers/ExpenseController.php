@@ -24,15 +24,20 @@ class ExpenseController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $decryptedData = $request->has('data') ? Crypt::decrypt($request->input('data')) : null;
+        
+        match(true){
+            $request->has('previous_expenses') => $previous_expenses = Crypt::decrypt($request->input('previous_expenses')),
+            $request->has('current_expenses') => $current_expenses = Crypt::decrypt($request->input('current_expenses')),
+            default => null
+        };
 
         return Inertia::render('Home', [
-            'current_expenses' => $decryptedData ?? $request->current_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
+            'current_expenses' => $current_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->format('Y-m-d'))
                 ->where('user_id', $user->id)
                 ->orderBy('date')
                 ->get(),
-            'previous_expenses' => $decryptedData ?? $request->previous_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d'))
+            'previous_expenses' => $previous_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->subMonth()->format('Y-m-d'))
                 ->where('user_id', $user->id)
                 ->orderBy('date')

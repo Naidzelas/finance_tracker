@@ -132,6 +132,7 @@
         "documents": "Documents",
         "confirm": "Confirm",
         "cancel": "Cancel",
+        "no_matches_found": "No matches found",
         "error": {
             "name": "Name field is required",
             "amount": "Amount field is required",

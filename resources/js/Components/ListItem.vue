@@ -8,6 +8,7 @@
             <input
                 :id="list.name"
                 v-model="form[list.name]"
+                autocomplete="off"
                 name="form_item[]"
                 class="block pl-3 w-full"
                 :placeholder="

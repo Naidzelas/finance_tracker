@@ -126,6 +126,7 @@
         "documents": "Dokumentai",
         "confirm": "Patvirtinti",
         "cancel": "Atšaukti",
+        "no_matches_found": "Nerasta atitikmenų",
         "error":{
             "name": "Pavadinimo laukas privalomas",
             "amount": "Sumos laukas privalomas",

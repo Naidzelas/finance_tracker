@@ -232,7 +232,7 @@ class DebtController extends Controller
 
         foreach ($debt->toArray() as $detail) {
             $table[$detail['debt_detail']['id']]['tbody'][] = [
-                round($detail['paid'],2) ?? 0,
+                array_key_exists('paid', $detail) ? round($detail['paid'],2) : 0,
                 Carbon::parse($detail['debt_detail']['loan_end_date'])->format('Y-m-d'),
                 $detail['loan_final_amount'],
                 $detail['debt_detail']['loan_iban'] ?? 'N/A'

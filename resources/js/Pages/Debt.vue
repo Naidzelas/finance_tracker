@@ -49,7 +49,8 @@
                     <div class="font-bold">{{ $t("debts.loan_payed") }}</div>
                     <div>
                         {{
-                            debt.paid.toFixed(2) + " / " + debt.loan_size ??
+                            typeof debt.paid !== 'undefined' ? debt.paid.toFixed(2) : 0
+                             + " / " + debt.loan_size ??
                             "N/A"
                         }}
                     </div>

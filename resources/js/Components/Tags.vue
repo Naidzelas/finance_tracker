@@ -78,8 +78,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
-import { router } from "@inertiajs/vue3";
+import { ref, onMounted, watch, inject } from "vue";
+import { router, usePage } from "@inertiajs/vue3";
 
 let pageVariables = defineProps({
     form: Object,
@@ -95,17 +95,33 @@ onMounted(() => {
     }
 });
 
+const page = usePage();
 const tags = ref([]);
+const method = inject("method");
+const registerRoute = page.url.split("/");
 const newTag = ref("");
 const tag_suggestions = ref([]);
 let visible = ref("invisible");
+let routeAction = [];
 
 watch(
     () => newTag.value,
     (value) => {
         visible.value = "visible";
+        switch (method) {
+            case "put":
+                routeAction = [
+                    registerRoute[1] + ".edit",
+                    { id: registerRoute[2] },
+                ];
+                break;
+            case "post":
+                routeAction = [registerRoute[1] + ".create"];
+                break;
+            default:
+        }
         router.get(
-            route("budget.create"),
+            route(routeAction[0], routeAction[1]),
             { search: value },
             {
                 replace: true,

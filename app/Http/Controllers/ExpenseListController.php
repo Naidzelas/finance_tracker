@@ -48,7 +48,7 @@ class ExpenseListController extends Controller
 
         $encryptedData = Crypt::encrypt($containerData);
 
-        return to_route('index', ['data' => $encryptedData]);
+        return to_route('index', [$container => $encryptedData]);
     }
 
     public function fetchByType(Request $request, $container, $budget_types = null)
@@ -71,6 +71,6 @@ class ExpenseListController extends Controller
 
         $encryptedData = Crypt::encrypt($containerData);
 
-        return to_route('index', ['data' => $encryptedData]);
+        return to_route('index', [$container => $encryptedData]);
     }
 }

@@ -5,23 +5,9 @@ import { createInertiaApp } from "@inertiajs/vue3";
 import { Icon } from "@iconify/vue";
 import { ZiggyVue } from "ziggy-js";
 import VueToastificationPlugin from "vue-toastification";
-import { createI18n } from "vue-i18n";
-import lt from "../../lang/lt.json";
-import en from "../../lang/en.json";
 import Layout from "./Layout/Layout.vue";
 import PreAppLayout from "./Layout/PreAppLayout.vue";
-
-const messages = {
-    lt: { ...lt },
-    en: { ...en },
-};
-
-const i18n = createI18n({
-    legacy: false,
-    locale: localStorage.getItem("locale") || "en",
-    fallbackLocale: "en",
-    messages,
-});
+import { i18n } from "./i18n";
 
 createInertiaApp({
     progress: false,
@@ -53,5 +39,3 @@ createInertiaApp({
             .mount(el);
     },
 });
-
-export { i18n };

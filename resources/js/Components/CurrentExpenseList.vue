@@ -1,6 +1,6 @@
 <template>
-    <div class="relative border h-lvh text-center">
-        <div class="flex">
+    <div class="relative border text-center">
+        <div class="flex mr-3 lg:mr-0 ml-3 lg:ml-0">
             <div class="bg-[white] mb-2 border-6 rounded w-52 h-8 text-lg">
                 {{ today.substring(0, 7) }}
             </div>
@@ -53,14 +53,14 @@
                 </button>
             </div>
         </form>
-        <div class="clear-both' columns-3 bg-[#9E8167] border-2 'rounded h-10">
-            <div class="pt-1 font-bold text-[white]">
+        <div class="flex bg-[#9E8167] py-1 border-2 rounded h-fit">
+            <div class="flex-1 font-bold text-[white]">
                 {{ $t("expenses.expense_name") }}
             </div>
-            <div class="pt-1 font-bold text-[white]">
+            <div class="flex-1 font-bold text-[white]">
                 {{ $t("expenses.amount") }}
             </div>
-            <div class="pt-1 font-bold text-[white]">
+            <div class="flex-1 font-bold text-[white]">
                 {{ $t("expenses.date") }}
             </div>
         </div>

@@ -2,7 +2,7 @@
     <div class="relative p-5">
         <label for="form_item" class="font-thin text-xl">{{ $t(registerRoute + "." + name) }}</label>
         <div
-            class="relative flex-col bg-white mt-1 border-b-2 border-black w-fit h-7"
+            class="relative flex-col bg-white mt-1 border-b-2 border-black md:w-fit h-7"
         >
             <input
                 @click="dropdown()"

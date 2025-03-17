@@ -25,6 +25,8 @@
         "earnings_call": "Pelnų skelbimas",
         "sector": "Sektorius",
         "annual": "Metinis",
+        "quarterly": "Ketvirčiais",
+        "never": "Niekada",
         "consumer_durables": "Vartotojų prekės",
         "stock": "Akcija",
         "investment_icon_id": "Investicijos piktograma",

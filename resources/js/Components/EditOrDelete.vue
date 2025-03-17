@@ -17,7 +17,8 @@
             <Icon icon="fa6-solid:trash" class="size-4"></Icon>
         </button>
     </div>
-    <Icon icon="icomoon-free:spinner2" class="-top-[90%] left-[100%] relative size-4 animate-spin" :class="visible"></Icon>
+    <!-- TODO fix this loader -->
+    <!-- <Icon icon="icomoon-free:spinner2" class="-top-[90%] left-[100%] relative size-4 animate-spin" :class="visible"></Icon> -->
 </template>
 
 <script setup>

@@ -25,6 +25,8 @@
         "earnings_call": "Earnings Call",
         "sector": "Sector",
         "annual": "Annual",
+        "quarterly": "Quarterly",
+        "never": "Never",
         "consumer_durables": "Consumer Durables",
         "stock": "Stock",
         "investment_icon_id": "Investment Icon",

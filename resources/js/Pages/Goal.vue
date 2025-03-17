@@ -1,6 +1,6 @@
 <template>
-    <section class="flex flex-col mr-40 ml-40">
-        <div class="mb-10 text-5xl">{{ $t("goals.title").toLocaleLowerCase() }}</div>
+    <section class="flex flex-col 2xl:mr-40 2xl:ml-40">
+        <div class="mb-10 text-5xl 2xl:text-left text-center">{{ $t("goals.title").toLocaleLowerCase() }}</div>
         <div
             v-if="Object.keys(goals).length"
             v-for="goal in goals"
@@ -11,32 +11,32 @@
                 :color="'#008ba0'"
                 class="bg-white mb-0.5 rounded-md h-2"
             ></LvProgressBar>
-            <div class="flex bg-[#F4F4F4] -mb-4 p-3 rounded-md">
-                <div class="flex flex-1 pl-10">
+            <div class="md:flex gap-4 grid grid-cols-3 bg-[#F4F4F4] -mb-4 p-3 rounded-md md:text-md text-sm">
+                <div class="flex flex-1 justify-center col-span-3 md:pl-10">
                     <div>
                         <Icon
                             :icon="goal.icon.iconify_name"
-                            class="size-12"
+                            class="size-8 md:size-12"
                         ></Icon>
                     </div>
                 </div>
-                <div class="flex flex-col flex-1">
+                <div class="flex flex-col flex-1 text-center">
                     <div class="font-bold">{{ $t("goals.need") }}</div>
                     <div>{{ goal.end_goal }}</div>
                 </div>
-                <div class="flex flex-col flex-1">
+                <div class="flex flex-col flex-1 text-center">
                     <div class="font-bold">{{ $t("goals.monthly") }}</div>
                     <div>€ {{ goal.contribution }}</div>
                 </div>
-                <div class="flex flex-col flex-1">
+                <div class="flex flex-col flex-1 text-center">
                     <div class="font-bold">{{ $t("goals.months_to_complete") }}</div>
                     <div>
                         {{ (goal.end_goal / goal.contribution).toFixed(1) }}
                     </div>
                 </div>
-                <div class="flex flex-col flex-1">
+                <div class="flex flex-col flex-1 text-center">
                     <div class="font-bold">{{ $t("goals.saved") }}</div>
-                    <div>{{ goal.deposit }}</div>
+                    <div>{{ goal.deposit ?? 0 }}</div>
                 </div>
             </div>
             <DetailsDisplay

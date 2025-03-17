@@ -1,5 +1,5 @@
 <template>
-    <div class="top-0 -left-16 absolute flex gap-2">
+    <div class="top-5 md:top-0 left-10 md:-left-16 absolute flex gap-2">
         <input
             @change="changeLanguage('lt')"
             type="radio"

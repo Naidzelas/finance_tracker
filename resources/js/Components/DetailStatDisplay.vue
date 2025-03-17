@@ -99,7 +99,7 @@
                 {{
                     $t(
                         translate + "." + data.dividend_frequency.toLowerCase()
-                    ) ?? "N/A"
+                    )
                 }}
             </div>
         </div>

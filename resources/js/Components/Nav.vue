@@ -1,6 +1,6 @@
 <template class="relative">
     <ImportFileModal class="z-10"></ImportFileModal>
-    <div class="flex flex-col">
+    <div class="invisible flex flex-col md:visible">
         <div class="relative">
             <button @click="navToggle(true)">
                 <Icon icon="ph:cube-fill" class="mt-1 size-10"></Icon>
@@ -47,7 +47,7 @@
             </Link>
         </div>
     </div>
-    <div class="flex mr-10 text-4xl">
+    <div class="invisible flex mr-10 text-4xl md:visible">
         {{ $t("general.finance").toLocaleLowerCase() }}
     </div>
 </template>

@@ -134,7 +134,9 @@
         "documents": "Documents",
         "confirm": "Confirm",
         "cancel": "Cancel",
+        "drag_and_drop": "Drag and ",
         "no_matches_found": "No matches found",
+        "choose": "Choose files",
         "error": {
             "name": "Name field is required",
             "amount": "Amount field is required",

@@ -128,7 +128,9 @@
         "documents": "Dokumentai",
         "confirm": "Patvirtinti",
         "cancel": "Atšaukti",
+        "drag_and_drop": "Įkelkite failą",
         "no_matches_found": "Nerasta atitikmenų",
+        "choose": "Pasirinkti failus",
         "error":{
             "name": "Pavadinimo laukas privalomas",
             "amount": "Sumos laukas privalomas",

@@ -64,12 +64,7 @@ import DetailNoteDisplay from "./DetailNoteDisplay.vue";
 import DetailTableDisplay from "./DetailTableDisplay.vue";
 import DetailDocumentDisplay from "./DetailDocumentDisplay.vue";
 import DetailStatDisplay from "./DetailStatDisplay.vue";
-
-import Tabs from "primevue/tabs";
-import TabList from "primevue/tablist";
-import Tab from "primevue/tab";
-import TabPanels from "primevue/tabpanels";
-import TabPanel from "primevue/tabpanel";
+import { Tabs, TabList, Tab, TabPanels, TabPanel} from "primevue";
 
 defineProps({ detailsTab: Object, id: Number });
 let state = reactive({ detailsTab: true, expand: true });

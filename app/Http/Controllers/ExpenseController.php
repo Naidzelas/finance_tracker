@@ -75,7 +75,7 @@ class ExpenseController extends Controller
         if (!$request->hasFile('avatar')) {
             return;
         }
-        
+        // TODO refactor for multiple file upload
         switch ($request->bank) {
             case 'seb':
                 $seb = new SEBImportExpensesController;

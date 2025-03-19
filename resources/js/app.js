@@ -10,6 +10,7 @@ import PreAppLayout from "./Layout/PreAppLayout.vue";
 import { i18n } from "./i18n";
 import PrimeVue from "primevue/config";
 import { primePreset } from "./vue-prime-preset";
+import VChart from "vue-echarts";
 
 createInertiaApp({
     progress: false,
@@ -43,6 +44,7 @@ createInertiaApp({
             })
             .use(i18n)
             .component("Icon", Icon)
+            .component("v-chart", VChart)
             .mount(el);
     },
 });

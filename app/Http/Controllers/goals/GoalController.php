@@ -27,6 +27,15 @@ class GoalController extends Controller
             ])
                 ->withSum('goal_deposit as deposit', 'deposit')
                 ->get(),
+            'breadcrumbs' => [
+                [
+                    'label' => 'Home',
+                    'route' => '/'
+                ],
+                [
+                    'label' => 'Goal',
+                ]
+            ],
             'detailsTab' => [
                 'table' => self::buildDetailTable($user),
             ]
@@ -38,6 +47,19 @@ class GoalController extends Controller
         $icons = Icons::query()->select('id', 'iconify_name as data')->get()->toArray();
         return Inertia::render('Item', [
             'registerRoute' => 'goal',
+            'breadcrumbs' => [
+                [
+                    'label' => 'Home',
+                    'route' => '/'
+                ],
+                [
+                    'label' => 'Goal',
+                    'route' => '/goal'
+                ],
+                [
+                    'label' => 'Create'
+                ]
+            ],
             'method' => 'post',
             'list' => [
                 'name' => ['String',],
@@ -121,6 +143,19 @@ class GoalController extends Controller
 
         return Inertia::render('Item', [
             'registerRoute' => 'goal/' . $goalId,
+            'breadcrumbs' => [
+                [
+                    'label' => 'Home',
+                    'route' => '/'
+                ],
+                [
+                    'label' => 'Goal',
+                    'route' => '/goal'
+                ],
+                [
+                    'label' => 'Edit'
+                ]
+            ],
             'method' => 'put',
             'list' => [
                 'name' => ['String', $goal->name],
@@ -169,7 +204,7 @@ class GoalController extends Controller
             $tagService = new TagService($tagRepository);
             $tagService->removeTagsByIban($goal->saving_account_iban);
         }
-        
+
         $budgetTypes = BudgetTypes::find($goal->type_id);
         if ($budgetTypes) {
             $budgetTypes->delete();

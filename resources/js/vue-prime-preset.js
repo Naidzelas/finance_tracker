@@ -35,6 +35,11 @@ const primePreset = definePreset(Aura, {
                 },
             },
         },
+        breadcrumb: {
+            colorScheme:{
+                background: "{gray.200}"
+            }
+        },
     },
 });
 

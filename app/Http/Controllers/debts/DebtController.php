@@ -36,6 +36,16 @@ class DebtController extends Controller
 
         return Inertia::render('Debt', [
             'debts' => $debt,
+            'breadcrumbs' => [
+                [
+                    'label' => 'Home',
+                    'route' => '/'
+                ],
+                [
+                    'label' => 'Debt',
+                    'route' => '/debt'
+                ],
+            ],
             'detailsTab' => [
                 'table' => self::buildDetailTable($debt),
                 'documents' => $debt->keyBy('id'),
@@ -47,6 +57,19 @@ class DebtController extends Controller
     {
         return Inertia::render('Item', [
             'registerRoute' => 'debt',
+            'breadcrumbs' => [
+                [
+                    'label' => 'Home',
+                    'route' => '/'
+                ],
+                [
+                    'label' => 'Debt',
+                    'route' => '/debt'
+                ],
+                [
+                    'label' => 'Create'
+                ]
+            ],
             'method' => 'post',
             'list' => [
                 'name' => ['String',],
@@ -136,6 +159,19 @@ class DebtController extends Controller
         $debt = Debt::with(['debtDetail'])->find($debtId);
         return Inertia::render('Item', [
             'registerRoute' => 'debt/' . $debtId,
+            'breadcrumbs' => [
+                [
+                    'label' => 'Home',
+                    'route' => '/'
+                ],
+                [
+                    'label' => 'Debt',
+                    'route' => '/debt'
+                ],
+                [
+                    'label' => 'Edit'
+                ]
+            ],
             'method' => 'put',
             'list' => [
                 'name' => ['String', $debt->name],

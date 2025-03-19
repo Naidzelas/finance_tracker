@@ -2,23 +2,13 @@
     <section class="mr-10 2xl:mr-40 ml-10 2xl:ml-40">
         <div class="flex flex-col">
             <div class="mb-2 text-4xl xl:text-5xl md:text-left text-center">
-                {{ $t(registerRoute.split('/',1) + "s.add_new").toLocaleLowerCase() }}
+                {{
+                    $t(
+                        registerRoute.split("/", 1) + "s.add_new"
+                    ).toLocaleLowerCase()
+                }}
             </div>
-            <div class="flex mb-8 text-gray-500 text-lg">
-                <div>
-                    {{
-                        $t(
-                            registerRoute.split('/',1) + "s." + registerRoute.split('/',1)
-                        ).toLocaleLowerCase()
-                    }}
-                </div>
-                <div class="self-center">
-                    <Icon icon="mdi:dot" class="size-8"></Icon>
-                </div>
-                <div>
-                    {{ $t(registerRoute.split('/',1) + "s.add_new").toLocaleLowerCase() }}
-                </div>
-            </div>
+            <Breadcrumbs :breadcrumbs="breadcrumbs"></Breadcrumbs>
         </div>
 
         <form @submit.prevent="handleForm(method)">
@@ -59,6 +49,7 @@
 
 <script setup>
 import { useForm, usePage, Link } from "@inertiajs/vue3";
+import Breadcrumbs from "../Components/Breadcrumbs.vue";
 import { provide } from "vue";
 import ListItem from "../Components/ListItem.vue";
 import DragAndDrop from "../Components/DragAndDrop.vue";
@@ -68,14 +59,16 @@ defineProps({
     list: Object,
     selectData: Object,
     method: String,
+    breadcrumbs: Object,
 });
+
 const page = usePage();
 const formObject = {};
 const listObject = {};
 provide("selectData", page.props.selectData);
 provide("method", page.props.method);
 provide("data", page.props.data);
-provide("registerRoute", page.props.registerRoute.split('/',1) + "s");
+provide("registerRoute", page.props.registerRoute.split("/", 1) + "s");
 
 Object.entries(page.props.list).forEach(
     (el) => (

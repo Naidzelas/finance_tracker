@@ -1,8 +1,8 @@
 <template>
-    <div class="mt-2 text-2xl text-start mr">
+    <!-- <div class="mt-2 text-2xl text-start mr">
         {{ $t("general." + name) }}
-    </div>
-    <div class="bg-gray-400 mt-1 mb-6 w-full h-px"></div>
+    </div> -->
+    <!-- <div class="bg-gray-400 mt-1 mb-6 w-full h-px"></div> -->
     <div v-if="Object.keys(data).length" class="gap-2 grid grid-cols-6">
         <div class="flex-col">
             <label class="font-bold text-md">{{
@@ -99,7 +99,7 @@
                 {{
                     $t(
                         translate + "." + data.dividend_frequency.toLowerCase()
-                    ) ?? "N/A"
+                    )
                 }}
             </div>
         </div>

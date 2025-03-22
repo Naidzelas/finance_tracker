@@ -24,8 +24,8 @@ class ExpenseController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        
-        match(true){
+
+        match (true) {
             $request->has('previous_expenses') => $previous_expenses = Crypt::decrypt($request->input('previous_expenses')),
             $request->has('current_expenses') => $current_expenses = Crypt::decrypt($request->input('current_expenses')),
             default => null
@@ -75,34 +75,36 @@ class ExpenseController extends Controller
         if (!$request->hasFile('avatar')) {
             return;
         }
-        
-        switch ($request->bank) {
-            case 'seb':
-                $seb = new SEBImportExpensesController;
-                $data = $seb($request->avatar->path());
-                break;
-            case 'swed':
-                $swed = new SWEDImportExpensesController;
-                $data = $swed($request->avatar->path());
-                break;
-            default:
-        }
 
-        $filterTags = new FilterTags();
-        foreach ($data as $item) {
-            $expense = Expense::updateOrCreate([
-                'user_id' => $request->user()->id,
-                'type_id' => self::UNCATEGORIZED,
-                'transaction_name' => $item['transaction_name'],
-                'amount' => (float) $item['amount'],
-                'date' => $item['transaction_date'],
-                'debit_credit' => $item['debit_credit'],
-                'currency' => $item['currency'],
-                'iban' => $item['iban']
-            ]);
-            $tagRepository = app(TagRepositoryInterface::class, ['model' => $expense, 'availableTags' => $filterTags]);
-            $tagService = new TagService($tagRepository);
-            $tagService->applyTag();
+        foreach ($request->avatar as $file) {
+            switch ($request->bank) {
+                case 'seb':
+                    $seb = new SEBImportExpensesController;
+                    $data = $seb($file->path());
+                    break;
+                case 'swed':
+                    $swed = new SWEDImportExpensesController;
+                    $data = $swed($file->path());
+                    break;
+                default:
+            }
+
+            $filterTags = new FilterTags();
+            foreach ($data as $item) {
+                $expense = Expense::updateOrCreate([
+                    'user_id' => $request->user()->id,
+                    'type_id' => self::UNCATEGORIZED,
+                    'transaction_name' => $item['transaction_name'],
+                    'amount' => (float) $item['amount'],
+                    'date' => $item['transaction_date'],
+                    'debit_credit' => $item['debit_credit'],
+                    'currency' => $item['currency'],
+                    'iban' => $item['iban']
+                ]);
+                $tagRepository = app(TagRepositoryInterface::class, ['model' => $expense, 'availableTags' => $filterTags]);
+                $tagService = new TagService($tagRepository);
+                $tagService->applyTag();
+            }
         }
         return to_route('index');
     }

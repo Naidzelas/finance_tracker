@@ -3,7 +3,7 @@
     <div class="p-5">
         <label for="form_item" class="font-thin text-xl">{{ name }}</label>
         <div
-            class="flex flex-wrap bg-white mt-1 border-b-2 border-black w-fit max-w-[500px] h-auto overflow-x-auto transition ease-in"
+            class="flex flex-wrap bg-white mt-1 border-b-2 border-black md:w-fit max-w-[500px] h-auto overflow-x-auto transition ease-in"
         >
             <div
                 v-for="(tag, index) in tags"
@@ -36,7 +36,7 @@
             />
         </div>
         <div v-if="newTag" class="absolute bg-white shadow-md mt-2 w-56">
-            <div v-if="!tag_suggestions.length" class="absolute pl-2">
+            <div v-if="!tag_suggestions.length" class="absolute pl-2 text-gray-500">
                 {{ $t("general.no_matches_found") }}
             </div>
             <div class="flex flex-row-reverse h-6" :class="visible">

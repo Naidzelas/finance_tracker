@@ -1,21 +1,24 @@
 <template>
-    <section class="clear-both flex justify-center">
-        <div
-            class="clear-both gap-10 grid grid-cols-3 mr-40 mb-10 ml-40 w-screen"
-        >
-            <div class="col-span-2 text-4xl">
-                {{ $t("expenses.title").toLocaleLowerCase() }}
+    <section class="2xl:flex lg:gap-x-10 lg:mr-20 2xl:mr-40 lg:ml-20 2xl:ml-40">
+            <div class="flex flex-col flex-1">
+                <div class="col-span-2 mb-10 text-4xl 2xl:text-left text-center">
+                    {{ $t("expenses.title").toLocaleLowerCase() }}
+                </div>
+                <div class="lg:flex lg:gap-x-10">
+                    <PreviousExpenseList class="flex-1"
+                        :previous_expenses="previous_expenses"
+                        :budget_types="budget_types"
+                    ></PreviousExpenseList>
+                    <CurrentExpenseList class="flex-1"
+                        :current_expenses="current_expenses"
+                        :budget_types="budget_types"
+                    ></CurrentExpenseList>
+                </div>
             </div>
-            <div class="text-4xl">{{ $t("expenses.personal_information").toLocaleLowerCase() }}</div>
-            <PreviousExpenseList
-                :previous_expenses="previous_expenses"
-                :budget_types="budget_types"
-            ></PreviousExpenseList>
-            <CurrentExpenseList
-                :current_expenses="current_expenses"
-                :budget_types="budget_types"
-            ></CurrentExpenseList>
-            <div>
+            <div class="mb-40">
+                <div class="mb-10 text-4xl 2xl:text-left text-center">
+                {{ $t("expenses.personal_information").toLocaleLowerCase() }}
+                </div>
                 <div class="mb-6 text-2xl text-left">
                     {{ $t("expenses.basic_info").toLocaleLowerCase() }}
                 </div>
@@ -65,7 +68,6 @@
                 </div>
                 <GoalInfo :goal_data="goals"></GoalInfo>
             </div>
-        </div>
     </section>
 </template>
 <script setup>

@@ -1,5 +1,5 @@
 <template>
-    <div class="relative flex items-center mt-8 p-5">
+    <div class="relative flex items-center md:mt-8 p-5">
         <input
             :id="id"
             name="form_item"

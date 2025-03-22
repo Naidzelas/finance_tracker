@@ -4,7 +4,7 @@
         <label for="form_item" class="font-thin text-xl">{{
             $t(registerRoute + "." + list.name)
         }}</label>
-        <div class="flex bg-white mt-1 border-b-2 border-black w-52 h-7">
+        <div class="flex bg-white mt-1 border-b-2 border-black md:w-52 h-7">
             <input
                 :id="list.name"
                 v-model="form[list.name]"
@@ -33,7 +33,7 @@
         <label for="form_item" class="font-thin text-xl">{{
             $t(registerRoute + "." + list.name)
         }}</label>
-        <div class="flex bg-white mt-1 border-b-2 border-black w-52 h-7">
+        <div class="flex bg-white mt-1 border-b-2 border-black md:w-52 h-7">
             <input
                 :id="list.name"
                 v-model="form[list.name]"

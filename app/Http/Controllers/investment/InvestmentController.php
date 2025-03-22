@@ -25,6 +25,16 @@ class InvestmentController extends Controller
                 'investmentPossition',
                 'investmentNote'
             ])->get(),
+            'breadcrumbs' => [
+                [
+                    'label' => 'Home',
+                    'route' => '/'
+                ],
+                [
+                    'label' => 'Investment',
+                    'route' => '/investment'
+                ],
+            ],
             'detailsTab' => [
                 'stats' => AssetPerformance::query()->with([
                     'investment.investmentType',
@@ -52,6 +62,20 @@ class InvestmentController extends Controller
 
         return Inertia::render('Item', [
             'registerRoute' => 'investment',
+            'breadcrumbs' => [
+                [
+                    'label' => 'Home',
+                    'route' => '/'
+                ],
+                [
+                    'label' => 'Investment',
+                    'route' => '/investment'
+                ],
+                [
+                    'label' => 'Create',
+                    'route' => '/investment/create'
+                ]
+            ],
             'method' => 'post',
             'list' => $list,
             'selectData' => [
@@ -67,6 +91,20 @@ class InvestmentController extends Controller
 
         return Inertia::render('Item', [
             'registerRoute' => 'investment/' . $investment->id,
+            'breadcrumbs' => [
+                [
+                    'label' => 'Home',
+                    'route' => '/'
+                ],
+                [
+                    'label' => 'Investment',
+                    'route' => '/investment'
+                ],
+                [
+                    'label' => 'Edit',
+                    'route' => '/investment' . '/' . $investmentId . '/edit'
+                ]
+            ],
             'method' => 'put',
             'list' => [
                 'invested' => ['Number', $investment->invested],

@@ -28,6 +28,20 @@ class BudgetTypesController extends Controller
 
         return Inertia::render('Item', [
             'registerRoute' => 'budget',
+            'breadcrumbs' => [
+                [
+                    'label' => 'Home',
+                    'route' => '/'
+                ],
+                [
+                    'label' => 'Budget',
+                    'route' => '/budget'
+                ],
+                [
+                    'label' => 'Create',
+                    'route' => '/budget/create'
+                ]
+            ],
             'method' => 'post',
             'list' => [
                 'name' => ['String',],
@@ -83,6 +97,20 @@ class BudgetTypesController extends Controller
 
         return Inertia::render('Item', [
             'registerRoute' => 'budget/' . $budgetId,
+            'breadcrumbs' => [
+                [
+                    'label' => 'Home',
+                    'route' => '/'
+                ],
+                [
+                    'label' => 'Budget',
+                    'route' => '/budget'
+                ],
+                [
+                    'label' => 'Edit',
+                    'route' => '/budget' . '/' . $budgetId . '/edit'
+                ]
+            ],
             'method' => 'put',
             'list' => [
                 'name' => ['String', $budgetType->name],

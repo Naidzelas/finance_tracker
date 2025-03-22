@@ -8,6 +8,9 @@ import VueToastificationPlugin from "vue-toastification";
 import Layout from "./Layout/Layout.vue";
 import PreAppLayout from "./Layout/PreAppLayout.vue";
 import { i18n } from "./i18n";
+import PrimeVue from "primevue/config";
+import { primePreset } from "./vue-prime-preset";
+import VChart from "vue-echarts";
 
 createInertiaApp({
     progress: false,
@@ -34,8 +37,14 @@ createInertiaApp({
                 maxToasts: 20,
                 newestOnTop: true,
             })
+            .use(PrimeVue, {
+                theme: {
+                    preset: primePreset,
+                },
+            })
             .use(i18n)
             .component("Icon", Icon)
+            .component("v-chart", VChart)
             .mount(el);
     },
 });

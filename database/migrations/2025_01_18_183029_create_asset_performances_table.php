@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('dividend');
             $table->date('dividend_ex_date')->nullable();
             $table->date('dividend_pay_date')->nullable();
-            $table->string('dividend_frequency')->nullable();
+            $table->string('dividend_frequency')->default('NEVER');
             $table->timestamps();
 
             $table->foreign('investment_id')

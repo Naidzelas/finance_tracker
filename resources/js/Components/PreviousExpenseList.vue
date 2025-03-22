@@ -1,6 +1,6 @@
 <template>
-    <div class="relative border h-lvh text-center">
-        <div class="relative flex">
+    <div class="relative border text-center">
+        <div class="flex mr-3 lg:mr-0 ml-3 lg:ml-0">
             <div class="bg-[white] mb-2 border-6 rounded w-52 h-8 text-lg">
                 {{ getPreviousDate() }}
             </div>
@@ -69,10 +69,16 @@
                 </button>
             </div>
         </form>
-        <div class="clear-both' columns-3 bg-[#7B7B7B] border-2 'rounded h-10">
-            <div class="pt-1 font-bold text-[white]">{{$t('expenses.expense_name')}}</div>
-            <div class="pt-1 font-bold text-[white]">{{$t('expenses.amount')}}</div>
-            <div class="pt-1 font-bold text-[white]">{{$t('expenses.date')}}</div>
+        <div class="flex bg-[#3C3C3C] py-1 border-2 rounded h-fit text-md">
+            <div class="flex-1 font-bold text-[white]">
+                {{ $t("expenses.expense_name") }}
+            </div>
+            <div class="flex-1 font-bold text-[white]">
+                {{ $t("expenses.amount") }}
+            </div>
+            <div class="flex-1 font-bold text-[white]">
+                {{ $t("expenses.date") }}
+            </div>
         </div>
         <ExpenseListItem :data="previous_expenses"></ExpenseListItem>
     </div>

@@ -1,8 +1,8 @@
 <template>
-    <div class="mt-2 text-2xl text-start mr">
+    <!-- <div class="mt-2 text-2xl text-start mr">
         {{ $t("general." + name).toLocaleLowerCase() }}
     </div>
-    <div class="bg-gray-400 mt-1 mb-6 w-full h-px"></div>
+    <div class="bg-gray-400 mt-1 mb-6 w-full h-px"></div> -->
     <div class="flex gap-2">
         <div
             v-for="item in data"

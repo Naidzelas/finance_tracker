@@ -1,6 +1,6 @@
 <template class="relative">
-    <ImportFileModal class="z-10"></ImportFileModal>
-    <div class="flex flex-col">
+    <!-- <ImportFileModal class="z-10"></ImportFileModal> -->
+    <div class="invisible md:visible flex flex-col">
         <div class="relative">
             <button @click="navToggle(true)">
                 <Icon icon="ph:cube-fill" class="mt-1 size-10"></Icon>
@@ -25,9 +25,7 @@
         </div>
         <div class="self-center">
             <div v-if="!page.url.split('/')[1].length">
-                <button @click="modalToggle(true)">
-                    <Icon icon="basil:add-solid" class="mt-4 size-6"></Icon>
-                </button>
+                <ImportFileModal></ImportFileModal>
             </div>
             <Link
                 v-if="
@@ -47,29 +45,25 @@
             </Link>
         </div>
     </div>
-    <div class="flex mr-10 text-4xl">
+    <div class="invisible md:visible flex mr-10 text-4xl">
         {{ $t("general.finance").toLocaleLowerCase() }}
     </div>
 </template>
 <script setup>
-import { provide, ref, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import NavItems from "../Components/NavItems.vue";
 import ImportFileModal from "./ImportFileModal.vue";
 import "vue-toastification/dist/index.css";
 import { useToast } from "vue-toastification";
+
 const toast = useToast();
 const page = usePage();
 let menu_visible = ref(false);
 
-let modal_visible = ref(false);
 function navToggle(toggle) {
     menu_visible.value = toggle;
 }
-function modalToggle(toggle) {
-    modal_visible.value = toggle;
-}
-provide("modal_state", modal_visible);
 
 onMounted(() => {
     Echo.channel("notification").listen("NotificationEvent", (e) => {

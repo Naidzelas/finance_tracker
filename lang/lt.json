@@ -25,6 +25,8 @@
         "earnings_call": "Pelnų skelbimas",
         "sector": "Sektorius",
         "annual": "Metinis",
+        "quarterly": "Ketvirčiais",
+        "never": "Niekada",
         "consumer_durables": "Vartotojų prekės",
         "stock": "Akcija",
         "investment_icon_id": "Investicijos piktograma",
@@ -126,8 +128,16 @@
         "documents": "Dokumentai",
         "confirm": "Patvirtinti",
         "cancel": "Atšaukti",
+        "clear": "Išvalyti",
+        "drag_and_drop": "Įkelkite failą",
         "no_matches_found": "Nerasta atitikmenų",
-        "error":{
+        "choose": "Pasirinkti failus",
+        "file_name": "Failo pavadinimas",
+        "file_size": "Failo dydis",
+        "status": "Statusas",
+        "completed": "Baigta",
+        "uploaded_files": "Įkelti failai",
+        "error": {
             "name": "Pavadinimo laukas privalomas",
             "amount": "Sumos laukas privalomas",
             "icon_id": "Piktogramos laukas privalomas"

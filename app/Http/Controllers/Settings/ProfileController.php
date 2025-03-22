@@ -35,7 +35,17 @@ class ProfileController extends Controller
                             return $expense->amount;
                         })->all() ?? [];
                     })->sum(),
-            ]
+            ],
+            'breadcrumbs' => [
+                [
+                    'label' => 'Home',
+                    'route' => '/'
+                ],
+                [
+                    'label' => 'Profile',
+                    'route' => '/settings/profile'
+                ],
+            ],
         ]);
     }
 

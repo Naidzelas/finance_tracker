@@ -34,6 +34,7 @@ class GoalController extends Controller
                 ],
                 [
                     'label' => 'Goal',
+                    'route' => '/goal'
                 ]
             ],
             'detailsTab' => [
@@ -57,7 +58,8 @@ class GoalController extends Controller
                     'route' => '/goal'
                 ],
                 [
-                    'label' => 'Create'
+                    'label' => 'Create',
+                    'route' => '/goal/create'
                 ]
             ],
             'method' => 'post',
@@ -153,7 +155,8 @@ class GoalController extends Controller
                     'route' => '/goal'
                 ],
                 [
-                    'label' => 'Edit'
+                    'label' => 'Edit',
+                    'route' => '/goal' . '/' . $goalId . '/edit'
                 ]
             ],
             'method' => 'put',

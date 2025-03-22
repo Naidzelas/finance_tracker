@@ -31,8 +31,8 @@ class DebtController extends Controller
                 if ($debt->toArray()['budget_type']) {
                     $debt->paid = array_sum(array_column($debt->toArray()['budget_type']['expense'], 'amount')) ?? 0;
                 }
-            return $debt;
-        });
+                return $debt;
+            });
 
         return Inertia::render('Debt', [
             'debts' => $debt,
@@ -67,7 +67,8 @@ class DebtController extends Controller
                     'route' => '/debt'
                 ],
                 [
-                    'label' => 'Create'
+                    'label' => 'Create',
+                    'route' => '/debt/create'
                 ]
             ],
             'method' => 'post',
@@ -169,7 +170,8 @@ class DebtController extends Controller
                     'route' => '/debt'
                 ],
                 [
-                    'label' => 'Edit'
+                    'label' => 'Edit',
+                    'route' => '/debt' . '/' . $debtId . '/edit'
                 ]
             ],
             'method' => 'put',
@@ -183,6 +185,7 @@ class DebtController extends Controller
                 'payment_date' => ['Number', $debt->debtDetail->payment_date],
                 'loan_end_date' => ['Date', $debt->debtDetail->loan_end_date],
                 'loan_iban' => ['String', $debt->debtDetail->loan_iban],
+                // 'avatar' => 'nullable|array',
             ],
             'selectData' => [
                 'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
@@ -199,7 +202,7 @@ class DebtController extends Controller
             'monthly_payment' => 'required|numeric',
             'loan_final_amount' => 'required|numeric',
             'interest_rate' => 'required|numeric',
-            'payment_date' => 'required|date',
+            'payment_date' => 'required|numeric|lte:31',
             'loan_end_date' => 'required|date',
             'loan_iban' => 'nullable|string',
         ]);
@@ -207,11 +210,14 @@ class DebtController extends Controller
         // TODO file upload only works for POST method so can't put it here. Will need to add file attach functionality.
 
         $debt = Debt::find($debtId);
-        BudgetTypes::find($debt->type_id)->update([
-            'name' => $request->name,
-            'amount' => $request->monthly_payment,
-            'icon_id' => $request->icon_id,
-        ]);
+        if($debt?->type_id){
+            BudgetTypes::findOrNew($debt->type_id)->update([
+                'name' => $request->name,
+                'amount' => $request->monthly_payment,
+                'icon_id' => $request->icon_id,
+            ]);
+        }
+        
         $debt->fill([
             'name' => $request->name,
             'loan_size' => $request->loan_size,
@@ -268,7 +274,7 @@ class DebtController extends Controller
 
         foreach ($debt->toArray() as $detail) {
             $table[$detail['debt_detail']['id']]['tbody'][] = [
-                array_key_exists('paid', $detail) ? round($detail['paid'],2) : 0,
+                array_key_exists('paid', $detail) ? round($detail['paid'], 2) : 0,
                 Carbon::parse($detail['debt_detail']['loan_end_date'])->format('Y-m-d'),
                 $detail['loan_final_amount'],
                 $detail['debt_detail']['loan_iban'] ?? 'N/A'

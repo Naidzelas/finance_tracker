@@ -72,7 +72,8 @@ class InvestmentController extends Controller
                     'route' => '/investment'
                 ],
                 [
-                    'label' => 'Create'
+                    'label' => 'Create',
+                    'route' => '/investment/create'
                 ]
             ],
             'method' => 'post',
@@ -100,7 +101,8 @@ class InvestmentController extends Controller
                     'route' => '/investment'
                 ],
                 [
-                    'label' => 'Edit'
+                    'label' => 'Edit',
+                    'route' => '/investment' . '/' . $investmentId . '/edit'
                 ]
             ],
             'method' => 'put',

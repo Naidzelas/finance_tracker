@@ -4,7 +4,10 @@
     </button>
     <Dialog v-model:visible="visible" modal class="w-fit">
         <template #header>
-            <div class="flex items-stretch gap-x-3 text-2xl"><Icon class="self-center" icon="mage:file-upload-fill"></Icon>import documents</div>
+            <div class="flex items-stretch gap-x-3 text-2xl">
+                <Icon class="self-center" icon="mage:file-upload-fill"></Icon
+                >import documents
+            </div>
         </template>
         <form>
             <div class="flex space-x-2 mt-4 mb-2">
@@ -44,6 +47,8 @@
                 ref="fileInput"
                 @input="form.avatar = $event.target.files"
                 @change="files = form.avatar"
+                @select="onFileSelect"
+                @clear="clearFiles"
                 :chooseLabel="$t('general.choose')"
                 :cancelLabel="$t('general.cancel')"
                 :showUploadButton="false"
@@ -51,12 +56,32 @@
                 :multiple="true"
                 :maxFileSize="maxFileSize"
             >
+                <template #content="{ files }">
+                    <DataTable v-if="files.length > 0" :value="files" class="p-5 border-2 border-black border-dashed md:w-[35em]">
+                        <template #header>
+                            <div class="mb-4 font-bold text-xl text-center">
+                                {{ $t("general.uploaded_files") }}
+                            </div>
+                        </template>
+                        <Column field="name" :header="$t('general.file_name')"></Column>
+                        <Column :header="$t('general.status')">
+                            <template #body="slotProps">
+                                {{ $t("general.completed") }}
+                            </template>
+                        </Column>
+                        <Column field="size" :header="$t('general.file_size')">
+                            <template #body="slotProps">
+                                {{ (slotProps.data.size / 1000).toFixed(2) }} KB
+                            </template>
+                        </Column>
+                    </DataTable>
+                </template>
                 <template #empty>
                     <div
                         class="flex justify-center items-center bg-white p-5 border-2 border-black border-dashed sm:w-[20em] h-24"
                     >
                         <div class="flex">
-                            <div>{{$t('general.drag_and_drop')}}</div>
+                            <div>{{ $t("general.drag_and_drop") }}</div>
                             <Icon
                                 icon="material-symbols-light:water-drop"
                                 class="ml-1 size-6 text-[#006692]"
@@ -68,12 +93,6 @@
         </form>
         <template #footer>
             <div class="flex gap-x-2">
-                <!-- <button
-                    @click="visible = false"
-                    class="flex-1 bg-[#525252] mt-2 px-2 text-md text-white text-center"
-                >
-                    {{ $t("general.cancel") }}
-                </button> -->
                 <button
                     @click="handleSubmit"
                     class="flex-1 bg-[#006692] hover:bg-[#007592] mt-2 px-2 py-2 rounded-md w-32 text-md text-white text-center"
@@ -89,11 +108,11 @@
 <script setup>
 import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
-import { Dialog, FileUpload } from "primevue";
+import { Dialog, FileUpload, DataTable, Column } from "primevue";
 
 const fileInput = ref(null);
 const visible = ref(false);
-let files = ref("");
+let files = ref([]);
 const maxFileSize = ref(2000000);
 
 const form = useForm({
@@ -103,5 +122,15 @@ const form = useForm({
 
 function handleSubmit() {
     form.post("/", { onSuccess: () => (visible.value = false) });
+}
+
+function clearFiles() {
+    files.value = [];
+    form.avatar = null;
+}
+
+function onFileSelect(event) {
+    form.avatar = event.files;
+    files.value = event.files;
 }
 </script>

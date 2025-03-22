@@ -128,10 +128,16 @@
         "documents": "Dokumentai",
         "confirm": "Patvirtinti",
         "cancel": "Atšaukti",
+        "clear": "Išvalyti",
         "drag_and_drop": "Įkelkite failą",
         "no_matches_found": "Nerasta atitikmenų",
         "choose": "Pasirinkti failus",
-        "error":{
+        "file_name": "Failo pavadinimas",
+        "file_size": "Failo dydis",
+        "status": "Statusas",
+        "completed": "Baigta",
+        "uploaded_files": "Įkelti failai",
+        "error": {
             "name": "Pavadinimo laukas privalomas",
             "amount": "Sumos laukas privalomas",
             "icon_id": "Piktogramos laukas privalomas"

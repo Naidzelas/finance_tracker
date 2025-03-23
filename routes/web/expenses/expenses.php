@@ -1,19 +1,21 @@
 <?php
 
 use App\Http\Controllers\ExpenseController;
+use App\Http\Middleware\ValidateSessionWithWorkOS;
 use Illuminate\Support\Facades\Route;
-use inertia\Inertia;
 
-// Route::group(["prefix"=> "/goal"], function () {
-//     Route::get("/item", [GoalController::class,
-// });
 
-Route::resource('/', ExpenseController::class)->only([
-    'index',
-    'create',
-    'destroy',
-    'edit',
-    'load',
-    'store',
-    'update',
-]);
+Route::middleware([
+    'auth',
+    ValidateSessionWithWorkOS::class,
+])->group(function () {
+    Route::resource('/', ExpenseController::class)->only([
+        'index',
+        'create',
+        'destroy',
+        'edit',
+        'load',
+        'store',
+        'update',
+    ]);
+});

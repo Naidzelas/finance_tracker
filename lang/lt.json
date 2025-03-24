@@ -114,6 +114,9 @@
         "invested": "Investuota",
         "cubicle": "Kabinetas"
     },
+    "statistics": {
+        "current_budget_allocation": "Dabartinis biudžeto paskirstymas"
+    },
     "general": {
         "table": "Lentelė",
         "logout": "Išeik iš mano ofiso",

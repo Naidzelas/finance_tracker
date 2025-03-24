@@ -1,5 +1,5 @@
 <template>
-    <div v-if="true" class="bg-[white] pt-6 pb-6 border-6 rounded font-bold text-2xl text-center">{{ $t("general.no_data") }}</div>
+    <div v-if="true" class="bg-[white] shadow-md pt-6 pb-6 border-6 rounded font-bold text-2xl text-center">{{ $t("general.no_data") }}</div>
     <div v-else>
         <div
             class="flex place-items-center bg-[white] p-4 border-6 rounded text-center"

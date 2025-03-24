@@ -54,6 +54,6 @@ class ValidateSessionWithWorkOS
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/landing');
     }
 }

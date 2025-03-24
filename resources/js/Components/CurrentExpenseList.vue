@@ -1,7 +1,7 @@
 <template>
-    <div class="relative border text-center">
+    <div class="relative text-center">
         <div class="flex mr-3 lg:mr-0 ml-3 lg:ml-0">
-            <div class="bg-[white] mb-2 border-6 rounded w-52 h-8 text-lg">
+            <div class="bg-[white] shadow-md mb-2 border-6 rounded w-52 h-8 text-lg">
                 {{ today.substring(0, 7) }}
             </div>
             <div class="flex-auto"></div>
@@ -34,7 +34,7 @@
                     />
                     <label
                         :for="'budget_type-' + type.name"
-                        class="peer-checked:bg-[#006692] flex justify-center items-center hover:bg-slate-200 pt-2 pb-2 border rounded-sm peer-checked:text-white cursor-pointer"
+                        class="flex justify-center items-center hover:bg-slate-200 peer-checked:bg-[#006692] pt-2 pb-2 border rounded-sm peer-checked:text-white cursor-pointer"
                     >
                         <Icon
                             :icon="type.icon.iconify_name"

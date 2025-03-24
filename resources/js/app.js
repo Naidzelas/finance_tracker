@@ -21,11 +21,12 @@ createInertiaApp({
             console.error(`Page not found: ${name}`);
             throw new Error(`Page not found: ${name}`);
         }
-        if (name !== "Landing") {
+        if (name !== "Landing" && name !== "Error") {
             page.default.layout = page.default.layout || Layout;
         } else {
             page.default.layout = PreAppLayout;
         }
+
         return page;
     },
     setup({ el, App, props, plugin }) {

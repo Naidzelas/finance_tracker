@@ -137,10 +137,12 @@
         "status": "Statusas",
         "completed": "Baigta",
         "uploaded_files": "Įkelti failai",
+        "go_back": "Grįžti atgal",
         "error": {
             "name": "Pavadinimo laukas privalomas",
             "amount": "Sumos laukas privalomas",
-            "icon_id": "Piktogramos laukas privalomas"
+            "icon_id": "Piktogramos laukas privalomas",
+            "something_went_wrong": "Kažkas nutiko blogai"
         }
     }
 }

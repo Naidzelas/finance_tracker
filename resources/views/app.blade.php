@@ -8,6 +8,7 @@
     @vite('resources/css/app.css')
     @inertiaHead
   </head>
+  <!-- #F4F0EF -->
   <body class="bg-gray-200">
     @inertia
   </body>

@@ -1,6 +1,6 @@
 <template>
     <div v-if="Object.keys(goal_data).length">
-        <div v-for="goal in goal_data" class="group relative mb-2">
+        <div v-for="goal in goal_data" class="group relative shadow-md mb-2">
             <EditOrDelete
                 :action="{
                     edit: 'goal.edit',

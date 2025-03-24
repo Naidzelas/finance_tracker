@@ -1,5 +1,5 @@
 <template>
-    <div v-if="Object.keys(budget_types).length" class="bg-[white] border-6 rounded">
+    <div v-if="Object.keys(budget_types).length" class="bg-[white] shadow-md border-6 rounded">
         <div class="justify-items-center gap-2 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 2xl:grid-cols-3 p-4">
             <BudgetItem v-for="item in budget_types" :item="item"></BudgetItem>
         </div>

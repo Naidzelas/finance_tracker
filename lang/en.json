@@ -143,10 +143,12 @@
         "status": "Status",
         "completed": "Completed",
         "uploaded_files": "Uploaded Files",
+        "go_back": "Go Back",
         "error": {
             "name": "Name field is required",
             "amount": "Amount field is required",
-            "icon_id": "Icon field is required"
+            "icon_id": "Icon field is required",
+            "something_went_wrong": "Something went wrong"
         }
     }
 }

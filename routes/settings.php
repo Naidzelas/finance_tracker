@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\statistics\ChartController;
 use Illuminate\Support\Facades\Route;
 use  App\Http\Middleware\ValidateSessionWithWorkOS;
 
@@ -15,4 +16,7 @@ Route::middleware([
     Route::delete('settings/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('settings/profile', [ProfileController::class, 'index'])->name('profile.index');
+
+    // Charts
+    Route::get('settings/profile/statistics', [ChartController::class, 'chartData'])->name('profile.statistics');
 });

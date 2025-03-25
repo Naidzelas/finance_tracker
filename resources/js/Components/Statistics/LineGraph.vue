@@ -1,11 +1,12 @@
 <template>
     <div class="h-[30em]">
+        <!-- {{ chartData.xAxis }} {{ chartData.yAxis }} -->
         <v-chart :option="chartOption" autoresize />
     </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, inject } from "vue";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { LineChart } from "echarts/charts";
@@ -15,6 +16,8 @@ import {
     LegendComponent,
 } from "echarts/components";
 import VChart from "vue-echarts";
+
+const chartData = inject("chartData") ?? { xAxis: [], yAxis: [] };
 
 use([
     CanvasRenderer,
@@ -28,7 +31,7 @@ use([
 const chartOption = ref({
     xAxis: {
         type: "category",
-        data: ["A", "B", "C", "D", "E"],
+        data: chartData.xAxis,
     },
     yAxis: {
         type: "value",
@@ -36,7 +39,7 @@ const chartOption = ref({
     series: [
         {
             type: "line",
-            data: [120, 200, 150, 80, 70],
+            data: chartData.yAxis,
         },
     ],
 });

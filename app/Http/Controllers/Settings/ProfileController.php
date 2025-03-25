@@ -11,13 +11,21 @@ use Inertia\Response;
 use App\Http\Requests\AuthKitAccountDeletionRequest;
 use App\Models\Debts\Debt;
 use App\Models\investment\Investment;
-
+use Illuminate\Support\Facades\Crypt;
 
 class ProfileController extends Controller
 {
 
     public function index(Request $request)
     {
+        match (true) {
+            $request->has('chartData') => $chartData = [
+                'tab' => 'statistics', 
+                'data' => Crypt::decrypt($request->input('chartData'))
+            ],
+            default => null
+        };
+
         return Inertia::render('Profile', [
             'user' => $request->user(),
             'invested' => Investment::select('id', 'invested')->get()->sum('invested'),
@@ -36,6 +44,7 @@ class ProfileController extends Controller
                         })->all() ?? [];
                     })->sum(),
             ],
+            'chartData' => $chartData ?? [],
             'breadcrumbs' => [
                 [
                     'label' => 'Home',

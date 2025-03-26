@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { inject, computed } from "vue";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { PieChart } from "echarts/charts";
@@ -15,6 +15,8 @@ import {
 } from "echarts/components";
 import VChart from "vue-echarts";
 
+const budgetAllocation = inject("budgetAllocation") ?? [];
+
 use([
     CanvasRenderer,
     PieChart,
@@ -23,28 +25,30 @@ use([
 ]);
 
 // Chart options
-const chartOption = ref({
+const chartOption = computed(() => ({
     tooltip: {
-        trigger: "item"
+        trigger: "item",
+        formatter: "{b}: {c} ({d}%)"
     },
     legend: {
         orient: "horizontal",
-        bottom: "0"
+        bottom: "0",
+        type: "scroll",
+        pageIconSize: 12,
+        pageTextStyle: {
+            color: "#888"
+        }
     },
     series: [
         {
-            name: "Access Source",
+            name: "Budget Allocation",
             type: "pie",
-            radius: "50%",
-            data: [
-                { value: 1048, name: "Search Engine" },
-                { value: 735, name: "Direct" },
-                { value: 580, name: "Email" },
-                { value: 484, name: "Union Ads" },
-                { value: 300, name: "Video Ads" }
-            ],
+            radius: "55%",
+            center: ["50%", "45%"],
+            data: budgetAllocation,
             label: {
-                show: false
+                show: true,
+                formatter: "{b}: {d}%"
             },
             emphasis: {
                 itemStyle: {
@@ -55,5 +59,5 @@ const chartOption = ref({
             }
         }
     ]
-});
+}));
 </script>

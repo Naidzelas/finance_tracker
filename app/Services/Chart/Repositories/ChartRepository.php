@@ -11,13 +11,12 @@ class ChartRepository implements ChartRepositoryInterface
     protected $model;
     public function __construct(
         $model,
-
     ) {
         $this->model = $model;
     }
 
     /**
-     * Get chart data grouped by expense types
+     * Get chart data grouped by dateQuery types
      * 
      * @param int $userId
      * @param string|null $startDate
@@ -56,9 +55,9 @@ class ChartRepository implements ChartRepositoryInterface
             $query->whereIn('type_id', $typeIds);
         }
 
-        $expenses = $query->get();
+        $queryResults = $query->get();
 
-        if ($expenses->isEmpty()) {
+        if ($queryResults->isEmpty()) {
             return collect([]);
         }
 
@@ -66,30 +65,30 @@ class ChartRepository implements ChartRepositoryInterface
 
         if (count($typeIds) < 2) {
 
-            $groupedByDate = $expenses->groupBy('date');
+            $groupedByDate = $queryResults->groupBy('date');
 
-            foreach ($groupedByDate as $date => $dateExpenses) {
+            foreach ($groupedByDate as $date => $dateQueryResult) {
                 $netAmount = 0;
-                foreach ($dateExpenses as $expense) {
-                    $amount = $expense->debit_credit === 'D' ? -$expense->amount : $expense->amount;
+                foreach ($dateQueryResult as $dateQuery) {
+                    $amount = $dateQuery->debit_credit === 'D' ? -$dateQuery->amount : $dateQuery->amount;
                     $netAmount += $amount;
                 }
                 $chartData['yAxis'][] = [$date, round($netAmount, 2)];
             }
         } else {
-            $groupedByType = $expenses->groupBy('type_id');
+            $groupedByType = $queryResults->groupBy('type_id');
 
-            foreach ($groupedByType as $typeId => $typeExpenses) {
+            foreach ($groupedByType as $typeId => $typeQueryResult) {
                 $chartData[$typeId] = [
                     'yAxis' => []
                 ];
 
-                $groupedByDate = $typeExpenses->groupBy('date');
+                $groupedByDate = $typeQueryResult->groupBy('date');
 
-                foreach ($groupedByDate as $date => $dateExpenses) {
+                foreach ($groupedByDate as $date => $dateQueryResult) {
                     $netAmount = 0;
-                    foreach ($dateExpenses as $expense) {
-                        $amount = $expense->debit_credit === 'D' ? -$expense->amount : $expense->amount;
+                    foreach ($dateQueryResult as $dateQuery) {
+                        $amount = $dateQuery->debit_credit === 'D' ? -$dateQuery->amount : $dateQuery->amount;
                         $netAmount += $amount;
                     }
                     $chartData[$typeId]['yAxis'][] = [$date, round($netAmount, 2)];
@@ -97,6 +96,31 @@ class ChartRepository implements ChartRepositoryInterface
             }
         }
         $chartData['period'] = $dateRange;
+
+        return collect($chartData);
+    }
+
+    public function getPieChartDataCurrentBudgetAllocation(
+        int $userId
+    ): Collection {
+
+        $query = $this->model::select('id', 'name', 'amount')
+            ->where('user_id', $userId);
+
+        $queryResults = $query->get();
+
+        if ($queryResults->isEmpty()) {
+            return collect([]);
+        }
+
+        $chartData = [];
+
+        foreach ($queryResults as $result) {
+            $chartData[] = [
+                'value' => round($result->amount, 2),
+                'name' => $result->name
+            ];
+        }
 
         return collect($chartData);
     }

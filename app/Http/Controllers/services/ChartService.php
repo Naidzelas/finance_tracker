@@ -16,14 +16,13 @@ class ChartService
         $this->chartRepository = $chartRepository;
     }
 
-    public function getChartDataByType($userId, $chartType, $typeIds, $startDate, $endDate)
+    public function getChartDataByType($userId, $chartType, $typeIds = null, $startDate = null, $endDate = null)
     {
         return match($chartType){
             'line' => $this->chartRepository->getLineChartDataByType($userId, $typeIds, $startDate, $endDate),
             // 'bar' =>  $this->chartRepository->getBarChartDataByType($userId, $typeIds, $startDate, $endDate),
-            // 'pie' =>  $this->chartRepository->getPieChartDataByType($userId, $typeIds, $startDate, $endDate),
+            'pie' =>  $this->chartRepository->getPieChartDataCurrentBudgetAllocation($userId),
             default => throw new ChartExceptions('Invalid chart type')
         };
-        // return $this->chartRepository->getLineChartDataByType($userId, $typeIds, $startDate, $endDate);
     }
 }

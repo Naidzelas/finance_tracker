@@ -21,4 +21,8 @@ interface ChartRepositoryInterface
         ?string $startDate = null, 
         ?string $endDate = null, 
     ): Collection;
+
+    public function getPieChartDataCurrentBudgetAllocation(
+        int $userId, 
+    ): Collection;
 }

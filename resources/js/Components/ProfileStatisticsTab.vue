@@ -1,5 +1,5 @@
 <template>
-    <WhenVisible :data="items">
+    <WhenVisible :data="lineChartItems">
         <template #fallback>
             <div>Loading...</div>
         </template>
@@ -19,7 +19,7 @@
                             </Button>
                             <Menu
                                 ref="lineCharts"
-                                :model="items"
+                                :model="lineChartItems"
                                 :popup="true"
                             />
                         </div>
@@ -74,12 +74,13 @@ watch(dates, (newDate) => {
     }
 });
 
-const items = [
+const lineChartItems = [
     {
         label: "All",
         command: () =>
             router.get(route("profile.statistics"), {
                 typeId: budgetTypes.map((type) => type.id),
+                chartType: "line",
                 startDate: startDate.value,
                 endDate: endDate.value,
             }),
@@ -89,11 +90,33 @@ const items = [
         command: () =>
             router.get(route("profile.statistics"), {
                 typeId: type.id,
+                chartType: "line",
                 startDate: startDate.value,
                 endDate: endDate.value,
             }),
     })),
 ];
+
+// const pieChartItems = [
+//     {
+//         label: "All",
+//         command: () =>
+//             router.get(route("profile.statistics"), {
+//                 typeId: budgetTypes.map((type) => type.id),
+//                 startDate: startDate.value,
+//                 endDate: endDate.value,
+//             }),
+//     },
+//     ...budgetTypes.map((type) => ({
+//         label: type.name,
+//         command: () =>
+//             router.get(route("profile.statistics"), {
+//                 typeId: type.id,
+//                 startDate: startDate.value,
+//                 endDate: endDate.value,
+//             }),
+//     })),
+// ];
 
 const toggle = (event, chart) => {
     switch (chart) {

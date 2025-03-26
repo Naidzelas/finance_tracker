@@ -30,7 +30,7 @@ class ChartController extends Controller
         try {
             $chartData = $chartService->getChartDataByType(
                 $user->id,
-                $request->chartType ?? 'line',
+                $request->chartType,
                 $typeIds,
                 $startDate,
                 $endDate

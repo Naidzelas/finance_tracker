@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Services\ChartService;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use App\Http\Requests\AuthKitAccountDeletionRequest;
 use App\Models\Budget\BudgetTypes;
 use App\Models\Debts\Debt;
 use App\Models\investment\Investment;
+use App\Services\Chart\Repositories\ChartRepositoryInterface;
 use Illuminate\Support\Facades\Crypt;
 
 class ProfileController extends Controller
@@ -26,6 +28,10 @@ class ProfileController extends Controller
             ],
             default => null
         };
+
+        // TODO: find a better way to use the Chart Service 
+        $chartRepository = app(ChartRepositoryInterface::class, ['model' => BudgetTypes::class]);
+        $chartService = new ChartService($chartRepository);
 
         return Inertia::render('Profile', [
             'user' => $request->user(),
@@ -46,6 +52,7 @@ class ProfileController extends Controller
                     })->sum(),
             ],
             'chartData' => $chartData ?? [],
+            'budgetAllocation' => $chartService->getChartDataByType(1, 'pie'),
             'budgetTypes' => BudgetTypes::select('id', 'name')->where('user_id', $request->user()->id)->get(),
             'breadcrumbs' => [
                 [

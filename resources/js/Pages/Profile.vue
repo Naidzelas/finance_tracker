@@ -44,10 +44,12 @@ const pageVariables = defineProps({
     debt: Object,
     breadcrumbs: Object,
     chartData: Object,
-    budgetTypes: Object
+    budgetTypes: Object,
+    budgetAllocation: Object,
 });
 
 provide("chartData", pageVariables.chartData.data);
 provide("budgetTypes", pageVariables.budgetTypes);
+provide("budgetAllocation", pageVariables.budgetAllocation);
 
 </script>

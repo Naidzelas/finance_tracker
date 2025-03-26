@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Http\Requests\AuthKitAccountDeletionRequest;
+use App\Models\Budget\BudgetTypes;
 use App\Models\Debts\Debt;
 use App\Models\investment\Investment;
 use Illuminate\Support\Facades\Crypt;
@@ -45,6 +46,7 @@ class ProfileController extends Controller
                     })->sum(),
             ],
             'chartData' => $chartData ?? [],
+            'budgetTypes' => BudgetTypes::select('id', 'name')->where('user_id', $request->user()->id)->get(),
             'breadcrumbs' => [
                 [
                     'label' => 'Home',

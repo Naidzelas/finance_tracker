@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, inject } from "vue";
 import LineGraph from "./Statistics/LineGraph.vue";
 import PieChart from "./Statistics/PieChart.vue";
 import { Toolbar, Menu, Button, DatePicker } from "primevue";
@@ -65,6 +65,7 @@ let dates = ref([]);
 const lineCharts = ref();
 const startDate = ref();
 const endDate = ref();
+const budgetTypes = inject("budgetTypes");
 
 watch(dates, (newDate) => {
     if (newDate[1]) {
@@ -75,21 +76,23 @@ watch(dates, (newDate) => {
 
 const items = [
     {
-        label: "Debt",
+        label: "All",
         command: () =>
-            router.get(
-                route("profile.statistics"),
-                {
-                    typeId: 108,
-                    startDate: startDate.value,
-                    endDate: endDate.value,
-                },
-                // { replace: true, only: ["chartData"] }
-            ),
+            router.get(route("profile.statistics"), {
+                typeId: budgetTypes.map((type) => type.id),
+                startDate: startDate.value,
+                endDate: endDate.value,
+            }),
     },
-    { label: "Investments" },
-    { label: "Budget" },
-    { label: "Goal" },
+    ...budgetTypes.map((type) => ({
+        label: type.name,
+        command: () =>
+            router.get(route("profile.statistics"), {
+                typeId: type.id,
+                startDate: startDate.value,
+                endDate: endDate.value,
+            }),
+    })),
 ];
 
 const toggle = (event, chart) => {

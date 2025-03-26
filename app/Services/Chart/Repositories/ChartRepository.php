@@ -34,11 +34,21 @@ class ChartRepository implements ChartRepositoryInterface
         $startDate ??= Carbon::now()->startOfMonth()->format('Y-m-d');
         $endDate ??= Carbon::now()->endOfMonth()->format('Y-m-d');
 
-        if (Carbon::parse($startDate)->gt(Carbon::parse($endDate))) {
-            throw ChartExceptions::invalidDateRange($startDate, $endDate);
+        $dateRange = [];
+        $currentDate = Carbon::parse($startDate);
+        $endDateCarbon = Carbon::parse($endDate);
+
+        while ($currentDate->lte($endDateCarbon)) {
+            $dateRange[] = $currentDate->format('Y-m-d');
+            $currentDate->addDay();
         }
 
-        $query = $this->model::select('id', 'type_id', 'debit_credit', 'amount', 'date')->where('user_id', $userId)
+        if (Carbon::parse($startDate)->gt(Carbon::parse($endDate))) {
+            report(ChartExceptions::invalidDateRange($startDate, $endDate));
+        }
+
+        $query = $this->model::select('id', 'type_id', 'debit_credit', 'amount', 'date')
+            ->where('user_id', $userId)
             ->where('date', '>=', $startDate)
             ->where('date', '<=', $endDate);
 
@@ -48,11 +58,46 @@ class ChartRepository implements ChartRepositoryInterface
 
         $expenses = $query->get();
 
-        foreach ($expenses as $expense) {
-            $chartData['xAxis'][] = $expense->date;
-            $chartData['yAxis'][] = $expense->debit_credit === 'D' ? round(-$expense->amount,2) : round($expense->amount,2);
+        if ($expenses->isEmpty()) {
+            return collect([]);
         }
 
+        $chartData = [];
+
+        if (count($typeIds) < 2) {
+
+            $groupedByDate = $expenses->groupBy('date');
+
+            foreach ($groupedByDate as $date => $dateExpenses) {
+                $netAmount = 0;
+                foreach ($dateExpenses as $expense) {
+                    $amount = $expense->debit_credit === 'D' ? -$expense->amount : $expense->amount;
+                    $netAmount += $amount;
+                }
+                $chartData['yAxis'][] = [$date, round($netAmount, 2)];
+            }
+        } else {
+            $groupedByType = $expenses->groupBy('type_id');
+
+            foreach ($groupedByType as $typeId => $typeExpenses) {
+                $chartData[$typeId] = [
+                    'yAxis' => []
+                ];
+
+                $groupedByDate = $typeExpenses->groupBy('date');
+
+                foreach ($groupedByDate as $date => $dateExpenses) {
+                    $netAmount = 0;
+                    foreach ($dateExpenses as $expense) {
+                        $amount = $expense->debit_credit === 'D' ? -$expense->amount : $expense->amount;
+                        $netAmount += $amount;
+                    }
+                    $chartData[$typeId]['yAxis'][] = [$date, round($netAmount, 2)];
+                }
+            }
+        }
+        $chartData['period'] = $dateRange;
+
         return collect($chartData);
-    }    
+    }
 }

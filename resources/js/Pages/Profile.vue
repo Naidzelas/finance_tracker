@@ -8,7 +8,7 @@
         </div>
         <div class="gap-4 grid grid-cols-3">
             <div class="col-span-3">
-                <Tabs value="user" class="mt-2">
+                <Tabs :value="chartData.tab ?? 'user'" class="mt-2">
                     <TabList>
                         <Tab class="rounded-t-md w-32" value="user">User</Tab>
                         <Tab class="rounded-t-md w-32" value="statistics"
@@ -36,12 +36,20 @@ import { Tabs, TabList, Tab, TabPanels, TabPanel } from "primevue";
 import ProfileUserTab from "../Components/ProfileUserTab.vue";
 import ProfileStatisticsTab from "../Components/ProfileStatisticsTab.vue";
 import Breadcrumbs from "../Components/Breadcrumbs.vue";
+import { provide } from "vue";
 
 const pageVariables = defineProps({
     user: Object,
     invested: Number,
     debt: Object,
-    breadcrumbs: Object
+    breadcrumbs: Object,
+    chartData: Object,
+    budgetTypes: Object,
+    budgetAllocation: Object,
 });
+
+provide("chartData", pageVariables.chartData.data);
+provide("budgetTypes", pageVariables.budgetTypes);
+provide("budgetAllocation", pageVariables.budgetAllocation);
 
 </script>

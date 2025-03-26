@@ -120,6 +120,9 @@
         "invested": "Invested",
         "cubicle": "Cubicle"
     },
+    "statistics": {
+        "current_budget_allocation": "Current Budget Allocation"
+    },
     "general": {
         "table": "Table",
         "logout": "Leave my office",

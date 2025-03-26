@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Services\Tag\Providers\TagProvider;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 

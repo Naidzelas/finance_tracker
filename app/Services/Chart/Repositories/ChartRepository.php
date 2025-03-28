@@ -65,13 +65,12 @@ class ChartRepository implements ChartRepositoryInterface
 
         if (count($typeIds) < 2) {
 
-            $groupedByDate = $queryResults->groupBy('date');
-
+            $groupedByDate = $queryResults->groupBy('date')->sortKeys();
             foreach ($groupedByDate as $date => $dateQueryResult) {
                 $netAmount = 0;
                 foreach ($dateQueryResult as $dateQuery) {
                     $amount = $dateQuery->debit_credit === 'D' ? -$dateQuery->amount : $dateQuery->amount;
-                    $netAmount += $amount;
+                    $netAmount += abs($amount);
                 }
                 $chartData['yAxis'][] = [$date, round($netAmount, 2)];
             }
@@ -123,5 +122,89 @@ class ChartRepository implements ChartRepositoryInterface
         }
 
         return collect($chartData);
+    }
+
+    public function getLineChartDataToCompare(
+        int $userId,
+        ?string $compareDate,
+        ?array $typeIds = null,
+        ?string $startDate = null,
+        ?string $endDate = null
+    ): Collection {
+        $startDate ??= Carbon::now()->startOfMonth()->format('Y-m-d');
+        $endDate ??= Carbon::now()->endOfMonth()->format('Y-m-d');
+
+        if ($compareDate) {
+            $compareCarbon = Carbon::parse($compareDate);
+            $startCompare = $compareCarbon->copy()->month(Carbon::parse($startDate)->month)->startOfMonth()->format('Y-m-d');
+            $endCompare = $compareCarbon->copy()->month(Carbon::parse($endDate)->month)->endOfMonth()->format('Y-m-d');
+        }
+
+        $chartDataMain = $this->getLineChartDataByType(
+            $userId,
+            $typeIds,
+            $startDate,
+            $endDate
+        );
+
+        $compareQuery = $this->model::select('id', 'type_id', 'debit_credit', 'amount', 'date')
+            ->where('user_id', $userId)
+            ->where('date', '>=', $startCompare)
+            ->where('date', '<=', $endCompare);
+
+
+            if ($typeIds) {
+                $compareQuery->whereIn('type_id', $typeIds);
+            }
+    
+            $queryResults = $compareQuery->get();
+    
+            if ($queryResults->isEmpty()) {
+                return collect([]);
+            }
+    
+            $chartData = [];
+    
+            if (count($typeIds) < 2) {
+    
+                $groupedByDate = $queryResults->groupBy('date')->sortKeys();
+    
+                foreach ($groupedByDate as $date => $dateQueryResult) {
+                    $netAmount = 0;
+                    foreach ($dateQueryResult as $dateQuery) {
+                        $amount = $dateQuery->debit_credit === 'D' ? -$dateQuery->amount : $dateQuery->amount;
+                        $netAmount += $amount;
+                    }
+                    $chartData['yAxis'][] = [$date, round($netAmount, 2)];
+                }
+            } else {
+                $groupedByType = $queryResults->groupBy('type_id');
+    
+                foreach ($groupedByType as $typeId => $typeQueryResult) {
+                    $chartData[$typeId] = [
+                        'yAxis' => []
+                    ];
+    
+                    $groupedByDate = $typeQueryResult->groupBy('date');
+    
+                    foreach ($groupedByDate as $date => $dateQueryResult) {
+                        $netAmount = 0;
+                        foreach ($dateQueryResult as $dateQuery) {
+                            $amount = $dateQuery->debit_credit === 'D' ? -$dateQuery->amount : $dateQuery->amount;
+                            $netAmount += $amount;
+                        }
+                        $chartData[$typeId]['yAxis'][] = [$date, round($netAmount, 2)];
+                    }
+                }
+            }
+
+            $comparedData = [
+                'compareData' => $chartData,
+                'mainData' => $chartDataMain['yAxis'],
+                'period' => $chartDataMain['period'],
+            ];
+            dd($comparedData);
+
+            return collect($chartData);
     }
 }

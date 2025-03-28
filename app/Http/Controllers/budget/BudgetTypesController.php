@@ -4,6 +4,7 @@ namespace App\Http\Controllers\budget;
 
 use App\Events\NotificationEvent;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\services\IconifyController;
 use App\Http\Controllers\Services\TagService;
 use App\Models\Budget\BudgetTypes;
 use App\Models\Budget\FilterTags;
@@ -20,10 +21,15 @@ class BudgetTypesController extends Controller
     {
         return to_route('index');
     }
-    public function create()
+    public function create(Request $request)
     {
         if (RequestFacade::input('search')) {
             $suggestions = self::suggestTag(RequestFacade::input('search'));
+        }
+
+        if (RequestFacade::input('suggestIcon')) {
+            $icons = new IconifyController();
+            $suggestions = $icons->searchIcons(RequestFacade::input('suggestIcon'))->getData();
         }
 
         return Inertia::render('Item', [
@@ -50,17 +56,19 @@ class BudgetTypesController extends Controller
                 'tags' => ['Tag',],
             ],
             'selectData' => [
-                'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
+                // 'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
+                'icon_id' => $suggestions->icons ?? [],
                 'tag_suggestions' => $suggestions ?? [],
             ],
         ]);
     }
     public function store(Request $request)
     {
+        dd($request->all());
         $request->validate([
             'name' => 'required|string',
             'amount' => 'required|numeric',
-            'icon_id' => 'required|integer',
+            'icon_id' => 'required|string',
             'tags' => 'nullable|array',
         ]);
 

@@ -15,7 +15,7 @@
                     ></CurrentExpenseList>
                 </div>
             </div>
-            <div class="mb-40">
+            <div class="mb-40 2xl:w-[40em] xl:w-[30em]">
                 <div class="mb-10 text-4xl 2xl:text-left text-center">
                 {{ $t("expenses.personal_information").toLocaleLowerCase() }}
                 </div>

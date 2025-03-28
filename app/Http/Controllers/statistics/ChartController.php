@@ -19,22 +19,31 @@ class ChartController extends Controller
         $chartService = new ChartService($chartRepository);
         $user = $request->user();
 
-        $startDate = $request->startDate;
-        $endDate =  $request->endDate;
-        $typeIds = $request->typeId;
+        $typeIds = $request->typeIds;
 
         if ($typeIds && is_string($typeIds)) {
             $typeIds = explode(',', $typeIds);
         }
-
         try {
-            $chartData = $chartService->getChartDataByType(
-                $user->id,
-                $request->chartType,
-                $typeIds,
-                $startDate,
-                $endDate
-            );
+            // dd($request->mode);
+            // if ($request->mode) {
+            //     $chartData = $chartService->getChartDataToCompare(
+            //         $user->id,
+            //         $request->chartType,
+            //         $request->compareDate,
+            //         $typeIds,
+            //         $request->startDate,
+            //         $request->endDate
+            //     );
+            // } else {
+                $chartData = $chartService->getChartDataByType(
+                    $user->id,
+                    $request->chartType,
+                    $typeIds,
+                    $request->startDate,
+                    $request->endDate
+                );
+            // }
             $encryptedData = Crypt::encrypt($chartData);
             return to_route('profile.index', ['chartData' => $encryptedData]);
         } catch (ChartExceptions $e) {

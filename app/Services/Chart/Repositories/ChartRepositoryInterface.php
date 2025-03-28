@@ -25,4 +25,12 @@ interface ChartRepositoryInterface
     public function getPieChartDataCurrentBudgetAllocation(
         int $userId, 
     ): Collection;
+
+    public function getLineChartDataToCompare(
+        int $userId, 
+        ?string $compareDate,
+        ?array $typeIds = null,
+        ?string $startDate = null, 
+        ?string $endDate = null
+    ): Collection;
 }

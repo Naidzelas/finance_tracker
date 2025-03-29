@@ -42,10 +42,8 @@ class ExpenseController extends Controller
                 ->where('user_id', $user->id)
                 ->orderBy('date')
                 ->get(),
-            'goals' => Goal::where('user_id', $user->id)->with('icon')->withSum('goal_deposit as deposit', 'deposit')->get(),
-            'budget_types' => BudgetTypes::query()->where('user_id', $user->id)->with([
-                'icon',
-            ])->get()
+            'goals' => Goal::where('user_id', $user->id)->withSum('goal_deposit as deposit', 'deposit')->get(),
+            'budget_types' => BudgetTypes::query()->where('user_id', $user->id)->get()
                 ->map(function ($item) {
                     $item->budget_left = $item->amount + Expense::currentPostway()
                         ->sum('amount') -  Expense::currentPostway('D')->where('type_id', $item->id)->sum('amount');

@@ -52,7 +52,7 @@ class InvestmentController extends Controller
                 'invested' => ['Number',],
                 'value' => ['Number',],
                 'investment_type_id' => ['Select',],
-                'investment_icon_id' => ['Select',],
+                'investment_iconify_name' => ['Select',],
             ];
         } else {
             $request = request();
@@ -79,7 +79,7 @@ class InvestmentController extends Controller
             'method' => 'post',
             'list' => $list,
             'selectData' => [
-                'investment_icon_id' => InvestmentIcon::query()->select('id', 'iconify_name as data')->get()->toArray(),
+                'investment_iconify_name' => InvestmentIcon::query()->select('id', 'iconify_name as data')->get()->toArray(),
                 'investment_type_id' => InvestmentType::query()->select('id', 'name as data')->get()->toArray(),
             ],
         ]);
@@ -121,7 +121,7 @@ class InvestmentController extends Controller
                 'invested' => 'required|numeric',
                 'value' => 'required|numeric',
                 'investment_type_id' => 'required|integer',
-                'investment_icon_id' => 'required|integer',
+                'investment_iconify_name' => 'required|integer',
             ]);
 
             Investment::create([
@@ -129,7 +129,7 @@ class InvestmentController extends Controller
                 'invested' => $request->invested,
                 'value' => $request->value,
                 'investment_type_id' => $request->investment_type_id,
-                'investment_icon_id' => $request->investment_icon_id,
+                'investment_iconify_name' => $request->investment_iconify_name,
                 'user_id' => $request->user()->id,
                 'profit_percent' => ($request->value - $request->invested) / abs($request->invested) * 100,
                 'is_green' => $request->invested < $request->value ? true : false,

@@ -8,7 +8,7 @@ class InvestmentStock extends Model
 {
     public $fillable = [
         'name',
-        'icon_id',
+        'iconify_name',
         'price',
         'eps',
         'pe'

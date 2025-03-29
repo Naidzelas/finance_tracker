@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->decimal('amount',10,2);
-            $table->string('icon_id')->nullable();
+            $table->string('iconify_name')->nullable();
             $table->timestamps();
         });
     }

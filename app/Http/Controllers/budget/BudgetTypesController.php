@@ -9,7 +9,6 @@ use App\Http\Controllers\Services\TagService;
 use App\Models\Budget\BudgetTypes;
 use App\Models\Budget\FilterTags;
 use App\Models\Expenses\Expense;
-use App\Models\Icons;
 use App\Services\Tag\Repositories\TagRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as RequestFacade;
@@ -52,23 +51,21 @@ class BudgetTypesController extends Controller
             'list' => [
                 'name' => ['String',],
                 'amount' =>  ['Number',],
-                'icon_id' => ['Select',],
+                'iconify_name' => ['Select',],
                 'tags' => ['Tag',],
             ],
             'selectData' => [
-                // 'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
-                'icon_id' => $suggestions->icons ?? [],
+                'iconify_name' => $suggestions->icons ?? [],
                 'tag_suggestions' => $suggestions ?? [],
             ],
         ]);
     }
     public function store(Request $request)
     {
-        dd($request->all());
         $request->validate([
             'name' => 'required|string',
             'amount' => 'required|numeric',
-            'icon_id' => 'required|string',
+            'iconify_name' => 'required|string',
             'tags' => 'nullable|array',
         ]);
 
@@ -76,7 +73,7 @@ class BudgetTypesController extends Controller
             'user_id' => $request->user()->id,
             'name' => $request->name,
             'amount' => $request->amount,
-            'icon_id' => $request->icon_id,
+            'iconify_name' => $request->iconify_name,
         ]);
 
         if ($request->tags) {
@@ -97,10 +94,15 @@ class BudgetTypesController extends Controller
 
     public function edit($budgetId)
     {
-        $budgetType = BudgetTypes::with(['icon', 'tag'])->find($budgetId);
+        $budgetType = BudgetTypes::with('tag')->find($budgetId);
 
         if (RequestFacade::input('search')) {
             $suggestions = self::suggestTag(RequestFacade::input('search'));
+        }
+
+        if (RequestFacade::input('suggestIcon')) {
+            $icons = new IconifyController();
+            $suggestions = $icons->searchIcons(RequestFacade::input('suggestIcon'))->getData();
         }
 
         return Inertia::render('Item', [
@@ -123,11 +125,11 @@ class BudgetTypesController extends Controller
             'list' => [
                 'name' => ['String', $budgetType->name],
                 'amount' =>  ['Number', $budgetType->amount],
-                'icon_id' => ['Select', $budgetType->icon_id],
+                'iconify_name' => ['Select', $budgetType->iconify_name],
                 'tags' => ['Tag', $budgetType->tag],
             ],
             'selectData' => [
-                'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
+                'iconify_name' => $suggestions->icons ?? [],
                 'tag_suggestions' => $suggestions ?? [],
             ]
         ]);
@@ -138,7 +140,7 @@ class BudgetTypesController extends Controller
         $request->validate([
             'name' => 'required|string',
             'amount' => 'required|numeric',
-            'icon_id' => 'required|integer',
+            'iconify_name' => 'required|string',
             'tags' => 'nullable|array',
         ]);
 

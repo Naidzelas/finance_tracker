@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Debts;
 use App\Events\NotificationEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\document\PDF;
+use App\Http\Controllers\services\IconifyController;
 use App\Http\Controllers\Services\TagService;
 use App\Models\Budget\BudgetTypes;
 use App\Models\Budget\FilterTags;
@@ -17,6 +18,7 @@ use App\Services\Tag\Repositories\TagRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Request as RequestFacade;
 use Inertia\Inertia;
 
 class DebtController extends Controller
@@ -25,7 +27,7 @@ class DebtController extends Controller
     {
         $user = $request->user();
         $debt = Debt::where('user_id', $user->id)
-            ->with(['budgetType.expense:id,type_id,amount', 'icon', 'debtDetail', 'documents'])
+            ->with(['budgetType.expense:id,type_id,amount', 'debtDetail', 'documents'])
             ->get()
             ->map(function ($debt) {
                 if ($debt->toArray()['budget_type']) {
@@ -55,6 +57,11 @@ class DebtController extends Controller
 
     public function create()
     {
+        if (RequestFacade::input('suggestIcon')) {
+            $icons = new IconifyController();
+            $suggestions = $icons->searchIcons(RequestFacade::input('suggestIcon'))->getData();
+        }
+        
         return Inertia::render('Item', [
             'registerRoute' => 'debt',
             'breadcrumbs' => [
@@ -74,7 +81,7 @@ class DebtController extends Controller
             'method' => 'post',
             'list' => [
                 'name' => ['String',],
-                'icon_id' => ['Select',],
+                'iconify_name' => ['Select',],
                 'loan_size' => ['Number',],
                 'monthly_payment' => ['Number',],
                 'loan_final_amount' => ['Number',],
@@ -85,7 +92,7 @@ class DebtController extends Controller
                 'avatar' => ['Avatar',],
             ],
             'selectData' => [
-                'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
+                'iconify_name' => $suggestions->icons ?? [],
             ]
         ]);
     }
@@ -94,7 +101,7 @@ class DebtController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'icon_id' => 'required|integer',
+            'iconify_name' => 'required|string',
             'loan_size' => 'required|numeric',
             'monthly_payment' => 'required|numeric',
             'loan_final_amount' => 'required|numeric',
@@ -110,7 +117,7 @@ class DebtController extends Controller
             'user_id' => $user->id,
             'name' => $request->name,
             'amount' => $request->monthly_payment,
-            'icon_id' => $request->icon_id,
+            'iconify_name' => $request->iconify_name,
         ]);
 
         $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
@@ -128,7 +135,7 @@ class DebtController extends Controller
             'monthly_payment' => $request->monthly_payment,
             'loan_final_amount' => $request->loan_final_amount,
             'interest_rate' => $request->interest_rate,
-            'icon_id' => $request->icon_id
+            'iconify_name' => $request->iconify_name
         ]);
 
         if ($debt->id) {
@@ -158,6 +165,12 @@ class DebtController extends Controller
     public function edit($debtId)
     {
         $debt = Debt::with(['debtDetail'])->find($debtId);
+
+        if (RequestFacade::input('suggestIcon')) {
+            $icons = new IconifyController();
+            $suggestions = $icons->searchIcons(RequestFacade::input('suggestIcon'))->getData();
+        }
+
         return Inertia::render('Item', [
             'registerRoute' => 'debt/' . $debtId,
             'breadcrumbs' => [
@@ -177,7 +190,7 @@ class DebtController extends Controller
             'method' => 'put',
             'list' => [
                 'name' => ['String', $debt->name],
-                'icon_id' => ['Select', $debt->icon_id],
+                'iconify_name' => ['Select', $debt->iconify_name],
                 'loan_size' => ['Number', $debt->loan_size],
                 'monthly_payment' => ['Number', $debt->monthly_payment],
                 'loan_final_amount' => ['Number', $debt->loan_final_amount],
@@ -188,7 +201,7 @@ class DebtController extends Controller
                 // 'avatar' => 'nullable|array',
             ],
             'selectData' => [
-                'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
+                'iconify_name' => $suggestions->icons ?? [],
             ]
         ]);
     }
@@ -197,7 +210,7 @@ class DebtController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'icon_id' => 'required|integer',
+            'iconify_name' => 'required|string',
             'loan_size' => 'required|numeric',
             'monthly_payment' => 'required|numeric',
             'loan_final_amount' => 'required|numeric',
@@ -214,7 +227,7 @@ class DebtController extends Controller
             BudgetTypes::findOrNew($debt->type_id)->update([
                 'name' => $request->name,
                 'amount' => $request->monthly_payment,
-                'icon_id' => $request->icon_id,
+                'iconify_name' => $request->iconify_name,
             ]);
         }
         
@@ -224,7 +237,7 @@ class DebtController extends Controller
             'monthly_payment' => $request->monthly_payment,
             'loan_final_amount' => $request->loan_final_amount,
             'interest_rate' => $request->interest_rate,
-            'icon_id' => $request->icon_id
+            'iconify_name' => $request->iconify_name
         ])->save();
 
         if ($debtId) {

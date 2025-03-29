@@ -18,7 +18,7 @@
                 class="flex place-items-center bg-[white] p-4 border-6 rounded text-center"
             >
                 <div class="flex flex-auto justify-center">
-                    <Icon :icon="goal.icon.iconify_name" class="size-10"></Icon>
+                    <Icon :icon="goal.iconify_name" class="size-10"></Icon>
                 </div>
                 <div class="w-96 font-semibold text-3xl">{{ goal.name }}</div>
                 <div class="group-hover:invisible flex-auto text-3xl">

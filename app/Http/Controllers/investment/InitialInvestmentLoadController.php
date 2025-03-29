@@ -33,7 +33,7 @@ class InitialInvestmentLoadController
             self::updateInvestmentRecord($instrument->instrument->symbol, [
                 'investment_type_id' => InvestmentType::query()->where('name', $instrument->instrument->type)->first()->id,
                 'investment_sector_id' => InvestmentSector::query()->where('name', $instrument->instrument->sector)->first()->id,
-                'investment_icon_id' => InvestmentIcon::query()->where('name', $instrument->instrument->name)->first()->id,
+                'investment_iconify_name' => InvestmentIcon::query()->where('name', $instrument->instrument->name)->first()->id,
                 'instrument_id' => $instrument->instrument->instrumentId,
             ]);
             self::createAssetPerformanceRecord($instrument->instrument);

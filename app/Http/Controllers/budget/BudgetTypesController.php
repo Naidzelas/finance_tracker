@@ -28,7 +28,7 @@ class BudgetTypesController extends Controller
 
         if (RequestFacade::input('suggestIcon')) {
             $icons = new IconifyController();
-            $suggestions = $icons->searchIcons(RequestFacade::input('suggestIcon'))->getData();
+            $suggestionsIcon = $icons->searchIcons(RequestFacade::input('suggestIcon'))->getData();
         }
 
         return Inertia::render('Item', [
@@ -55,7 +55,7 @@ class BudgetTypesController extends Controller
                 'tags' => ['Tag',],
             ],
             'selectData' => [
-                'iconify_name' => $suggestions->icons ?? [],
+                'iconify_name' => $suggestionsIcon->icons ?? [],
                 'tag_suggestions' => $suggestions ?? [],
             ],
         ]);
@@ -102,7 +102,7 @@ class BudgetTypesController extends Controller
 
         if (RequestFacade::input('suggestIcon')) {
             $icons = new IconifyController();
-            $suggestions = $icons->searchIcons(RequestFacade::input('suggestIcon'))->getData();
+            $suggestionsIcon = $icons->searchIcons(RequestFacade::input('suggestIcon'))->getData();
         }
 
         return Inertia::render('Item', [
@@ -129,7 +129,7 @@ class BudgetTypesController extends Controller
                 'tags' => ['Tag', $budgetType->tag],
             ],
             'selectData' => [
-                'iconify_name' => $suggestions->icons ?? [],
+                'iconify_name' => $suggestionsIcon->icons ?? [],
                 'tag_suggestions' => $suggestions ?? [],
             ]
         ]);

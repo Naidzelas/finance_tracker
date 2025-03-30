@@ -19,12 +19,11 @@ use Illuminate\Support\Facades\Crypt;
 
 class ExpenseController extends Controller
 {
-    private const UNCATEGORIZED = 1;
+    private const UNCATEGORIZED = 0;
 
     public function index(Request $request)
     {
         $user = $request->user();
-
         match (true) {
             $request->has('previous_expenses') => $previous_expenses = Crypt::decrypt($request->input('previous_expenses')),
             $request->has('current_expenses') => $current_expenses = Crypt::decrypt($request->input('current_expenses')),
@@ -44,9 +43,14 @@ class ExpenseController extends Controller
                 ->get(),
             'goals' => Goal::where('user_id', $user->id)->withSum('goal_deposit as deposit', 'deposit')->get(),
             'budget_types' => BudgetTypes::query()->where('user_id', $user->id)->get()
-                ->map(function ($item) {
-                    $item->budget_left = $item->amount + Expense::currentPostway()
-                        ->sum('amount') -  Expense::currentPostway('D')->where('type_id', $item->id)->sum('amount');
+                ->map(function ($item) use ($user) {
+                    $item->budget_left = $item->amount + 
+                        Expense::currentPostway( 'C')->where('type_id', $item->id)
+                            ->where('user_id',$user->id)
+                            ->sum('amount') - 
+                        Expense::currentPostway( 'D')->where('type_id', $item->id)
+                            ->where('user_id',$user->id)
+                            ->sum('amount');
                     return $item;
                 }),
             'invested' => Investment::select('id', 'invested')->get()->sum('invested'),

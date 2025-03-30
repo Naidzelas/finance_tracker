@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('type_id');
             $table->decimal('end_goal',8,2)->nullable();
             $table->decimal('contribution',8,2)->nullable();
-            $table->string('icon_id')->nullable();
+            $table->string('iconify_name')->nullable();
             $table->boolean('active')->default(1);
             $table->boolean('is_main_priority')->default(0);
             $table->timestamps();

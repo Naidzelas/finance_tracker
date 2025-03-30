@@ -42,5 +42,9 @@ return [
         'secret' => env('WORKOS_API_KEY'),
         'redirect_url' => env('WORKOS_REDIRECT_URL'),
     ],
+    'iconify' => [
+        'base_url' => env('ICONIFY_API_URL', 'https://api.iconify.design'),
+        'search_limit' => env('ICONIFY_SEARCH_LIMIT', 20),
+    ],
 
 ];

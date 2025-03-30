@@ -4,16 +4,17 @@ namespace App\Http\Controllers\Goals;
 
 use App\Events\NotificationEvent;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\services\IconifyController;
 use App\Http\Controllers\Services\TagService;
 use App\Models\Budget\BudgetTypes;
 use App\Models\Budget\FilterTags;
 use App\Models\Expenses\Expense;
 use App\Models\Goals\Goal;
 use App\Models\Goals\GoalDeposit;
-use App\Models\Icons;
 use App\Services\Tag\Repositories\TagRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Request as RequestFacade;
 use Inertia\Inertia;
 
 class GoalController extends Controller
@@ -22,9 +23,7 @@ class GoalController extends Controller
     {
         $user = $request->user();
         return Inertia::render('Goal', [
-            'goals' => Goal::where('user_id', $user->id)->with([
-                'icon'
-            ])
+            'goals' => Goal::where('user_id', $user->id)
                 ->withSum('goal_deposit as deposit', 'deposit')
                 ->get(),
             'breadcrumbs' => [
@@ -45,7 +44,11 @@ class GoalController extends Controller
 
     public function create()
     {
-        $icons = Icons::query()->select('id', 'iconify_name as data')->get()->toArray();
+        if (RequestFacade::input('suggestIcon')) {
+            $icons = new IconifyController();
+            $suggestions = $icons->searchIcons(RequestFacade::input('suggestIcon'))->getData();
+        }
+
         return Inertia::render('Item', [
             'registerRoute' => 'goal',
             'breadcrumbs' => [
@@ -67,12 +70,12 @@ class GoalController extends Controller
                 'name' => ['String',],
                 'end_goal' => ['Number',],
                 'contribution' => ['Number',],
-                'icon_id' => ['Select',],
+                'iconify_name' => ['Select',],
                 'is_main_priority' => ['Boolean',],
                 'saving_account_iban' => ['String',],
             ],
             'selectData' => [
-                'icon_id' => $icons,
+                'iconify_name' => $suggestions->icons ?? [],
             ]
         ]);
     }
@@ -83,7 +86,7 @@ class GoalController extends Controller
             'name' => 'required|string',
             'end_goal' => 'required|numeric',
             'contribution' => 'required|numeric',
-            'icon_id' => 'required|integer',
+            'iconify_name' => 'required|string',
             'is_main_priority' => 'required|boolean',
             'saving_account_iban' => 'nullable|string',
         ]);
@@ -93,7 +96,7 @@ class GoalController extends Controller
             'user_id' => $user->id,
             'name' => $request->name,
             'amount' => $request->contribution,
-            'icon_id' => $request->icon_id,
+            'iconify_name' => $request->iconify_name,
         ]);
 
         $tagRepository = app(TagRepositoryInterface::class, ['model' => new Expense(), 'availableTags' => new FilterTags()]);
@@ -108,7 +111,7 @@ class GoalController extends Controller
             'name' => $request->name,
             'end_goal' => $request->end_goal,
             'contribution' => $request->contribution,
-            'icon_id' => $request->icon_id,
+            'iconify_name' => $request->iconify_name,
             'is_main_priority' => $request->is_main_priority,
             'type_id' => $budgetType->id,
             'saving_account_iban' => $request->saving_account_iban
@@ -143,6 +146,11 @@ class GoalController extends Controller
     {
         $goal = Goal::find($goalId);
 
+        if (RequestFacade::input('suggestIcon')) {
+            $icons = new IconifyController();
+            $suggestions = $icons->searchIcons(RequestFacade::input('suggestIcon'))->getData();
+        }
+
         return Inertia::render('Item', [
             'registerRoute' => 'goal/' . $goalId,
             'breadcrumbs' => [
@@ -164,11 +172,11 @@ class GoalController extends Controller
                 'name' => ['String', $goal->name],
                 'end_goal' => ['Number', $goal->end_goal],
                 'contribution' => ['Number', $goal->contribution],
-                'icon_id' => ['Select', $goal->icon_id],
+                'iconify_name' => ['Select', $goal->iconify_name],
                 'is_main_priority' => ['Boolean', $goal->is_main_priority],
             ],
             'selectData' => [
-                'icon_id' => Icons::query()->select('id', 'iconify_name as data')->get()->toArray(),
+                'iconify_name' => $suggestions->icons ?? [],
             ]
         ]);
     }
@@ -179,7 +187,7 @@ class GoalController extends Controller
             'name' => 'required|string',
             'end_goal' => 'required|numeric',
             'contribution' => 'required|numeric',
-            'icon_id' => 'required|integer',
+            'iconify_name' => 'required|string',
             'is_main_priority' => 'required|boolean',
             'saving_account_iban' => 'nullable|string',
         ]);

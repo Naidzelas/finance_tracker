@@ -29,7 +29,7 @@
         "never": "Never",
         "consumer_durables": "Consumer Durables",
         "stock": "Stock",
-        "investment_icon_id": "Investment Icon",
+        "investment_iconify_name": "Investment Icon",
         "symbol": "Symbol",
         "investment_type_id": "Investment Type"
     },
@@ -51,7 +51,7 @@
         "name": "Name",
         "end_goal": "End Goal",
         "contribution": "Contribution",
-        "icon_id": "Icon",
+        "iconify_name": "Icon",
         "is_main_priority": "Is Main Priority",
         "saving_account_iban": "Saving Account IBAN"
     },
@@ -71,7 +71,7 @@
         "loan_final_amount": "Loan Final Amount",
         "monthly_payment": "Monthly Payment",
         "loan_size": "Loan Size",
-        "icon_id": "Icon",
+        "iconify_name": "Icon",
         "payment": "Payments",
         "loan_payed": "Paid"
     },
@@ -85,7 +85,7 @@
         "title": "Budget Types",
         "budget": "Budget",
         "name": "Name",
-        "icon_id": "Icon",
+        "iconify_name": "Icon",
         "amount": "Amount",
         "add_new": "Add Budget Type",
         "budget_type_name": "Budget Type Name",
@@ -150,7 +150,7 @@
         "error": {
             "name": "Name field is required",
             "amount": "Amount field is required",
-            "icon_id": "Icon field is required",
+            "iconify_name": "Icon field is required",
             "something_went_wrong": "Something went wrong"
         }
     }

@@ -29,7 +29,7 @@
         "never": "Niekada",
         "consumer_durables": "Vartotojų prekės",
         "stock": "Akcija",
-        "investment_icon_id": "Investicijos piktograma",
+        "investment_iconify_name": "Investicijos piktograma",
         "symbol": "Simbolis",
         "investment_type_id": "Investicijos tipas"
     },
@@ -51,7 +51,7 @@
         "name": "Pavadinimas",
         "end_goal": "Tikslas",
         "contribution": "Įnašas",
-        "icon_id": "Piktograma",
+        "iconify_name": "Piktograma",
         "is_main_priority": "Yra pagrindinis prioritetas",
         "saving_account_iban": "Taupymo sąskaitos IBAN"
     },
@@ -71,7 +71,7 @@
         "loan_final_amount": "Paskolos galutinė suma",
         "monthly_payment": "Mėnesinis mokėjimas",
         "loan_size": "Paskolos dydis",
-        "icon_id": "Piktograma",
+        "iconify_name": "Piktograma",
         "payment": "Įmokos",
         "loan_payed": "Apmokėta"
     },
@@ -79,7 +79,7 @@
         "title": "Biudžeto tipai",
         "budget": "Biudžetas",
         "name": "Pavadinimas",
-        "icon_id": "Piktograma",
+        "iconify_name": "Piktograma",
         "amount": "Suma",
         "add_new": "Pridėti biudžeto tipą",
         "budget_type_name": "Biudžeto tipo pavadinimas",
@@ -144,7 +144,7 @@
         "error": {
             "name": "Pavadinimo laukas privalomas",
             "amount": "Sumos laukas privalomas",
-            "icon_id": "Piktogramos laukas privalomas",
+            "iconify_name": "Piktogramos laukas privalomas",
             "something_went_wrong": "Kažkas nutiko blogai"
         }
     }

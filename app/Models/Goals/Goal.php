@@ -2,11 +2,9 @@
 
 namespace App\Models\Goals;
 
-use App\Models\Icons;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Goal extends Model
 {
@@ -18,16 +16,12 @@ class Goal extends Model
         'type_id',
         'end_goal',
         'contribution',
-        'icon_id',
+        'iconify_name',
         'is_main_priority',
     ];
 
     public function goal_deposit(): HasMany
     {
         return $this->hasMany(GoalDeposit::class);
-    }
-    public function icon(): HasOne
-    {
-        return $this->hasOne(Icons::class, 'id', 'icon_id');
     }
 }

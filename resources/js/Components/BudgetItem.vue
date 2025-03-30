@@ -3,7 +3,7 @@
         <div v-if="item.budget_left > 0">
             <div class="group-hover:invisible flex flex-row">
                 <div class="flex place-items-center basis-1/2">
-                    <Icon :icon="item.icon.iconify_name" class="size-6 md:size-8"></Icon>
+                    <Icon :icon="item.iconify_name" class="size-6 md:size-8"></Icon>
                 </div>
                 <div class="text-xl md:text-2xl text-right basis-1/2">
                     {{ item.budget_left.toFixed(2) }}
@@ -18,7 +18,7 @@
         <div v-else class="text-red-600">
             <div class="group-hover:invisible flex flex-row">
                 <div class="flex place-items-center basis-1/2">
-                    <Icon :icon="item.icon.iconify_name" class="size-8"></Icon>
+                    <Icon :icon="item.iconify_name" class="size-8"></Icon>
                 </div>
                 <Icon
                     icon="fluent-emoji-high-contrast:white-exclamation-mark"

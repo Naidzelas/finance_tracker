@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('monthly_payment', 10, 2);
             $table->decimal('loan_final_amount', 10, 2);
             $table->decimal('interest_rate', 10, 2)->default(0);
-            $table->integer('icon_id')->nullable();
+            $table->string('iconify_name')->nullable();
             $table->timestamps();
         });
     }

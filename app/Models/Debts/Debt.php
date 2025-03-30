@@ -4,7 +4,6 @@ namespace App\Models\Debts;
 
 use App\Models\Budget\BudgetTypes;
 use App\Models\Documents\Document;
-use App\Models\Icons;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -21,14 +20,9 @@ class Debt extends Model
         'monthly_payment',
         'loan_final_amount',
         'interest_rate',
-        'icon_id',
+        'iconify_name',
         'document_id',
     ];
-
-    public function icon(): HasOne
-    {
-        return $this->hasOne(Icons::class, 'id', 'icon_id');
-    }
 
     public function debtDetail(): HasOne
     {

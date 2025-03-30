@@ -69,7 +69,7 @@
                 </button>
             </div>
         </form>
-        <div class="flex bg-[#3C3C3C] py-1 border-2 rounded h-fit text-md">
+        <div class="flex bg-[#3C3C3C] py-1 rounded h-fit text-md">
             <div class="flex-1 font-bold text-[white]">
                 {{ $t("expenses.expense_name") }}
             </div>

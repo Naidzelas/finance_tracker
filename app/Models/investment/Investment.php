@@ -14,7 +14,7 @@ class Investment extends Model
         'instrument_id',
         'investment_note_id',
         'investment_type_id',
-        'investment_icon_id',
+        'investment_iconify_name',
         'investment_sector_id',
         'invested',
         'profit',
@@ -22,11 +22,6 @@ class Investment extends Model
         'is_green',
         'value'
     ];
-
-    public function investmentIcon(): HasOne
-    {
-        return $this->hasOne(InvestmentIcon::class,'id', 'investment_icon_id');
-    }
 
     public function investmentType(): HasOne
     {

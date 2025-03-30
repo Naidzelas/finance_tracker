@@ -26,7 +26,7 @@
                 <div class="flex flex-1 justify-center col-span-3 md:pl-10">
                     <div>
                         <Icon
-                            :icon="goal.icon.iconify_name"
+                            :icon="goal.iconify_name"
                             class="size-8 md:size-12"
                         ></Icon>
                     </div>

@@ -14,7 +14,7 @@ class Investment extends Model
         'instrument_id',
         'investment_note_id',
         'investment_type_id',
-        'investment_iconify_name',
+        'iconify_name',
         'investment_sector_id',
         'invested',
         'profit',

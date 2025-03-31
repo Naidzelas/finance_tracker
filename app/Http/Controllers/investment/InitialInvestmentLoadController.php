@@ -5,7 +5,6 @@ namespace App\Http\Controllers\investment;
 use App\Http\Controllers\services\EtoroController;
 use App\Models\investment\AssetPerformance;
 use App\Models\investment\Investment;
-use App\Models\investment\InvestmentIcon;
 use App\Models\investment\InvestmentPosition;
 use App\Models\investment\InvestmentSector;
 use App\Models\investment\InvestmentType;
@@ -29,11 +28,10 @@ class InitialInvestmentLoadController
             $instrument = $etoro->getInstrumentBySymbol($position->symbol)->getData();
             self::createInvestmentSector($instrument->instrument->sector);
             self::createInvestmentType($instrument->instrument->type);
-            self::createInvestmentIcon($instrument->instrument->name);
             self::updateInvestmentRecord($instrument->instrument->symbol, [
                 'investment_type_id' => InvestmentType::query()->where('name', $instrument->instrument->type)->first()->id,
                 'investment_sector_id' => InvestmentSector::query()->where('name', $instrument->instrument->sector)->first()->id,
-                'investment_iconify_name' => InvestmentIcon::query()->where('name', $instrument->instrument->name)->first()->id,
+                'iconify_name' => 'streamline:investment-selection',
                 'instrument_id' => $instrument->instrument->instrumentId,
             ]);
             self::createAssetPerformanceRecord($instrument->instrument);
@@ -66,7 +64,7 @@ class InitialInvestmentLoadController
             'dividend' => $data->dividendYield ?? 0,
             'dividend_ex_date' => !empty($data->dividendExDate) ? Carbon::createFromDate($data->dividendExDate)->format('Y-m-d') : null,
             'dividend_pay_date' => !empty($data->dividendExDate) ? Carbon::createFromDate($data->dividendPayDate)->format('Y-m-d') : null,
-            'dividend_frequency' => $data->dividendFrequency ?? null,
+            'dividend_frequency' => $data->dividendFrequency ?? 'NEVER',
         ]);
     }
 
@@ -86,14 +84,6 @@ class InitialInvestmentLoadController
     {
         InvestmentSector::firstOrCreate([
             'name' => $sector
-        ]);
-    }
-
-    private function createInvestmentIcon(string $company)
-    {
-        InvestmentIcon::firstOrCreate([
-            'name' => $company,
-            'iconify_name' => 'streamline:investment-selection'
         ]);
     }
 

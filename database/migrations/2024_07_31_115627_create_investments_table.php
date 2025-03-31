@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('symbol')->nullable();
             $table->integer('instrument_id')->nullable();
             $table->integer('investment_type_id')->nullable();
-            $table->string('investment_iconify_name')->nullable();
+            $table->string('iconify_name')->nullable();
             $table->integer('investment_sector_id')->nullable();
-            $table->decimal('invested',10,2)->nullable();
-            $table->decimal('profit',10,2)->nullable();
-            $table->decimal('profit_percent',10,2)->nullable();
+            $table->decimal('invested', 10, 2)->nullable();
+            $table->decimal('profit', 10, 2)->nullable();
+            $table->decimal('profit_percent', 10, 2)->nullable();
             $table->boolean('is_green')->nullable();
             $table->decimal('value')->nullable();
             $table->timestamps();

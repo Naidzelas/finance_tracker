@@ -29,7 +29,7 @@
         "never": "Never",
         "consumer_durables": "Consumer Durables",
         "stock": "Stock",
-        "investment_iconify_name": "Investment Icon",
+        "iconify_name": "Investment Icon",
         "symbol": "Symbol",
         "investment_type_id": "Investment Type"
     },

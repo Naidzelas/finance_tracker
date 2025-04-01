@@ -21,7 +21,7 @@ createInertiaApp({
             console.error(`Page not found: ${name}`);
             throw new Error(`Page not found: ${name}`);
         }
-        if (name !== "Landing" && name !== "Error") {
+        if (name !== "Landing" && name !== "Error" && name !== "Introduction") {
             page.default.layout = page.default.layout || Layout;
         } else {
             page.default.layout = PreAppLayout;

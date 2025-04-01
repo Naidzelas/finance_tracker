@@ -123,6 +123,38 @@
     "statistics": {
         "current_budget_allocation": "Current Budget Allocation"
     },
+    "introduction": {
+        "welcome": "Welcome to your office",
+        "introduction": "Introduction",
+        "introduction_intro": "This introduction will help you set up your personal finance tracking. Follow the steps to configure your income and budget categories.",
+        "income_and_budget_step": "Income & Budget Setup",
+        "income_and_budget_step_title": "Setup Your Income and Budget Categories",
+        "your_monthly_income": "Your Monthly Income",
+        "budget_categories": "Budget Categories",
+        "add_buddget_item": "Add Budget Item",
+        "budget_add_instructions": " Add budget categories to allocate your income",
+        "remaining_allocation": "Remaining to allocate:",
+        "introduction_step_title": "About Finance Tracker",
+        "introduction_step_text_header": "Finance Tracker is a powerful tool designed to help you manage your personal finances with ease. With this application, you can: ",
+        "introduction_step_list": {
+            "1": "Track your income and expenses",
+            "2": "Create and manage budget categories",
+            "3": "Set financial goals and monitor your progress",
+            "4": "Visualize your spending with detailed charts and reports",
+            "5": "Track investments and debts"
+        },
+        "introdution_step_text_footer": "In the next steps, we'll help you set up your initial income and budget allocation to get started on your financial journey. ",
+        "setup_parameters_step_title": "Setup Your Income and Budget Categories",
+        "setup_parameters": "Set parameters & Complete",
+        "setup_budget_title": "Budget Categories",
+        "setup_budget_input": "Category name (e.g. Food, Housing)",
+        "setup_budget_explanation": "Add budget categories to allocate your income",
+        "setup_income_input": "Enter your income",
+        "parameters_title": "Setup Your Parameters",
+        "next": "Next",
+        "previous": "Previous",
+        "finish": "Finish"
+    },
     "general": {
         "table": "Table",
         "logout": "Leave my office",

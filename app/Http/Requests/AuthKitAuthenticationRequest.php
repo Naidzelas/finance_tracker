@@ -42,6 +42,7 @@ class AuthKitAuthenticationRequest extends FormRequest
             lastName: $user->lastName,
             email: $user->email,
             avatar: $user->profilePictureUrl,
+            new_user: true,
         );
 
         $existingUser = $findUsing($user->id);

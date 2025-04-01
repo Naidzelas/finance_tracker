@@ -10,5 +10,6 @@ class User
         public ?string $lastName,
         public string $email,
         public ?string $avatar = null,
+        public ?bool $new_user = false,
     ) {}
 }

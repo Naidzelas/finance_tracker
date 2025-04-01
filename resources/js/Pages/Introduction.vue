@@ -4,66 +4,105 @@
             <img src="/./storage/app/public/images/Group 31.svg" />
         </div>
         <div class="mt-24 mr-10 2xl:mr-40 ml-10 2xl:ml-40">
+            <div class="md:top-10 md:-left-16 float-end relative flex gap-2">
+                <LanguageSelect></LanguageSelect>
+            </div>
             <div
-                class="flex md:flex-row flex-col bg-white shadow-md mb-10 p-6 px-20 rounded-md"
+            class="flex md:flex-row flex-col bg-white shadow-md mb-10 p-6 px-20 rounded-md"
             >
-                <div class="flex-shrink-0 md:mr-8">
-                    <img
-                        src="\.\storage\app\public\images\cat.png"
-                        class="size-36 md:size-60 scale-x-[-1]"
-                    />
-                </div>
-                <div class="flex flex-col justify-center mt-4 md:mt-0">
-                    <h1 class="mb-4 font-bold text-3xl">
-                        Welcome to Finance Tracker
+            <div class="flex-shrink-0 md:mr-8">
+                <img
+                src="\.\storage\app\public\images\cat.png"
+                class="size-36 md:size-60 scale-x-[-1]"
+                />
+            </div>
+            <div class="flex flex-col justify-center mt-4 md:mt-0">
+                <h1 class="mb-4 font-bold text-3xl">
+                        {{ $t("introduction.welcome") }}
                     </h1>
                     <p class="text-lg">
-                        This introduction will help you set up your personal
-                        finance tracking. Follow the steps to configure your
-                        income and budget categories.
+                        {{ $t("introduction.introduction_intro") }}
                     </p>
                 </div>
             </div>
             <div class="bg-white shadow-md p-6 rounded-md">
                 <Stepper value="1">
                     <StepList>
-                        <Step value="1">Introduction</Step>
-                        <Step value="2">Income & Budget Setup</Step>
-                        <Step value="3">Header III</Step>
+                        <Step value="1">{{
+                            $t("introduction.introduction")
+                        }}</Step>
+                        <Step value="2">{{
+                            $t("introduction.income_and_budget_step")
+                        }}</Step>
+                        <Step value="3">{{
+                            $t("introduction.setup_parameters")
+                        }}</Step>
                     </StepList>
                     <StepPanels>
                         <StepPanel v-slot="{ activateCallback }" value="1">
                             <div class="p-4">
                                 <h2 class="mb-4 font-semibold text-xl">
-                                    About Finance Tracker
+                                    {{
+                                        $t(
+                                            "introduction.introduction_step_title"
+                                        )
+                                    }}
                                 </h2>
                                 <p class="mb-3">
-                                    Finance Tracker is a powerful tool designed
-                                    to help you manage your personal finances
-                                    with ease. With this application, you can:
+                                    {{
+                                        $t(
+                                            "introduction.introduction_step_text_header"
+                                        )
+                                    }}
                                 </p>
                                 <ul class="mb-3 pl-6 list-disc">
-                                    <li>Track your income and expenses</li>
-                                    <li>Create and manage budget categories</li>
                                     <li>
-                                        Set financial goals and monitor your
-                                        progress
+                                        {{
+                                            $t(
+                                                "introduction.introduction_step_list.1"
+                                            )
+                                        }}
                                     </li>
                                     <li>
-                                        Visualize your spending with detailed
-                                        charts and reports
+                                        {{
+                                            $t(
+                                                "introduction.introduction_step_list.2"
+                                            )
+                                        }}
                                     </li>
-                                    <li>Track investments and debts</li>
+                                    <li>
+                                        {{
+                                            $t(
+                                                "introduction.introduction_step_list.3"
+                                            )
+                                        }}
+                                    </li>
+                                    <li>
+                                        {{
+                                            $t(
+                                                "introduction.introduction_step_list.4"
+                                            )
+                                        }}
+                                    </li>
+                                    <li>
+                                        {{
+                                            $t(
+                                                "introduction.introduction_step_list.5"
+                                            )
+                                        }}
+                                    </li>
                                 </ul>
                                 <p class="mb-3">
-                                    In the next steps, we'll help you set up
-                                    your initial income and budget allocation to
-                                    get started on your financial journey.
+                                    {{
+                                        $t(
+                                            "introduction.introdution_step_text_footer"
+                                        )
+                                    }}
                                 </p>
                             </div>
                             <div class="flex justify-end pt-6">
                                 <Button
-                                    label="Next"
+                                    :label="$t('introduction.next')"
                                     severity="contrast"
                                     @click="activateCallback('2')"
                                 />
@@ -72,19 +111,26 @@
                         <StepPanel v-slot="{ activateCallback }" value="2">
                             <div class="p-4">
                                 <h2 class="mb-4 font-semibold text-xl">
-                                    Setup Your Income and Budget Categories
+                                    {{
+                                        $t(
+                                            "introduction.setup_parameters_step_title"
+                                        )
+                                    }}
                                 </h2>
                                 <div class="mb-6 w-[20em]">
-                                    <label class="block mb-2 font-semibold"
-                                        >Your Monthly Income</label
-                                    >
+                                    <label class="block mb-2 font-semibold">{{
+                                        $t("introduction.your_monthly_income")
+                                    }}</label>
                                     <InputGroup>
                                         <InputGroupAddon>€</InputGroupAddon>
                                         <InputNumber
                                             v-model="income"
                                             type="number"
-                                            placeholder="Enter your income"
-                                            @input="calculateRemaining"
+                                            :placeholder="
+                                                $t(
+                                                    'introduction.setup_income_input'
+                                                )
+                                            "
                                         />
                                     </InputGroup>
                                 </div>
@@ -92,11 +138,17 @@
                                 <BlockUI :blocked="!income">
                                     <div class="mb-6">
                                         <div class="flex justify-between mb-2">
-                                            <label class="font-semibold"
-                                                >Budget Categories</label
-                                            >
+                                            <label class="font-semibold">{{
+                                                $t(
+                                                    "introduction.setup_budget_title"
+                                                )
+                                            }}</label>
                                             <Button
-                                                label="Add Budget Item"
+                                                :label="
+                                                    $t(
+                                                        'introduction.add_buddget_item'
+                                                    )
+                                                "
                                                 @click="addBudgetItem"
                                                 :disabled="!income"
                                                 class="bg-blue-500 hover:bg-blue-600 p-2 rounded-md text-white"
@@ -107,8 +159,11 @@
                                             v-if="budgetItems.length === 0"
                                             class="text-gray-500 italic"
                                         >
-                                            Add budget categories to allocate
-                                            your income
+                                            {{
+                                                $t(
+                                                    "introduction.setup_budget_explanation"
+                                                )
+                                            }}
                                         </div>
 
                                         <div
@@ -121,31 +176,30 @@
                                                 :key="index"
                                             >
                                                 <div class="flex gap-2 mb-4">
-                                                    <InputGroup>
-                                                        <InputText
-                                                            v-model="item.name"
-                                                            placeholder="Category name (e.g. Food, Housing)"
-                                                            @input="
-                                                                updateItemId(
-                                                                    index
-                                                                )
-                                                            "
-                                                        />
-                                                        <InputNumber
-                                                            v-model="
-                                                                item.amount
-                                                            "
-                                                            :id="item.id"
-                                                            :max="
-                                                                getMaxAmount(
-                                                                    index
-                                                                )
-                                                            "
-                                                            @input="
-                                                                calculateRemaining
-                                                            "
-                                                        />
-                                                    </InputGroup>
+                                                    <InputText
+                                                        class="w-[60%]"
+                                                        v-model="item.name"
+                                                        :placeholder="
+                                                            $t(
+                                                                'introduction.setup_budget_input'
+                                                            )
+                                                        "
+                                                        @input="
+                                                            updateItemId(index)
+                                                        "
+                                                    />
+                                                    <InputNumber
+                                                        class="2xl:w-[50%] h-full"
+                                                        :disabled="!item.name"
+                                                        v-model="item.amount"
+                                                        :id="item.id"
+                                                        :max="
+                                                            getMaxAmount(index)
+                                                        "
+                                                        @input="
+                                                            calculateRemaining
+                                                        "
+                                                    />
                                                     <Button
                                                         severity="danger"
                                                         @click="
@@ -156,7 +210,7 @@
                                                     >
                                                         <Icon
                                                             icon="mdi:delete"
-                                                            class="size-6"
+                                                            class="w-10 size-6"
                                                         />
                                                     </Button>
                                                 </div>
@@ -175,10 +229,11 @@
                                             class="bg-gray-100 mt-4 p-3 rounded-md"
                                         >
                                             <div class="flex justify-between">
-                                                <span class="font-semibold"
-                                                    >Remaining to
-                                                    allocate:</span
-                                                >
+                                                <span class="font-semibold">{{
+                                                    $t(
+                                                        "introduction.remaining_allocation"
+                                                    )
+                                                }}</span>
                                                 <span
                                                     :class="{
                                                         'text-red-500':
@@ -201,7 +256,7 @@
                             </div>
                             <div class="flex justify-between pt-6">
                                 <Button
-                                    label="Back"
+                                    :label="$t('introduction.previous')"
                                     severity="warn"
                                     @click="activateCallback('1')"
                                 />
@@ -214,25 +269,25 @@
                         </StepPanel>
                     </StepPanels>
                     <StepPanel v-slot="{ activateCallback }" value="3">
-                            <div class="p-4">
-                                <h2 class="mb-4 font-semibold text-xl">
-                                    About Finance Tracker
-                                </h2>
-                                END
-                            </div>
-                            <div class="flex justify-between pt-6">
-                                <Button
-                                    label="Back"
-                                    severity="warn"
-                                    @click="activateCallback('2')"
-                                />
-                                <Button
-                                    label="Finish"
-                                    severity="contrast"
-                                    @click="activateCallback('3')"
-                                />
-                            </div>
-                        </StepPanel>
+                        <div class="p-4">
+                            <h2 class="mb-4 font-semibold text-xl">
+                                {{ $t("introduction.parameters_title") }}
+                            </h2>
+                            WORK IN PROGRESS
+                        </div>
+                        <div class="flex justify-between pt-6">
+                            <Button
+                                :label="$t('introduction.previous')"
+                                severity="warn"
+                                @click="activateCallback('2')"
+                            />
+                            <Button
+                                :label="$t('introduction.finish')"
+                                severity="contrast"
+                                @click="handleSubmit"
+                            />
+                        </div>
+                    </StepPanel>
                 </Stepper>
             </div>
         </div>
@@ -250,8 +305,15 @@ import { Button } from "primevue";
 import { InputText, InputNumber, InputGroupAddon, InputGroup } from "primevue";
 import { BlockUI } from "primevue";
 import { Slider } from "primevue";
+import { router } from "@inertiajs/vue3";
+import LanguageSelect from "../Components/LanguageSelect.vue";
 
-const activeStep = ref(1);
+// Form object to store all form data
+const form = ref({
+    income: null,
+    budgetItems: [],
+});
+
 const income = ref(null);
 const budgetItems = ref([]);
 const remainingAmount = ref(0);
@@ -262,20 +324,30 @@ function addBudgetItem() {
         name: "",
         amount: 0,
     });
+
+    // Also add to form object
+    form.value.budgetItems.push({
+        id: "",
+        name: "",
+        amount: 0,
+    });
 }
 
 function removeBudgetItem(index) {
     budgetItems.value.splice(index, 1);
+    form.value.budgetItems.splice(index, 1);
     calculateRemaining();
 }
 
 function updateItemId(index) {
     if (budgetItems.value[index].name) {
-        // Create kebab-case id from name
         budgetItems.value[index].id = budgetItems.value[index].name
             .toLowerCase()
             .replace(/\s+/g, "-")
             .replace(/[^a-z0-9-]/g, "");
+
+        // Also update in form object
+        form.value.budgetItems[index].id = budgetItems.value[index].id;
     }
 }
 
@@ -294,5 +366,47 @@ function getMaxAmount(index) {
     }, 0);
 
     return Number(income.value || 0) - otherItemsTotal;
+}
+
+watch(
+    income,
+    (newValue) => {
+        form.value.income = newValue;
+        calculateRemaining();
+    },
+    { immediate: true }
+);
+
+// Sync budgetItems with form.budgetItems
+watch(
+    budgetItems,
+    (newValue) => {
+        form.value.budgetItems = JSON.parse(JSON.stringify(newValue));
+        calculateRemaining();
+    },
+    { deep: true }
+);
+
+// Also watch the form object to keep the UI in sync
+watch(
+    () => form.value.income,
+    (newValue) => {
+        income.value = newValue;
+    }
+);
+
+watch(
+    () => form.value.budgetItems,
+    (newValue) => {
+        // Only update if there's an actual difference to avoid loops
+        if (JSON.stringify(newValue) !== JSON.stringify(budgetItems.value)) {
+            budgetItems.value = JSON.parse(JSON.stringify(newValue));
+        }
+    },
+    { deep: true }
+);
+
+function handleSubmit() {
+    router.post(route("introduction.store"), form.value);
 }
 </script>

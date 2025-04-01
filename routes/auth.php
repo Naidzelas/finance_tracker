@@ -8,12 +8,17 @@ use App\Http\Requests\AuthKitLogoutRequest;
 
 Route::get('login', function (AuthKitLoginRequest $request) {
     return $request->redirect();
-})->middleware(['guest'])->name('login');
+})->name('login');
 
 Route::get('authenticate', function (AuthKitAuthenticationRequest $request) {
-    return tap(to_route('index'), fn () => $request->authenticate());
-})->middleware(['guest']);
+    $request->authenticate();
+
+    return match ((bool) $request->user()->new_user) {
+        true => to_route('introduction.index'),
+        false => to_route('index'),
+    };
+});
 
 Route::post('logout', function (AuthKitLogoutRequest $request) {
     return $request->logout();
-})->middleware(['auth'])->name('logout');
+})->name('logout');

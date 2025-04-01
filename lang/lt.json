@@ -117,6 +117,39 @@
     "statistics": {
         "current_budget_allocation": "Dabartinis biudžeto paskirstymas"
     },
+    "introduction": {
+        "welcome": "Sveiki atvykę į savo biurą",
+        "introduction": "Įvadas",
+        "introduction_intro": "Šis įvadas padės jums sukurti asmeninių finansų sekimą. Sekite žingsnius, kad sukonfigūruotumėte savo pajamas ir biudžeto kategorijas.",
+        "income_and_budget_step": "Pajamų ir biudžeto nustatymas",
+        "income_and_budget_step_title": "Nustatykite savo pajamas ir biudžeto kategorijas",
+        "your_monthly_income": "Jūsų mėnesinės pajamos",
+        "budget_categories": "Biudžeto kategorijos",
+        "add_buddget_item": "Pridėti biudžeto elementą",
+        "budget_add_instructions": "Pridėkite biudžeto kategorijas, kad paskirstytumėte savo pajamas",
+        "remaining_allocation": "Liko paskirstyti:",
+        "introduction_step_title": "Apie finansų sekimą",
+        "introduction_step_text_header": "Finansų sekimo įrankis yra galingas įrankis, skirtas padėti jums lengvai valdyti asmeninius finansus. Su šia programa galite:",
+        "introduction_step_list": {
+            "1": "Sekti savo pajamas ir išlaidas",
+            "2": "Kurti ir valdyti biudžeto kategorijas",
+            "3": "Nustatyti finansinius tikslus ir stebėti savo pažangą",
+            "4": "Vizualizuoti savo išlaidas su išsamiomis diagramomis ir ataskaitomis",
+            "5": "Sekti investicijas ir skolas"
+        },
+        "introdution_step_text_footer": "Kitame žingsnyje jums padėsime nustatyti pradines pajamas ir biudžeto paskirstymą, kad galėtumėte pradėti savo finansinę kelionę.",
+        "setup_parameters_step_title": "Nustatykite savo pajamas ir biudžeto kategorijas",
+        "setup_parameters": "Nustatykite parametrus ir užbaikite",
+        "setup_income_title": "Jūsų mėnesinės pajamos",
+        "setup_budget_title": "Biudžeto kategorijos",
+        "setup_budget_input": "Kategorijos pavadinimas (pvz., Maistas, Būstas)",
+        "setup_budget_explanation": "Pridėkite biudžeto kategorijas, kad paskirstytumėte savo pajamas",
+        "setup_income_input": "Įveskite savo pajamas",
+        "parameters_title": "Nustatykite savo parametrus",
+        "next": "Kitas",
+        "previous": "Ankstesnis",
+        "finish": "Baigti"
+    },
     "general": {
         "table": "Lentelė",
         "logout": "Išeik iš mano ofiso",

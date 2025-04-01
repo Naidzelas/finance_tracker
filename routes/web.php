@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\IntroductionController;
 use Illuminate\Support\Facades\Route;
-use inertia\Inertia;
+use Inertia\Inertia;
 
 // Expenses
 require __DIR__ . "/web/expenses/expenses.php";
@@ -27,9 +28,9 @@ Route::get('/landing', function () {
     return Inertia::render('Landing');
 });
 
-Route::get('/introduction', function () {
-    return Inertia::render('Introduction');
-});
+// Introduction routes
+Route::get('/introduction', [IntroductionController::class, 'index'])->name('introduction.index');
+Route::post('/introduction', [IntroductionController::class, 'store'])->name('introduction.store');
 
 // Goals
 require __DIR__ . "/web/goals/goals.php";

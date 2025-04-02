@@ -58,13 +58,16 @@ class BudgetTypesController extends Controller
                 'iconify_name' => $suggestionsIcon->icons ?? [],
                 'tag_suggestions' => $suggestions ?? [],
             ],
+            'customData' => BudgetTypes::where('user_id', $request->user()->id)->sum('amount') ?? []
         ]);
     }
     public function store(Request $request)
     {
+        $maxAmount = round($request->user()->income - BudgetTypes::where('user_id', $request->user()->id)->sum('amount'), 2);
+
         $request->validate([
             'name' => 'required|string',
-            'amount' => 'required|numeric',
+            'amount' => "required|numeric|lte:$maxAmount",
             'iconify_name' => 'required|string',
             'tags' => 'nullable|array',
         ]);
@@ -92,7 +95,7 @@ class BudgetTypesController extends Controller
         return to_route('index');
     }
 
-    public function edit($budgetId)
+    public function edit(Request $request, $budgetId)
     {
         $budgetType = BudgetTypes::with('tag')->find($budgetId);
 
@@ -131,17 +134,20 @@ class BudgetTypesController extends Controller
             'selectData' => [
                 'iconify_name' => $suggestionsIcon->icons ?? [],
                 'tag_suggestions' => $suggestions ?? [],
-            ]
+            ],
+            'customData' => BudgetTypes::where('user_id', $request->user()->id)->sum('amount') ?? []
         ]);
     }
 
     public function update(Request $request, $budgetId)
     {
+        $maxAmount = round($request->user()->income - BudgetTypes::where('user_id', $request->user()->id)->sum('amount'), 2);
+
         $request->validate([
-            'name' => 'required|string',
-            'amount' => 'required|numeric',
-            'iconify_name' => 'required|string',
-            'tags' => 'nullable|array',
+            'name' => "required|string",
+            'amount' => "required|numeric|lte:$maxAmount",
+            'iconify_name' => "required|string",
+            'tags' => "nullable|array",
         ]);
 
         $filterTags = FilterTags::where('budget_type_id', $budgetId)->get();

@@ -37,12 +37,14 @@
             <input
                 :id="list.name"
                 v-model="form[list.name]"
+                autocomplete="off"
                 name="form_item"
                 class="block pl-3 w-full"
                 :placeholder="
                     $t(registerRoute + '.' + list.name).toLocaleLowerCase()
                 "
             />
+            <div v-if="customData" class="w-20 text-gray-400">{{'/ ' + (page.props.auth.user.income - customData) + '€' }}</div>
         </div>
         <div v-if="er[list.name]" class="text-red-500 text-sm">
             {{ er[list.name] }}
@@ -98,4 +100,5 @@ onMounted(() => {
 
 let selectData = inject("selectData");
 let registerRoute = inject("registerRoute");
+let customData = inject("customData");
 </script>

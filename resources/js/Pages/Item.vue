@@ -60,6 +60,7 @@ defineProps({
     selectData: Object,
     method: String,
     breadcrumbs: Object,
+    customData: Object|String|Number,
 });
 
 const page = usePage();
@@ -68,6 +69,7 @@ const listObject = {};
 provide("selectData", page.props.selectData);
 provide("method", page.props.method);
 provide("data", page.props.data);
+provide("customData", page.props.customData);
 provide("registerRoute", page.props.registerRoute.split("/", 1) + "s");
 
 Object.entries(page.props.list).forEach(

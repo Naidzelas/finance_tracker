@@ -82,9 +82,11 @@ class ProfileController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
-        // $request->validate([
-        //     'name' => ['required', 'string', 'max:255'],
-        // ]);
+        $request->validate([
+            'etoro_name' => 'string|max:255',
+            'income' => 'numeric',
+        ]);
+        
         User::find($request->user()->id)->update([
             'etoro_name' => $request->etoro_name,
             'income' => $request->income

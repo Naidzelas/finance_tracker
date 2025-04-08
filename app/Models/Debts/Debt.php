@@ -5,12 +5,16 @@ namespace App\Models\Debts;
 use App\Models\Budget\BudgetTypes;
 use App\Models\Documents\Document;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Debt extends Model
 {
+    /** @use HasFactory<\Database\Factories\DebtFactory> */
+    use HasFactory;
+
     public $fillable = [
         'user_id',
         'name',

@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Debts\DebtController;
+use App\Models\Budget\BudgetTypes;
+use App\Models\Debts\Debt;
+use App\Models\Goals\Goal;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -32,14 +34,14 @@ it('validates required fields when creating a debt record', function ($field) {
     'loan_end_date'
 ]);
 
-// This one currently not working
 it('validates required fields when editing a debt record', function ($field) {
-
-    $response = $this->from()
-        ->post(route('debt.edit'), [1]);
+    $debt = Debt::factory()->create();
+    
+    $response = $this->from(route('debt.edit', $debt->id))
+        ->put(route('debt.update', $debt->id), []);
 
     $response->assertSessionHasErrors($field);
-    $response->assertRedirect('http://localhost/debt/create');
+    $response->assertRedirect(route('debt.edit', $debt->id));
 })->with([
     'name',
     'iconify_name',
@@ -79,6 +81,20 @@ it('validates required fields when creating a budget record', function ($field) 
     'iconify_name',
 ]);
 
+it('validates required fields when editing a budget record', function ($field) {
+    $budget = BudgetTypes::factory()->create();
+
+    $response = $this->from(route('budget.edit', $budget->id))
+        ->put(route('budget.update', $budget->id), []);
+
+    $response->assertSessionHasErrors($field);
+    $response->assertRedirect(route('budget.edit', $budget->id));
+})->with([
+    'name',
+    'amount',
+    'iconify_name',
+]);
+
 it('validates required fields when creating a goal record', function ($field) {
     $response = $this->from('http://localhost/goal/create')
         ->post(route('goal.store'), []);
@@ -93,13 +109,18 @@ it('validates required fields when creating a goal record', function ($field) {
     'is_main_priority',
 ]);
 
-// it('validates required fields when updating a profile', function ($field) {
-//     $response = $this->from('http://localhost/settings/profile')
-//         ->patch(route('profile.update'), []);
+it('validates required fields when editing a goal record', function ($field) {
+    $goal = Goal::factory()->create();
 
-//     $response->assertSessionHasErrors($field);
-//     $response->assertRedirect('http://localhost/');
-// })->with([
-//     'etoro_name',
-//     'income',
-// ]);
+    $response = $this->from(route('goal.edit', $goal->id))
+        ->put(route('goal.update', $goal->id), []);
+
+    $response->assertSessionHasErrors($field);
+    $response->assertRedirect(route('goal.edit', $goal->id));
+})->with([
+    'name',
+    'end_goal',
+    'contribution',
+    'iconify_name',
+    'is_main_priority',
+]);

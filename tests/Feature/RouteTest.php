@@ -80,14 +80,11 @@ it('redirects unauthenticated users to login page', function () {
 });
 
 it('redirects authenticated users to appropriate pages', function ($routeName, $component) {
-    $user = User::factory()->create();
 
-    $this->actingAs($user)
-        ->get(route($routeName))->assertInertia(
-            fn(Assert $page) => $page
-                ->component($component)
-        );
-
+    login($this)->get(route($routeName))->assertInertia(
+        fn(Assert $page) => $page
+            ->component($component)
+    );
 })->with([
     ['index', 'Home'],
     ['debt.index', 'Debt'],

@@ -9,8 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->user = User::factory()->create();
-    $this->actingAs($this->user);
+    login($this);
     app()->detectEnvironment(function () {
         return 'testing';
     });

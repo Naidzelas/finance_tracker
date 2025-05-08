@@ -2,9 +2,6 @@
 
 use App\Http\Controllers\features\SEBImportExpensesController;
 use App\Http\Controllers\features\SWEDImportExpensesController;
-use Inertia\Testing\AssertableInertia as Assert;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\UploadedFile;
 
 it('reads seb csv successfully', function () {
 
@@ -25,13 +22,18 @@ it('reads seb csv successfully', function () {
 });
 
 it('reads swedbank csv successfully', function () {
-
+  // Create a test CSV file with a header and one valid data row
   $data = [
-    ['Sąskaitos_Nr.;blank1;Data;Gavėjas;Paaiškinimai;Suma;Valiuta;D/K;Įrašo_Nr.;Kodas;Įmokos_kodas;Dok_Nr.;Kliento_kodas_mokėtojo_IS;Kliento_kodas;Pradinis_mokėtojas;Galutinis_gavėjas;blank2'],
-    [str_repeat('testing;', 17)],
-    ["SWED calculation row"],
-    ["SWED calculation row"],
-    ["SWED calculation row"],
+      ['Sąskaitos Nr.', '', 'Data', 'Gavėjas', 'Gavėjo sąskaita', 'Paaiškinimai', 'Suma', 'Valiuta', 'D/K', 'Įrašo Nr.', 'Kodas', 'Įmokos kodas', 'Dok. Nr.', 'Kliento kodas mokėtojo IS', 'Kliento kodas', 'Pradinis mokėtojas', 'Galutinis gavėjas'],
+      ['LT123456789', '', '2023-10-01', 'John Doe', 'LT987654321', 'Payment for services', '100.00', 'EUR', 'D', '12345', '001', '1001', 'DOC123', 'CUST001', 'CUST002', 'Initial Payer', 'Final Receiver'],
+      ['LT123456789', '', '2023-10-01', 'John Doe', 'LT987654321', 'Payment for services', '100.00', 'EUR', 'D', '12345', '001', '1001', 'DOC123', 'CUST001', 'CUST002', 'Initial Payer', 'Final Receiver'],
+      ['LT123456789', '', '2023-10-01', 'John Doe', 'LT987654321', 'Payment for services', '100.00', 'EUR', 'D', '12345', '001', '1001', 'DOC123', 'CUST001', 'CUST002', 'Initial Payer', 'Final Receiver'],
+      ['LT123456789', '', '2023-10-01', 'John Doe', 'LT987654321', 'Payment for services', '100.00', 'EUR', 'D', '12345', '001', '1001', 'DOC123', 'CUST001', 'CUST002', 'Initial Payer', 'Final Receiver'],
+      ['LT123456789', '', '2023-10-01', 'John Doe', 'LT987654321', 'Payment for services', '100.00', 'EUR', 'D', '12345', '001', '1001', 'DOC123', 'CUST001', 'CUST002', 'Initial Payer', 'Final Receiver'],
+      ['LT123456789', '', '2023-10-01', 'John Doe', 'LT987654321', 'Payment for services', '100.00', 'EUR', 'D', '12345', '001', '1001', 'DOC123', 'CUST001', 'CUST002', 'Initial Payer', 'Final Receiver'],
+      ['LT123456789', '', '2023-10-01', 'John Doe', 'LT987654321', 'Payment for services', '100.00', 'EUR', 'D', '12345', '001', '1001', 'DOC123', 'CUST001', 'CUST002', 'Initial Payer', 'Final Receiver'],
+      ['LT123456789', '', '2023-10-01', 'John Doe', 'LT987654321', 'Payment for services', '100.00', 'EUR', 'D', '12345', '001', '1001', 'DOC123', 'CUST001', 'CUST002', 'Initial Payer', 'Final Receiver'],
+      ['LT123456789', '', '2023-10-01', 'John Doe', 'LT987654321', 'Payment for services', '100.00', 'EUR', 'D', '12345', '001', '1001', 'DOC123', 'CUST001', 'CUST002', 'Initial Payer', 'Final Receiver'],
   ];
   $csvFile = fopen('test.csv', 'w');
   foreach ($data as $item){
@@ -40,6 +42,6 @@ it('reads swedbank csv successfully', function () {
   fclose($csvFile);
   $swed = new SWEDImportExpensesController;
   $result = $swed('test.csv');
-  expect($result)->toBeArray()->toHaveCount(1);
+  expect($result)->toBeArray()->toHaveCount(6);
   unlink('test.csv');
 });

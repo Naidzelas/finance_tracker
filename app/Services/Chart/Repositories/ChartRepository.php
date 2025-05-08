@@ -203,7 +203,7 @@ class ChartRepository implements ChartRepositoryInterface
                 'mainData' => $chartDataMain['yAxis'],
                 'period' => $chartDataMain['period'],
             ];
-            dd($comparedData);
+            // dd($comparedData);
 
             return collect($chartData);
     }

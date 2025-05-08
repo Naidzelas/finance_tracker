@@ -26,6 +26,6 @@ class Tinker extends Command
      */
     public function handle()
     {
-        dd(TinkerHelper::tinker($this->argument('name')));
+        // dd(TinkerHelper::tinker($this->argument('name')));
     }
 }

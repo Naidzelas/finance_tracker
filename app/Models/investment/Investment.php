@@ -3,11 +3,13 @@
 namespace App\Models\investment;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Investment extends Model
 {
+    use HasFactory;
     public $fillable = [
         'user_id',
         'symbol',

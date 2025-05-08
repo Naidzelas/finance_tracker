@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+
 uses(
     Tests\DuskTestCase::class,
     // Illuminate\Foundation\Testing\DatabaseMigrations::class,
@@ -57,7 +59,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function login($test, $user = null)
 {
-    // ..
+    return $test->actingAs($user ?? User::factory()->create());
 }

@@ -7,10 +7,12 @@ import { ZiggyVue } from "ziggy-js";
 import VueToastificationPlugin from "vue-toastification";
 import Layout from "./Layout/Layout.vue";
 import PreAppLayout from "./Layout/PreAppLayout.vue";
+import NewLayout from "./Layout/NewLayout.vue";
 import { i18n } from "./i18n";
 import PrimeVue from "primevue/config";
 import { primePreset } from "./vue-prime-preset";
 import VChart from "vue-echarts";
+import 'primeicons/primeicons.css';
 
 createInertiaApp({
     progress: false,
@@ -22,7 +24,7 @@ createInertiaApp({
             throw new Error(`Page not found: ${name}`);
         }
         if (name !== "Landing" && name !== "Error" && name !== "Introduction") {
-            page.default.layout = page.default.layout || Layout;
+            page.default.layout = page.default.layout || NewLayout;
         } else {
             page.default.layout = PreAppLayout;
         }

@@ -9,7 +9,7 @@
     @inertiaHead
   </head>
   <!-- #F4F0EF -->
-  <body class="bg-gray-200">
+  <body class="bg-[#F4F0EF]">
     @inertia
   </body>
 </html>

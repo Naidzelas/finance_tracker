@@ -1,77 +1,71 @@
 <template>
-    <section class="2xl:flex lg:gap-x-10 lg:mr-20 2xl:mr-40 lg:ml-20 2xl:ml-40">
-            <div class="flex flex-col flex-1">
-                <div class="col-span-2 mb-10 text-4xl 2xl:text-left text-center">
-                    {{ $t("expenses.title").toLocaleLowerCase() }}
-                </div>
-                <div class="lg:flex lg:gap-x-10">
-                    <PreviousExpenseList class="flex-1"
-                        :previous_expenses="previous_expenses"
-                        :budget_types="budget_types"
-                    ></PreviousExpenseList>
-                    <CurrentExpenseList class="flex-1"
-                        :current_expenses="current_expenses"
-                        :budget_types="budget_types"
-                    ></CurrentExpenseList>
-                </div>
+    <ScrollPanel class="h-full">
+        <div class="gap-4 grid grid-cols-1 lg:grid-cols-3">
+            <div class="col-span-3">
+                <BasicInfoDisplay :debt="debt" :invested="invested" />
             </div>
-            <div class="mb-40 2xl:w-[40em] xl:w-[30em]">
-                <div class="mb-10 text-4xl 2xl:text-left text-center">
-                {{ $t("expenses.personal_information").toLocaleLowerCase() }}
-                </div>
-                <div class="mb-6 text-2xl text-left">
-                    {{ $t("expenses.basic_info").toLocaleLowerCase() }}
-                </div>
-                <BasicInfo :debt="debt" :invested="invested"></BasicInfo>
-
-                <div class="mt-6 mb-6 text-2xl text-left">
-                    {{ $t("expenses.budget_remaining").toLocaleLowerCase() }}
-                </div>
-                <div class="flex justify-end mt-[-2em] mb-2">
-                    <Link
-                        href="/budget/create"
-                        method="get"
-                        as="button"
-                        type="button"
-                        class="flex bg-[#3B3B3B] p-2 rounded text-md text-white uppercase"
-                    >
-                        <Icon
-                            icon="carbon:add-filled"
-                            class="mr-1 size-6"
-                        ></Icon>
-                        {{ $t("general.add_new") }}
-                    </Link>
-                </div>
-
+            <div>
                 <BudgetDisplay></BudgetDisplay>
-                <div class="mt-6 mb-6 text-2xl text-left">
-                    {{ $t("expenses.upcoming_news").toLocaleLowerCase() }}
-                </div>
-                <NewsInfo></NewsInfo>
-                <div class="mt-6 mb-6 text-2xl text-left">
-                    {{ $t("expenses.goals").toLocaleLowerCase() }}
-                </div>
-                <div class="flex justify-end mt-[-2em] mb-2">
-                    <Link
-                        :href="route('goal.create')"
-                        method="get"
-                        as="button"
-                        type="button"
-                        class="flex bg-[#3B3B3B] p-2 rounded text-md text-white uppercase"
-                    >
-                        <Icon
-                            icon="carbon:add-filled"
-                            class="mr-1 size-6"
-                        ></Icon>
-                        {{ $t("general.add_new") }}
-                    </Link>
-                </div>
+            </div>
+            <div class="col-span-1">
                 <GoalInfo :goal_data="goals"></GoalInfo>
             </div>
-    </section>
+            <div class="col-span-2">
+                <DataTable
+                    :value="expenses"
+                    class="!w-full"
+                    paginator
+                    :rows="10"
+                    :rowsPerPageOptions="[5, 10, 20, 50]"
+                >
+                    <template #header>
+                        <div class="flex justify-between items-center">
+                            <h2 class="font-bold text-2xl">
+                                {{ $t("general.expenses") }}
+                            </h2>
+                            <DatePicker
+                                view="month"
+                                dateFormat="yy-mm"
+                                showIcon
+                            />
+                        </div>
+                    </template>
+                    <Column field="name" header="Name" />
+                    <Column field="amount" header="Amount" />
+                    <Column field="date" header="Date" />
+                </DataTable>
+            </div>
+            <div>
+                <DataTable
+                    :value="expenses"
+                    class="w-full"
+                    paginator
+                    :rows="10"
+                    :rowsPerPageOptions="[5, 10, 20, 50]"
+                >
+                    <template #header>
+                        <div class="flex justify-between items-center">
+                            <h2 class="font-bold text-2xl">
+                                {{ $t("general.expenses") }}
+                            </h2>
+                            <DatePicker
+                                view="month"
+                                dateFormat="yy-mm"
+                                showIcon
+                            />
+                        </div>
+                    </template>
+                    <Column field="name" header="Name" />
+                    <Column field="amount" header="Amount" />
+                    <Column field="date" header="Date" />
+                </DataTable>
+            </div>
+        </div>
+    </ScrollPanel>
 </template>
 <script setup>
 import { provide, ref } from "vue";
+import { Column, DataTable, DatePicker, ScrollPanel } from "primevue";
 import { Link } from "@inertiajs/vue3";
 import BasicInfo from "../Components/BasicInfoDisplay.vue";
 import BudgetDisplay from "../Components/BudgetDisplay.vue";
@@ -79,6 +73,31 @@ import NewsInfo from "../Components/NewsDisplay.vue";
 import GoalInfo from "../Components/GoalDisplay.vue";
 import PreviousExpenseList from "../Components/PreviousExpenseList.vue";
 import CurrentExpenseList from "../Components/CurrentExpenseList.vue";
+import BasicInfoDisplay from "../Components/BasicInfoDisplay.vue";
+
+// Add test data for DataTable
+const testExpenses = [
+    { name: "Groceries", amount: 120.5, date: "2024-06-01" },
+    { name: "Utilities", amount: 80.0, date: "2024-06-03" },
+    { name: "Internet", amount: 45.99, date: "2024-06-05" },
+    { name: "Transport", amount: 60.0, date: "2024-06-07" },
+    { name: "Dining Out", amount: 35.2, date: "2024-06-09" },
+    { name: "Groceries", amount: 120.5, date: "2024-06-01" },
+    { name: "Utilities", amount: 80.0, date: "2024-06-03" },
+    { name: "Internet", amount: 45.99, date: "2024-06-05" },
+    { name: "Transport", amount: 60.0, date: "2024-06-07" },
+    { name: "Dining Out", amount: 35.2, date: "2024-06-09" },
+    { name: "Groceries", amount: 120.5, date: "2024-06-01" },
+    { name: "Utilities", amount: 80.0, date: "2024-06-03" },
+    { name: "Internet", amount: 45.99, date: "2024-06-05" },
+    { name: "Transport", amount: 60.0, date: "2024-06-07" },
+    { name: "Dining Out", amount: 35.2, date: "2024-06-09" },
+    { name: "Groceries", amount: 120.5, date: "2024-06-01" },
+    { name: "Utilities", amount: 80.0, date: "2024-06-03" },
+    { name: "Internet", amount: 45.99, date: "2024-06-05" },
+    { name: "Transport", amount: 60.0, date: "2024-06-07" },
+    { name: "Dining Out", amount: 35.2, date: "2024-06-09" },
+];
 
 let pageVariables = defineProps({
     expenses: Object,
@@ -89,6 +108,13 @@ let pageVariables = defineProps({
     invested: Number,
     debt: Object,
 });
-provide("expenses", pageVariables.expenses);
+
+// Use test data if no expenses are provided
+const expenses =
+    pageVariables.expenses && Object.keys(pageVariables.expenses).length
+        ? pageVariables.expenses
+        : testExpenses;
+
+provide("expenses", expenses);
 provide("budget_types", ref(pageVariables.budget_types));
 </script>

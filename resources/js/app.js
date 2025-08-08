@@ -13,6 +13,7 @@ import PrimeVue from "primevue/config";
 import { primePreset } from "./vue-prime-preset";
 import VChart from "vue-echarts";
 import 'primeicons/primeicons.css';
+import { StyleClass } from "primevue";
 
 createInertiaApp({
     progress: false,
@@ -46,6 +47,7 @@ createInertiaApp({
                 },
             })
             .use(i18n)
+            .directive("styleclass", StyleClass)
             .component("Icon", Icon)
             .component("v-chart", VChart)
             .mount(el);

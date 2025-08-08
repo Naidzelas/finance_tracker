@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import PrimeUI from 'tailwindcss-primeui';
 export default {
     content: [
         "./resources/**/*.blade.php",
@@ -8,5 +9,5 @@ export default {
     theme: {
         extend: {},
     },
-    plugins: [],
+    plugins: [PrimeUI],
 };

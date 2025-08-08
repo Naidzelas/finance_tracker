@@ -10,10 +10,13 @@
             <div class="col-span-1">
                 <GoalInfo :goal_data="goals"></GoalInfo>
             </div>
-            <div class="col-span-2">
+            <div></div>
+            <div
+                class="flex col-span-2 bg-surface-50 dark:bg-surface-950 px-6 md:px-12 lg:px-20 py-8"
+            >
                 <DataTable
                     :value="expenses"
-                    class="!w-full"
+                    class="bg-surface-0 shadow-lg p-8 border !rounded-2xl !w-full"
                     paginator
                     :rows="10"
                     :rowsPerPageOptions="[5, 10, 20, 50]"
@@ -27,6 +30,34 @@
                                 view="month"
                                 dateFormat="yy-mm"
                                 showIcon
+                                v-model="currentDate"
+                            />
+                        </div>
+                    </template>
+                    <Column field="name" header="Name" />
+                    <Column field="amount" header="Amount" />
+                    <Column field="date" header="Date" />
+                </DataTable>
+                <Divider class="bg-surface-50" layout="vertical"
+                    ><b>Compare</b></Divider
+                >
+                <DataTable
+                    :value="expenses"
+                    class="bg-surface-0 shadow-lg p-8 border !rounded-2xl !w-full"
+                    paginator
+                    :rows="10"
+                    :rowsPerPageOptions="[5, 10, 20, 50]"
+                >
+                    <template #header>
+                        <div class="flex justify-between items-center">
+                            <h2 class="font-bold text-2xl">
+                                {{ $t("general.previous_expenses") }}
+                            </h2>
+                            <DatePicker
+                                view="month"
+                                dateFormat="yy-mm"
+                                showIcon
+                                v-model="previousDate"
                             />
                         </div>
                     </template>
@@ -35,69 +66,25 @@
                     <Column field="date" header="Date" />
                 </DataTable>
             </div>
-            <div>
-                <DataTable
-                    :value="expenses"
-                    class="w-full"
-                    paginator
-                    :rows="10"
-                    :rowsPerPageOptions="[5, 10, 20, 50]"
+            <div
+                class="flex col-span-1 bg-surface-50 dark:bg-surface-950 px-6 md:px-12 lg:px-20 py-8"
+            >
+                <div
+                    class="bg-surface-0 shadow-lg p-8 border !rounded-2xl !w-full"
                 >
-                    <template #header>
-                        <div class="flex justify-between items-center">
-                            <h2 class="font-bold text-2xl">
-                                {{ $t("general.expenses") }}
-                            </h2>
-                            <DatePicker
-                                view="month"
-                                dateFormat="yy-mm"
-                                showIcon
-                            />
-                        </div>
-                    </template>
-                    <Column field="name" header="Name" />
-                    <Column field="amount" header="Amount" />
-                    <Column field="date" header="Date" />
-                </DataTable>
+                    <ComparedExpenses />
+                </div>
             </div>
         </div>
     </ScrollPanel>
 </template>
 <script setup>
 import { provide, ref } from "vue";
-import { Column, DataTable, DatePicker, ScrollPanel } from "primevue";
-import { Link } from "@inertiajs/vue3";
-import BasicInfo from "../Components/BasicInfoDisplay.vue";
+import { Column, DataTable, DatePicker, ScrollPanel, Divider } from "primevue";
+import ComparedExpenses from "../Components/ComparedExpenses.vue";
 import BudgetDisplay from "../Components/BudgetDisplay.vue";
-import NewsInfo from "../Components/NewsDisplay.vue";
 import GoalInfo from "../Components/GoalDisplay.vue";
-import PreviousExpenseList from "../Components/PreviousExpenseList.vue";
-import CurrentExpenseList from "../Components/CurrentExpenseList.vue";
 import BasicInfoDisplay from "../Components/BasicInfoDisplay.vue";
-
-// Add test data for DataTable
-const testExpenses = [
-    { name: "Groceries", amount: 120.5, date: "2024-06-01" },
-    { name: "Utilities", amount: 80.0, date: "2024-06-03" },
-    { name: "Internet", amount: 45.99, date: "2024-06-05" },
-    { name: "Transport", amount: 60.0, date: "2024-06-07" },
-    { name: "Dining Out", amount: 35.2, date: "2024-06-09" },
-    { name: "Groceries", amount: 120.5, date: "2024-06-01" },
-    { name: "Utilities", amount: 80.0, date: "2024-06-03" },
-    { name: "Internet", amount: 45.99, date: "2024-06-05" },
-    { name: "Transport", amount: 60.0, date: "2024-06-07" },
-    { name: "Dining Out", amount: 35.2, date: "2024-06-09" },
-    { name: "Groceries", amount: 120.5, date: "2024-06-01" },
-    { name: "Utilities", amount: 80.0, date: "2024-06-03" },
-    { name: "Internet", amount: 45.99, date: "2024-06-05" },
-    { name: "Transport", amount: 60.0, date: "2024-06-07" },
-    { name: "Dining Out", amount: 35.2, date: "2024-06-09" },
-    { name: "Groceries", amount: 120.5, date: "2024-06-01" },
-    { name: "Utilities", amount: 80.0, date: "2024-06-03" },
-    { name: "Internet", amount: 45.99, date: "2024-06-05" },
-    { name: "Transport", amount: 60.0, date: "2024-06-07" },
-    { name: "Dining Out", amount: 35.2, date: "2024-06-09" },
-];
 
 let pageVariables = defineProps({
     expenses: Object,
@@ -109,11 +96,9 @@ let pageVariables = defineProps({
     debt: Object,
 });
 
-// Use test data if no expenses are provided
-const expenses =
-    pageVariables.expenses && Object.keys(pageVariables.expenses).length
-        ? pageVariables.expenses
-        : testExpenses;
+const currentDate = ref(new Date());
+const previousDate = ref(new Date()); // Set to 30 days before current date
+const expenses = ref([]);
 
 provide("expenses", expenses);
 provide("budget_types", ref(pageVariables.budget_types));

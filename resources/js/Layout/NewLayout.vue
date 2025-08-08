@@ -59,6 +59,7 @@
                     >
                         <i class="!text-xl !leading-normal pi pi-stopwatch" />
                     </button>
+                    <ImportFileModal></ImportFileModal>
                 </div>
                 <div class="flex flex-col items-center gap-4 px-4 pt-4 pb-6">
                     <hr
@@ -194,10 +195,12 @@ import {
     ScrollPanel,
 } from "primevue";
 import { ref, watch } from "vue";
+import ImportFileModal from "../Components/ImportFileModal.vue";
 import { Link, router } from "@inertiajs/vue3";
 
 const selectedNav = ref("home");
 const isSidebarOpen = ref(false);
+const importModalVisible = ref(false);
 
 const items = ref({
     Dashboard: { url: "index" },
@@ -207,6 +210,10 @@ const items = ref({
 });
 
 const overlayPanel = ref(null);
+
+function importExpenses(){
+    importModalVisible.value = true;
+}
 
 watch(selectedNav, (newVal) => {
     router.get(route(items.value[newVal].url));

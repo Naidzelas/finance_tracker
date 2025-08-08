@@ -1,16 +1,24 @@
 <template>
-    <button @click="visible = true">
-        <Icon icon="basil:add-solid" class="mt-4 size-6"></Icon>
+    <button
+        @click="visible = true"
+        :class="[
+            'flex items-center justify-center cursor-pointer p-3 w-full rounded-lg border transition-colors duration-150',
+            selectedNav === 'Debt'
+                ? 'bg-surface-50 dark:bg-surface-800 text-surface-900 dark:text-surface-0 border-surface-100 dark:border-surface-700'
+                : 'bg-transparent border-transparent text-surface-600 dark:text-surface-400 hover:bg-surface-50 dark:hover:bg-surface-800 hover:text-surface-900 dark:hover:text-surface-0 hover:border-surface-100 dark:hover:border-surface-700',
+        ]"
+    >
+        <i class="!text-xl !leading-normal pi pi-file-import"></i>
     </button>
     <Dialog v-model:visible="visible" modal class="w-fit">
         <template #header>
             <div class="flex items-stretch gap-x-3 text-2xl">
-                <Icon class="self-center" icon="mage:file-upload-fill"></Icon
-                >import documents
+                <i class="!text-xl !leading-normal pi pi-file-import"></i>
+                import documents
             </div>
         </template>
         <form>
-            <div class="flex space-x-2 mt-4 mb-2">
+            <div class="flex space-x-2 mt-4 mb-4">
                 <div class="flex-1">
                     <input
                         type="radio"
@@ -57,13 +65,20 @@
                 :maxFileSize="maxFileSize"
             >
                 <template #content="{ files }">
-                    <DataTable v-if="files.length > 0" :value="files" class="p-5 border-2 border-black border-dashed md:w-[35em]">
+                    <DataTable
+                        v-if="files.length > 0"
+                        :value="files"
+                        class="p-5 border-2 border-black border-dashed md:w-[35em]"
+                    >
                         <template #header>
                             <div class="mb-4 font-bold text-xl text-center">
                                 {{ $t("general.uploaded_files") }}
                             </div>
                         </template>
-                        <Column field="name" :header="$t('general.file_name')"></Column>
+                        <Column
+                            field="name"
+                            :header="$t('general.file_name')"
+                        ></Column>
                         <Column :header="$t('general.status')">
                             <template #body="slotProps">
                                 {{ $t("general.completed") }}

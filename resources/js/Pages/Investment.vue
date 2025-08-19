@@ -4,6 +4,7 @@
             :breadcrumbs="items"
             title="Investments"
             subtitle="Track your investments"
+            :actions="actions"
             class="mb-10"
         ></AppHeader>
         <div
@@ -97,7 +98,9 @@ let pageVariables = defineProps({
 
 provide("translate", "investments");
 const items = ref([{ label: "Home", route: "/" }, { label: "Investment" }]);
-
+const actions = ref([
+    { label: "Add", icon: "pi pi-plus" },
+]);
 function getPercent(fullSum = 0, sum = 0) {
     return Number(((sum / fullSum) * 100).toFixed());
 }

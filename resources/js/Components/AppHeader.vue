@@ -41,6 +41,7 @@
             </div>
             <div class="flex items-center mt-6 md:mt-0">
                 <Button
+                    v-if="actions"
                     @click="add()"
                     label="Add"
                     class="mr-3"
@@ -58,10 +59,10 @@ const props = defineProps({
     breadcrumbs: Array,
     title: String,
     subtitle: String,
+    actions: Object
 });
 
 function add() {
-    console.log("Adding new " + props.title.toLowerCase());
     router.get(route(`${props.title.toLowerCase().slice(0, -1)}.create`));
 }
 </script>

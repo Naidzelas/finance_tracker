@@ -1,16 +1,11 @@
 <template>
     <section class="mr-10 2xl:mr-40 ml-10 2xl:ml-40">
-        <div class="flex flex-col">
-            <div class="mb-2 text-4xl xl:text-5xl md:text-left text-center">
-                {{
-                    $t(
-                        registerRoute.split("/", 1) + "s.add_new"
-                    ).toLocaleLowerCase()
-                }}
-            </div>
-            <Breadcrumbs :breadcrumbs="breadcrumbs"></Breadcrumbs>
-        </div>
-
+        <AppHeader
+            :breadcrumbs="breadcrumbs"
+            :title="headerTitle"
+            :subtitle="headerSubtitle"
+            class="mb-10"
+        ></AppHeader>
         <form @submit.prevent="handleForm(method)">
             <!-- input block -->
             <div class="md:flex md:flex-wrap mb-10 ml-[-1em]">
@@ -28,44 +23,52 @@
 
             <div class="bg-gray-400 mt-1 w-full h-px"></div>
             <div class="flex justify-center md:justify-end space-x-2 mb-20">
-                <Link
-                    :href="'/' + registerRoute.split('/')[0]"
-                    class="bg-[#525252] mt-2 pb-px w-full md:w-40 text-white text-xl text-center"
+                <Button
+                    class="mt-2 pb-px w-full md:w-40"
+                    @click="redirectBack"
+                    text
+                    severity="secondary"
+                    ><div class="font-bold">
+                        {{ $t("general.cancel") }}
+                    </div></Button
                 >
-                    {{ $t("general.cancel") }}
-                </Link>
 
-                <button
+                <Button
                     type="submit"
-                    class="bg-[#006692] mt-2 pb-px w-full md:w-40 text-white text-xl text-center"
+                    class="mt-2 pb-px w-full md:w-40"
                     :disabled="form.processing"
+                    ><div class="font-bold">
+                        {{ $t("general.confirm") }}
+                    </div></Button
                 >
-                    {{ $t("general.confirm") }}
-                </button>
             </div>
         </form>
     </section>
 </template>
 
 <script setup>
-import { useForm, usePage, Link } from "@inertiajs/vue3";
-import Breadcrumbs from "../Components/Breadcrumbs.vue";
-import { provide } from "vue";
+import { useForm, usePage, Link, router } from "@inertiajs/vue3";
+import { provide, ref, computed } from "vue";
+import { Button } from "primevue";
 import ListItem from "../Components/ListItem.vue";
 import DragAndDrop from "../Components/DragAndDrop.vue";
+import AppHeader from "../Components/AppHeader.vue";
+import { useI18n } from "vue-i18n";
 
-defineProps({
+const props = defineProps({
     registerRoute: String,
     list: Object,
     selectData: Object,
     method: String,
     breadcrumbs: Object,
-    customData: Object|String|Number,
+    customData: Object | String | Number,
 });
 
 const page = usePage();
 const formObject = {};
 const listObject = {};
+const { t } = useI18n();
+
 provide("selectData", page.props.selectData);
 provide("method", page.props.method);
 provide("data", page.props.data);
@@ -84,6 +87,17 @@ Object.entries(page.props.list).forEach(
 );
 const form = useForm(formObject);
 
+// AppHeader integration
+const headerTitle = computed(() =>
+    t(props.registerRoute.split("/", 1) + "s.add_new")
+);
+const headerSubtitle = computed(
+    () => `Add or edit your ${headerTitle.value.toLowerCase()}`
+);
+
+function redirectBack() {
+    router.visit("/" + props.registerRoute.split("/")[0]);
+}
 function handleForm(method) {
     form.submit(method, "/" + page.props.registerRoute);
 }

@@ -78,7 +78,6 @@ function getPercent(fullSum = 0, sum = 0) {
 
 function addGoal() {
     router.get(route("goal.create"));
-    console.log("Add Goal clicked");
 }
 </script>
 

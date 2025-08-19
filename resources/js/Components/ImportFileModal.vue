@@ -129,7 +129,7 @@ const fileInput = ref(null);
 const visible = ref(false);
 let files = ref([]);
 const maxFileSize = ref(2000000);
-
+const selectedNav = ref(null);
 const form = useForm({
     avatar: null,
     bank: "seb",

@@ -1,16 +1,25 @@
 <template>
     <section class="flex flex-col 2xl:mr-40 2xl:ml-40">
-        <div class="mb-10 text-5xl 2xl:text-left text-center">
-            {{ $t("investments.title") }}
-        </div>
-        <Breadcrumbs :breadcrumbs="breadcrumbs"></Breadcrumbs>
+        <AppHeader
+            :breadcrumbs="items"
+            title="Investments"
+            subtitle="Track your investments"
+            :actions="actions"
+            class="mb-10"
+        ></AppHeader>
         <div
             v-if="Object.keys(investments).length"
             v-for="investment in investments"
             class="group relative flex-col"
         >
+            <LvProgressBar
+                :value="getPercent(investment.value, investment.invested)"
+                :color="'#008ba0'"
+                :showValue="false"
+                class="bg-white mb-0.5 rounded-md h-2"
+            ></LvProgressBar>
             <div
-                class="md:flex gap-4 grid grid-cols-3 bg-[#F4F4F4] -mb-4 p-3 rounded-md md:text-md text-sm"
+                class="md:flex gap-4 grid grid-cols-3 bg-surface-0 shadow-lg -mb-4 p-3 rounded-md md:text-md text-sm"
             >
                 <div class="flex flex-1 justify-center col-span-3 md:pl-10">
                     <div>
@@ -54,19 +63,19 @@
                     <div class="font-bold">{{ $t("investments.value") }}</div>
                     <div>{{ investment.value ?? 0 }} €</div>
                 </div>
+                <Button
+                    rounded
+                    icon="pi pi-trash"
+                    severity="danger"
+                    class="md:mr-4"
+                    :outlined="true"
+                    @click="deleteInvestment(investment.id)"
+                ></Button>
             </div>
             <DetailsDisplay
                 :detailsTab="detailsTab"
                 :id="investment.id"
             ></DetailsDisplay>
-            <EditOrDelete
-                :action="{
-                    edit: 'investment.edit',
-                    delete: 'investment.destroy',
-                    redirect: '/investment',
-                }"
-                :id="investment.id"
-            ></EditOrDelete>
         </div>
         <NoData v-else></NoData>
     </section>
@@ -75,9 +84,11 @@
 <script setup>
 import DetailsDisplay from "../Components/DetailsDisplay.vue";
 import NoData from "../Components/NoData.vue";
-import EditOrDelete from "../Components/EditOrDelete.vue";
-import Breadcrumbs from "../Components/Breadcrumbs.vue";
-import { provide } from "vue";
+import LvProgressBar from "lightvue/progress-bar";
+import { provide, ref } from "vue";
+import { Link, router } from "@inertiajs/vue3";
+import { Breadcrumb, Button } from "primevue";
+import AppHeader from "../Components/AppHeader.vue";
 
 let pageVariables = defineProps({
     investments: Object,
@@ -86,4 +97,22 @@ let pageVariables = defineProps({
 });
 
 provide("translate", "investments");
+const items = ref([{ label: "Home", route: "/" }, { label: "Investment" }]);
+const actions = ref([
+    { label: "Add", icon: "pi pi-plus" },
+]);
+function getPercent(fullSum = 0, sum = 0) {
+    return Number(((sum / fullSum) * 100).toFixed());
+}
+
+function deleteInvestment(id) {
+    router.delete(route("investment.destroy", id), {
+        onSuccess: () => {
+            router.visit(route("investment.index"), { only: [] });
+        },
+        onError: (errors) => {
+            console.error("Delete failed:", errors);
+        },
+    });
+}
 </script>

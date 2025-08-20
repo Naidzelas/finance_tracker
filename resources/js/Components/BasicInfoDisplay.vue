@@ -9,7 +9,7 @@
                         class="flex justify-center items-center bg-cyan-500 dark:bg-cyan-600 rounded-lg w-8 h-8"
                     >
                         <i
-                            class="text-surface-0 !text-base !leading-none pi pi-inbox"
+                            class="text-surface-0 !text-base !leading-none pi pi-euro"
                         />
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                         class="flex justify-center items-center bg-orange-500 dark:bg-orange-600 rounded-lg w-8 h-8"
                     >
                         <i
-                            class="text-surface-0 !text-base !leading-none pi pi-bolt"
+                            class="text-surface-0 !text-base !leading-none pi pi-chart-line"
                         />
                     </div>
                 </div>
@@ -52,14 +52,14 @@
             </div>
 
             <div
-                class="flex flex-col gap-6 bg-slate-50 dark:bg-slate-400/30 p-4 border border-slate-200 dark:border-slate-400/20 rounded-2xl"
+                class="flex flex-col gap-6 bg-slate-200 dark:bg-slate-400/30 p-4 border border-slate-200 dark:border-slate-400/20 rounded-2xl"
             >
                 <div class="flex justify-between items-start">
                     <div
                         class="flex justify-center items-center bg-slate-500 dark:bg-slate-600 rounded-lg w-8 h-8"
                     >
                         <i
-                            class="text-surface-0 !text-base !leading-none pi pi-gift"
+                            class="text-surface-0 !text-base !leading-none pi pi-stopwatch"
                         />
                     </div>
                 </div>

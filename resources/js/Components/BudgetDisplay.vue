@@ -42,7 +42,7 @@
                     :value="meterItems"
                     :pt="{
                         meters: {
-                            class: '!h-3 !bg-surface-200 dark:!bg-surface-700',
+                            class: '!h-3 !bg-sky-500 dark:!bg-surface-700',
                         },
                         meter: {
                             class: '!h-3 first:!rounded-l-lg last:!rounded-r-lg',
@@ -67,7 +67,23 @@
                         class="flex items-center gap-4"
                     >
                         <span
-                            :class="`bg-${item.color}-500 rounded-full w-4 h-4`"
+                            :class="[
+                                {
+                                    'bg-sky-500': item.color === 'sky',
+                                    'bg-green-500': item.color === 'green',
+                                    'bg-yellow-500': item.color === 'yellow',
+                                    'bg-orange-500': item.color === 'orange',
+                                    'bg-blue-500': item.color === 'blue',
+                                    'bg-red-500': item.color === 'red',
+                                    'bg-purple-500': item.color === 'purple',
+                                    'bg-teal-500': item.color === 'teal',
+                                    'bg-lime-500': item.color === 'lime',
+                                    'bg-pink-500': item.color === 'pink',
+                                    'bg-indigo-500': item.color === 'indigo',
+                                    'bg-amber-500': item.color === 'amber'
+                                },
+                                'rounded-full w-4 h-4'
+                            ]"
                         />
                         <span
                             class="flex-1 font-normal text-surface-900 dark:text-surface-0 leading-tight"
@@ -106,29 +122,33 @@ const getPercent = (fullSum = 0, sum = 0) => {
     }
 };
 
-const colors = [
-    "cyan",
-    "amber",
-    "violet",
-    "pink",
-    "black",
-    "blue",
-    "green",
-    "red",
-    "yellow",
-];
+// Use PrimeVue color palette for consistency
+function generateColors(count) {
+    const palette = [
+        "sky", "green", "yellow", "orange", "blue", "red", "purple", "teal", "lime", "pink", "indigo", "amber"
+    ];
+    // If more items than palette, repeat but try to shuffle for variety
+    if (count <= palette.length) {
+        return palette.slice(0, count);
+    }
+    // Generate more colors by cycling and appending index
+    return Array.from({ length: count }, (_, i) => palette[i % palette.length]);
+}
+
 // Dynamically generate meterItems based on budget_types
 const meterItems = ref([]);
 
 if (budget_types) {
-    meterItems.value = Object.keys(budget_types.value).map((key, index) => {
+    const keys = Object.keys(budget_types.value);
+    const colors = generateColors(keys.length);
+    meterItems.value = keys.map((key, index) => {
         return {
             label: budget_types.value[key].name,
             value: getPercent(
                 user.value.income,
                 budget_types.value[key].amount
             ),
-            color: colors[index % colors.length],
+            color: colors[index],
             amount: Number(budget_types.value[key].amount).toFixed(2),
             budget_left: Number(budget_types.value[key].budget_left).toFixed(2),
         };

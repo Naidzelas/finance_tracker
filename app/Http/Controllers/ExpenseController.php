@@ -24,33 +24,37 @@ class ExpenseController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        match (true) {
-            $request->has('previous_expenses') => $previous_expenses = Crypt::decrypt($request->input('previous_expenses')),
-            $request->has('current_expenses') => $current_expenses = Crypt::decrypt($request->input('current_expenses')),
-            default => null
-        };
 
         return Inertia::render('Home', [
-            'current_expenses' => $current_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
+            'current_expenses' => fn() => Expense::where('date', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))
                 ->where('date', '<=', Carbon::now()->endOfMonth()->format('Y-m-d'))
                 ->where('user_id', $user->id)
                 ->orderBy('date')
                 ->get(),
-            'previous_expenses' => $previous_expenses ?? Expense::where('date', '>=', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d'))
-                ->where('date', '<=', Carbon::now()->endOfMonth()->subMonth()->format('Y-m-d'))
+            'previous_expenses' => fn() => Expense::where('date', '>=', Carbon::parse($request->input('previous_date', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d')))
+                ->locale('eu')
+                ->timezone('Europe/Vilnius')
+                ->startOfMonth()
+                ->format('Y-m-d'))
+                ->where('date', '<=', Carbon::parse($request->input('previous_date', Carbon::now()->endOfMonth()->subMonth()->format('Y-m-d')))
+                    ->locale('eu')
+                    ->timezone('Europe/Vilnius')
+                    ->endOfMonth()
+                    ->format('Y-m-d'))
                 ->where('user_id', $user->id)
                 ->orderBy('date')
                 ->get(),
+            'previous_date' => $request->input('previous_date', Carbon::now()->startOfMonth()->subMonth()->format('Y-m-d')),
             'goals' => Goal::where('user_id', $user->id)->withSum('goal_deposit as deposit', 'deposit')->get(),
             'budget_types' => BudgetTypes::query()->where('user_id', $user->id)->get()
                 ->map(function ($item) use ($user) {
-                    $item->budget_left = $item->amount + 
-                        Expense::currentPostway( 'C')->where('type_id', $item->id)
-                            ->where('user_id',$user->id)
-                            ->sum('amount') - 
-                        Expense::currentPostway( 'D')->where('type_id', $item->id)
-                            ->where('user_id',$user->id)
-                            ->sum('amount');
+                    $item->budget_left = $item->amount +
+                        Expense::currentPostway('C')->where('type_id', $item->id)
+                        ->where('user_id', $user->id)
+                        ->sum('amount') -
+                        Expense::currentPostway('D')->where('type_id', $item->id)
+                        ->where('user_id', $user->id)
+                        ->sum('amount');
                     return $item;
                 }),
             'invested' => Investment::select('id', 'invested')->get()->sum('invested'),

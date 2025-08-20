@@ -39,13 +39,13 @@
                         <DetailTableDisplay
                             v-if="type == 'table' && detailsType"
                             :name="type"
-                            :tableHead="detailsType['thead']"
-                            :tableData="detailsType[id]['tbody']"
+                            :tableHead="detailsType['thead'] ?? []"
+                            :tableData="detailsType[id] && detailsType[id]['tbody'] ? detailsType[id]['tbody'] : []"
                         ></DetailTableDisplay>
                         <DetailDocumentDisplay
                             v-if="type == 'documents'"
                             :name="type"
-                            :data="detailsType[id][type]"
+                            :data="detailsType[id][type] ?? []"
                         ></DetailDocumentDisplay>
                         <DetailNoteDisplay
                             v-if="type == 'notes'"

@@ -133,7 +133,7 @@
             <!-- Main content area -->
             <div class="relative flex flex-auto h-[calc(100vh-60px)]">
                 <!-- Slot here -->
-                <div class="flex-1 bg-surface-50 dark:bg-surface-950 p-7">
+                <div class="flex bg-surface-50 dark:bg-surface-950 p-7">
                     <div
                         class="bg-surface-50 dark:bg-surface-900 border-2 border-surface-200 dark:border-surface-700 border-dashed rounded-xl h-full"
                     >

@@ -84,8 +84,8 @@ import DetailsDisplay from "../Components/DetailsDisplay.vue";
 import NoData from "../Components/NoData.vue";
 import LvProgressBar from "lightvue/progress-bar";
 import { provide, ref } from "vue";
-import { Link, router } from "@inertiajs/vue3";
-import { Breadcrumb, Button } from "primevue";
+import { router } from "@inertiajs/vue3";
+import { Button } from "primevue";
 import AppHeader from "../Components/AppHeader.vue";
 
 let pageVariables = defineProps({
@@ -96,9 +96,7 @@ let pageVariables = defineProps({
 
 provide("translate", "debts");
 const items = ref([{ label: "Home", route: "/" }, { label: "Debt" }]);
-const actions = ref([
-    { label: "Add", icon: "pi pi-plus" },
-]);
+const actions = ref([{ label: "Add", icon: "pi pi-plus" }]);
 function getPercent(fullSum = 0, sum = 0) {
     return Number(((sum / fullSum) * 100).toFixed());
 }
